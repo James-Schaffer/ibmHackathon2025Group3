@@ -3,24 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Camera Capture</title>
-    <style>
-        video, canvas { width: 100%; max-width: 400px; }
-        button { margin-top: 10px; padding: 10px; }
-    </style>
+    <title>Capture and Upload Image</title>
 </head>
 <body>
-    <h2>Take a Picture</h2>
-    
-    <!-- Video Stream -->
-    <video id="video" autoplay></video>
-    
-    <!-- Capture Button -->
-    <button id="capture">Capture</button>
-    
-    <!-- Canvas to Show Image -->
-    <canvas id="canvas"></canvas>
+    <h1>Click Image Using Camera</h1>
+    <video id="video" width="100%" height="auto" autoplay></video>
+    <canvas id="canvas" style="display: none;"></canvas>
+    <button id="captureBtn">Capture Image</button>
 
-    <script src="script.js"></script>
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureBtn = document.getElementById("captureBtn");
+
+        // Access the camera when the page loads
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then((stream) => {
+                video.srcObject = stream;
+            })
+            .catch((err) => {
+                console.log("Error accessing camera: " + err);
+            });
+
+        // Capture the image when the user clicks the "Capture" button
+        captureBtn.addEventListener("click", () => {
+            // Set canvas size to match the video size
+            const context = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            // Draw the image on the canvas
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            // Convert canvas to Blob (not Base64)
+            canvas.toBlob((blob) => {
+                // Send the image to the server via a POST request
+                sendImageToServer(blob);
+            }, 'image/jpeg');
+        });
+
+        // Function to send the image file to the server
+        function sendImageToServer(blob) {
+            const formData = new FormData();
+            formData.append('image', blob, 'captured_image.jpg');
+
+            fetch("/", {
+                method: "POST",
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log("Image uploaded successfully:", data);
+            })
+            .catch(error => {
+                console.error("Error uploading image:", error);
+            });
+        }
+    </script>
 </body>
 </html>
