@@ -4,61 +4,111 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capture and Upload Image</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        video {
+            width: 100%;
+            height: auto;
+            border: 2px solid #000;
+        }
+        canvas {
+            display: none;
+        }
+        img {
+            width: 100%;
+            margin-top: 10px;
+            display: none;
+        }
+        button {
+            display: block;
+            margin: 10px auto;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Click Image Using Camera</h1>
-    <video id="video" width="100%" height="auto" autoplay></video>
-    <canvas id="canvas" style="display: none;"></canvas>
+    <h1>Capture Image Using Camera</h1>
+    <video id="video" autoplay></video>
+    <canvas id="canvas"></canvas>
+    <img id="capturedImage" alt="Captured Image">
     <button id="captureBtn">Capture Image</button>
+    <button id="switchCameraBtn">Switch Camera</button>
 
     <script>
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
         const captureBtn = document.getElementById("captureBtn");
+        const switchCameraBtn = document.getElementById("switchCameraBtn");
+        const capturedImage = document.getElementById("capturedImage");
 
-        // Access the camera when the page loads
-        navigator.mediaDevices.getUserMedia({ video: true })
-            .then((stream) => {
+        let currentFacingMode = "environment"; // Default to back camera
+
+        // Start the camera with the selected mode
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: currentFacingMode }
+                });
+
                 video.srcObject = stream;
-            })
-            .catch((err) => {
-                console.log("Error accessing camera: " + err);
-            });
+            } catch (error) {
+                alert(`Camera access error: ${error.name} - ${error.message}`);
+                console.error("Camera error:", error);
+            }
+        }
 
-        // Capture the image when the user clicks the "Capture" button
+        // Switch between front and back cameras
+        switchCameraBtn.addEventListener("click", () => {
+            currentFacingMode = currentFacingMode === "user" ? "environment" : "user"; // Toggle mode
+            startCamera(); // Restart camera with new mode
+        });
+
+        // Capture and display image
         captureBtn.addEventListener("click", () => {
-            // Set canvas size to match the video size
+            if (!video.srcObject) {
+                alert("Camera not started!");
+                return;
+            }
+
             const context = canvas.getContext("2d");
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
-
-            // Draw the image on the canvas
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            // Convert canvas to Blob (not Base64)
+            capturedImage.src = canvas.toDataURL("image/png");
+            capturedImage.style.display = "block";
+
             canvas.toBlob((blob) => {
-                // Send the image to the server via a POST request
-                sendImageToServer(blob);
+                if (blob) {
+                    sendImageToServer(blob);
+                } else {
+                    alert("Error capturing image.");
+                }
             }, 'image/jpeg');
         });
 
-        // Function to send the image file to the server
-        function sendImageToServer(blob) {
+        // Send image to server
+        async function sendImageToServer(blob) {
             const formData = new FormData();
             formData.append('image', blob, 'captured_image.jpg');
 
-            fetch("/", {
-                method: "POST",
-                body: formData,
-            })
-            .then(response => response.json())
-            .then(data => {
+            try {
+                const response = await fetch("/", { method: "POST", body: formData });
+                const data = await response.json();
                 console.log("Image uploaded successfully:", data);
-            })
-            .catch(error => {
+            } catch (error) {
                 console.error("Error uploading image:", error);
-            });
+                alert("Error uploading image: " + error.message);
+            }
         }
+
+        // Start camera on page load
+        startCamera();
     </script>
 </body>
 </html>
