@@ -2,27 +2,11 @@ $(document).ready(function() {
     let loginForm = document.getElementById("loginForm");
     let signupForm = document.getElementById("signupForm");
 
-        let username = $("#username").val();
-        let password = $("#password").val();
-
-        console.log(`LOGIN - username : ${username} , password : ${password}`);
-
-        //validation here
-
-
-        //LOGIN SYSTEM HERE
-
-        //to to home + set login cookie (see app.js)
-        setLoginCookies(username);
-        window.location.href = "./homePage.html";
-    });
-}
     let username = $("#username").val();
     let password = $("#password").val();
     let symbol = ["£", "*", "$", "&", "!", "%", "^", "#", "-", "+", "_", "=", "|"];
     let digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
     
-
     //Check if username is valid
     $("#username").keyup(function() {
         if ($(this).val()) {
