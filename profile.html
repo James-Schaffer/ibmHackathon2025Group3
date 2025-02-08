@@ -5,38 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - Budget Planner</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
     <header>
-        <div class="logo">
+        <div class="logo" type="button" onclick="location.href='./index.html'">
             <h2>💰 Budget Planner</h2>
         </div>
-        <nav>
+    </header>
+
+    <main>
+        <section>
+            <h2>Your Profile</h2>
+
+            <p>Spending info here</p>
+        </section>
+
+        <script src="./app.js"></script>
+    </main>
+
+    <footer>
+        <nav id="navBar">
             <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="budget.html">Budget</a></li>
+                <li><a href="profile.html">Profile</a></li>
                 <li><a href="expenses.html">Expenses</a></li>
                 <li><a href="camera.html">Camera</a></li>
                 <li><a href="login.html">Login</a></li>
                 <li><a href="signup.html">Sign Up</a></li>
             </ul>
         </nav>
-    </header>
 
-    <main>
-        <section>
-            <h2>Your Profile</h2>
-            <form>
-                <label for="username">Username:</label>
-                <input type="text" id="username" placeholder="Enter username">
-                <label for="goal">Financial Goal:</label>
-                <input type="text" id="goal" placeholder="Set your goal">
-                <button class="btn">Save Profile</button>
-            </form>
-        </section>
-    </main>
-
-    <footer>
         <p>© 2025 Budget Planner. All rights reserved.</p>
     </footer>
 </body>

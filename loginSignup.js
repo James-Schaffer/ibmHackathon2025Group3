@@ -2,37 +2,41 @@ let loginForm = document.getElementById("loginForm");
 let signupForm = document.getElementById("signupForm");
 
 if (loginForm) {
-loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+    loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    let username = $("#username").val();
-    let password = $("#password").val();
+        let username = $("#username").val();
+        let password = $("#password").val();
 
-    console.log(`LOGIN - username : ${username} , password : ${password}`);
+        console.log(`LOGIN - username : ${username} , password : ${password}`);
 
-    //validation here
+        //validation here
 
-    //LOGIN SYSTEM HERE
 
-    //to to home + set login cookie (see app.js)
-    setLoginCookies(username);
-    window.location.href = "./index.html";
-});}
+        //LOGIN SYSTEM HERE
+
+        //to to home + set login cookie (see app.js)
+        setLoginCookies(username);
+        window.location.href = "./homePage.html";
+    });
+}
 
 if (signupForm) {
-signupForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+    signupForm.addEventListener("submit", (e) => {
+        e.preventDefault();
 
-    let username = $("#username").val();
-    let password = $("#password").val();
+        let username = $("#username").val();
+        let password = $("#password").val();
 
-    console.log(`SIGNUP - username : ${username} , password : ${password}`);
+        console.log(`SIGNUP - username : ${username} , password : ${password}`);
 
-    //validation here
+        //validation here
 
-    //SIGNUP SYSTEM HERE
 
-    //to to home + set login cookie (see app.js)
-    setLoginCookies(username);
-    window.location.href = "./login.html";
-});}
+        //SIGNUP SYSTEM HERE
+
+        //to to home + set login cookie (see app.js)
+        setLoginCookies(username);
+        window.location.href = "./homePage.html";
+    });
+}

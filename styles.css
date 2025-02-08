@@ -1,55 +1,80 @@
-/* General Reset and Base Styles */
-* {
+html,
+body {
+    height: 100%;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f7f7f7;
-    color: #333;
+main {
+    padding: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+
+    background-color: #ffffff;
 }
 
 header {
     background-color: #4CAF50;
-    padding: 20px;
     text-align: center;
     color: white;
 }
 
 header .logo h2 {
     margin: 0;
+    padding: 1rem;
     font-size: 1.8em;
 }
 
-nav ul {
+
+#navBar {
+    background-color: #4CAF50;
+    padding: 0;
+}
+
+#navBar > ul {
     list-style: none;
-    padding: 10px 0;
+    
+    text-align: center;
+
+    margin: 0;
+    padding: 0;
+    
+    word-spacing: 1cm;
 }
 
-nav ul li {
+#navBar > ul > li {
     display: inline-block;
-    margin-right: 20px;
+
+    word-spacing: 0;
+
+    padding: 0.1cm;
+    border-radius: 0.1cm;
 }
 
-nav ul li a {
-    color: white;
+#navBar > ul > li > a {
     text-decoration: none;
-    font-size: 1.1em;
+
+    color: #ffffff;
 }
 
-main {
-    padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
+#navBar > ul > li:hover,
+#navBar > ul > li:hover > a {
+    background-color: #338a35;
 }
 
 footer {
+    margin-top: auto;
     text-align: center;
-    padding: 20px;
+    padding: 0;
     background-color: #333;
     color: white;
+}
+
+footer > p{
+    padding: 0.5cm;
 }
 
 h1, h2 {
@@ -79,7 +104,6 @@ form {
 }
 
 input[type="text"], input[type="email"], input[type="password"] {
-    width: 100%;
     padding: 10px;
     margin: 10px 0;
     border: 2px solid #ddd;

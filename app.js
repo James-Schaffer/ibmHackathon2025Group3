@@ -4,6 +4,8 @@ $(document).ready(function() {
     }
 
     console.log(getLoginCookies());
+
+    $(".homePage_welcome").html("Hello " + getLoginCookies() + ", Manage your finances here, options below.");
 })
 
 function getCookie(name) {
@@ -34,4 +36,8 @@ function setLoginCookies(username) {
 
 function getLoginCookies() {
     return getCookie("username");
+}
+
+function deleteCookie(name) {
+    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
 }
