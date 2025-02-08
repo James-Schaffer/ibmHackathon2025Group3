@@ -80,6 +80,8 @@ $(document).ready(function() {
                 e.preventDefault();
                 console.log(`LOGIN - username : ${username} , password : ${password}`);
                 //Do login stuff here
+                
+
                 //to to home + set login cookie (see app.js)
                 setLoginCookies(username);
                 window.location.href = "./homePage.html";
