@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Camera Capture</title>
+    <style>
+        video, canvas { width: 100%; max-width: 400px; }
+        button { margin-top: 10px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Take a Picture</h2>
+    
+    <!-- Video Stream -->
+    <video id="video" autoplay></video>
+    
+    <!-- Capture Button -->
+    <button id="capture">Capture</button>
+    
+    <!-- Canvas to Show Image -->
+    <canvas id="canvas"></canvas>
+
+    <script src="script.js"></script>
+</body>
+</html>
