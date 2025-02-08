@@ -76,20 +76,26 @@
             }
 
             const context = canvas.getContext("2d");
+
+            // Set canvas size to match video resolution
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
+
+            // Draw video frame to canvas
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+            // Display high-quality PNG preview
             capturedImage.src = canvas.toDataURL("image/png");
             capturedImage.style.display = "block";
 
+            // Convert to PNG blob for upload (NO COMPRESSION)
             canvas.toBlob((blob) => {
                 if (blob) {
                     sendImageToServer(blob);
                 } else {
                     alert("Error capturing image.");
                 }
-            }, 'image/jpeg');
+            }, 'image/png'); // Lossless PNG
         });
 
         // Send image to server
@@ -97,14 +103,11 @@
             const formData = new FormData();
             formData.append('image', blob, 'captured_image.jpg');
 
-            try {
-                const response = await fetch("/", { method: "POST", body: formData });
-                const data = await response.json();
-                console.log("Image uploaded successfully:", data);
-            } catch (error) {
-                console.error("Error uploading image:", error);
-                alert("Error uploading image: " + error.message);
-            }
+        
+            const response = await fetch("/", { method: "POST", body: formData });
+            const data = await response.json();
+            console.log("Image uploaded successfully:", data);
+            
         }
 
         // Start camera on page load
