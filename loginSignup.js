@@ -10,6 +10,8 @@ loginForm.addEventListener("submit", (e) => {
 
     console.log(`LOGIN - username : ${username} , password : ${password}`);
 
+    //validation here
+
     //LOGIN SYSTEM HERE
 });}
 
@@ -21,6 +23,8 @@ signupForm.addEventListener("submit", (e) => {
     let password = $("#password").val();
 
     console.log(`SIGNUP - username : ${username} , password : ${password}`);
+
+    //validation here
 
     //SIGNUP SYSTEM HERE
 });}
