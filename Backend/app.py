@@ -1,9 +1,12 @@
-from flask import Flask
+from flask import Flask,render_template,request
 
 app = Flask(__name__)
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def Camera():
+    if request.method == 'POST': 
+        print(1)
 
-app.run(hostname="0.0.0.0",port=80,debug=True)
+    return render_template("index.html")
+
+app.run(host="0.0.0.0",port=8080,debug=True)
