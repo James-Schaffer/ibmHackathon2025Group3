@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget Planner</title>
+    <title>Budget - Budget Planner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -13,8 +13,8 @@
         </div>
         <nav>
             <ul>
+                <li><a href="index.html">Home</a></li>
                 <li><a href="profile.html">Profile</a></li>
-                <li><a href="budget.html">Budget</a></li>
                 <li><a href="expenses.html">Expenses</a></li>
                 <li><a href="camera.html">Camera</a></li>
                 <li><a href="login.html">Login</a></li>
@@ -24,8 +24,14 @@
     </header>
 
     <main>
-        <h1>Welcome to Your Budget Planner!</h1>
-        <p>Manage your finances in an easy, fun, and gamified way.</p>
+        <section>
+            <h2>Your Budget</h2>
+            <div class="card">
+                <p><strong>Budget:</strong> ₹<span id="budget">5000</span></p>
+                <p><strong>Spent:</strong> ₹<span id="spent">0</span></p>
+                <p><strong>Remaining:</strong> ₹<span id="remaining">5000</span></p>
+            </div>
+        </section>
     </main>
 
     <footer>
