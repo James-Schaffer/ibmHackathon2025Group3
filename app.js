@@ -1,6 +1,6 @@
 $(document).ready(function() {
     if (getLoginCookies() == null && !window.location.href.includes("login.html") && !window.location.href.includes("signup.html")) {
-        window.location.href = "./login.html";
+        //window.location.href = "./login.html"; this forces users to login
     }
 
     console.log(getLoginCookies());

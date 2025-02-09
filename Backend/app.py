@@ -79,6 +79,8 @@ def Camera():
 
 @app.route("/login",methods=["GET","POST"])
 def login():
+    print("test-1")
+
     if request.method == 'POST': 
         username=request.form.get("username")
         password= request.form.get("password")

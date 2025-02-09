@@ -1,6 +1,6 @@
 $(document).ready(function() {
-    let loginForm = document.getElementById("loginForm");
-    let signupForm = document.getElementById("signupForm");
+    let loginForm = document.getElementById("login_form");
+    let signupForm = document.getElementById("signup_form");
 
     let username = $("#username").val();
     let password = $("#password").val();
@@ -80,7 +80,7 @@ $(document).ready(function() {
                 e.preventDefault();
                 console.log(`LOGIN - username : ${username} , password : ${password}`);
                 //Do login stuff here
-                
+
 
                 //to to home + set login cookie (see app.js)
                 setLoginCookies(username);
