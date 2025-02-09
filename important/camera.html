@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capture and Upload Image</title>
+    <link rel="stylesheet" href="static/index.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo"></div>
+        <span class="title">MyBudget</span>
+    </nav>
+
+    <div class="container">
+        <h1>Capture and Upload Image</h1>
+
+        <div class="capture-container">
+            <div class="video-container">
+                <video id="video" autoplay></video>
+            </div>
+            <div class="image-container">
+                <img id="capturedImage" alt="Captured Image" style="display: none;">
+            </div>
+        </div>
+
+        <canvas id="canvas" style="display: none;"></canvas>
+
+        <button id="captureBtn" class="btn">Capture Image</button>
+        <button id="submitBtn" class="btn" style="display: none;">Submit Image</button>
+    </div>
+
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureBtn = document.getElementById("captureBtn");
+        const submitBtn = document.getElementById("submitBtn");
+        const capturedImage = document.getElementById("capturedImage");
+
+        let currentFacingMode = "environment"; // Default to back camera
+
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({
+                    video: { facingMode: currentFacingMode }
+                });
+                video.srcObject = stream;
+            } catch (error) {
+                alert(`Camera access error: ${error.name} - ${error.message}`);
+                console.error("Camera error:", error);
+            }
+        }
+
+        captureBtn.addEventListener("click", () => {
+            if (!video.srcObject) {
+                alert("Camera not started!");
+                return;
+            }
+
+            const context = canvas.getContext("2d");
+
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            capturedImage.src = canvas.toDataURL("image/png");
+            capturedImage.style.display = "block";
+            submitBtn.style.display = "block";
+        });
+
+        submitBtn.addEventListener("click", async () => {
+            canvas.toBlob(async (blob) => {
+                if (!blob) {
+                    alert("Error capturing image.");
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append('image', blob, 'captured_image.png');
+
+                try {
+                    const response = await fetch("/", { 
+                        method: "POST",
+                        body: formData 
+                    });
+
+                    const data = await response.json();
+                    console.log("Server response:", data);
+
+                    if (!response.ok) {
+                        throw new Error(data.error || "Upload failed");
+                    }
+
+                    // Update the displayed image with the new one (force cache refresh)
+                    capturedImage.src = data.image_url + "?t=" + new Date().getTime();
+                    capturedImage.style.display = "block";
+                    alert("Image uploaded successfully!");
+
+                } catch (error) {
+                    console.error("Upload error:", error);
+                    alert(`Error uploading image: ${error.message}`);
+                }
+            }, 'image/png');
+        });
+
+
+        startCamera();
+    </script>
+
+</body>
+</html>
