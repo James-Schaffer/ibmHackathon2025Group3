@@ -95,4 +95,12 @@ def signup():
         print(username,password)
     return render_template("signup.html")
 
+@app.route("/homepage",methods=["GET","POST"])
+def homepage():
+
+    return render_template("homepage.html")
+
+
+
+
 app.run(host="0.0.0.0",port=8080,debug=True)

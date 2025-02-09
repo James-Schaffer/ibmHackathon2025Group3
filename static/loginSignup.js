@@ -84,7 +84,7 @@ $(document).ready(function() {
 
                 //to to home + set login cookie (see app.js)
                 setLoginCookies(username);
-                window.location.href = "./homePage.html";
+                //window.location.href = "./homePage.html";
             } else {
                 $("#username_text").text("Cannot submit invalid username or password.")
             };
