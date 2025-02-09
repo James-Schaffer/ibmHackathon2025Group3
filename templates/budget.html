@@ -1,41 +1,85 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Budget - Budget Planner</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <div class="logo" type="button" onclick="location.href='./index.html'">
-            <h2>💰 Budget Planner</h2>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="expenses.html">Expenses</a></li>
-                <li><a href="camera.html">Camera</a></li>
-                <li><a href="login.html">Login</a></li>
-                <li><a href="signup.html">Sign Up</a></li>
-            </ul>
-        </nav>
-    </header>
+    <head>
+        <title>MyBudget - Home</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
 
-    <main>
-        <section>
-            <h2>Your Budget</h2>
-            <div class="card">
-                <p><strong>Budget:</strong> ₹<span id="budget">5000</span></p>
-                <p><strong>Spent:</strong> ₹<span id="spent">0</span></p>
-                <p><strong>Remaining:</strong> ₹<span id="remaining">5000</span></p>
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
+
+        <!--JQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    </head>
+
+    <body style="background-color: #f7f7f8; color:#0F1108">
+        <nav class="navbar navbar-extend-md navbar-dark" style="background-color: #0F1108;">
+            <div class="container-xxl">
+                <div class="row">
+                    <div class="col">
+                        <a href="#intro" class="navbar-brand">
+                            <span class="fw-bold">
+                                <!--<img src="Assets\Blue logo cropped.png" class="img-fluid" alt="Silly logo"></h1>    -->
+                            </span>
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="#intro" class="navbar-brand">
+                            <span class="fw-bold">
+                                <h1>MyBudget</h1>    
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                
             </div>
-        </section>
-    </main>
-
-    <footer>
-        <p>© 2025 Budget Planner. All rights reserved.</p>
-    </footer>
-</body>
+        </nav>
+        <main>
+            <div class="container-fluid">
+                <div class="row text-center m-5">
+                    <div class="col p-auto">
+                        <h1>
+                            Hello, user!
+                        </h1>
+                    </div>
+                </div>
+            </div>
+            <div class="container-xxl">
+                <div class="row">
+                    <div class="col text-center">
+                        <p>Welcome! If you have an account with us already, please input your details below, and click register if you do not.</p>
+                    </div>
+                </div>
+                <div class="row justify-content-evenly">
+                    <div class="col-lg-5 col-sm-4">
+                        <div class="p-5 bg-secondary">
+                            Budget</br>
+                            <input type="text" class="form-control bg-secondary">
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-sm-4">
+                        <div class="p-5 bg-secondary">
+                            Not much</br>
+                            <input type="text" class="form-control bg-secondary">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <footer>
+            <!-- place footer here -->
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        ></script>
+        <script
+            src="../static/Bootstrap/bootstrap.js"
+        ></script>
+        <script src="../static/loginSignup.js"></script>
+    </body>
 </html>
