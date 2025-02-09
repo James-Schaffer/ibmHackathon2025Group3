@@ -37,13 +37,13 @@
     <canvas id="canvas"></canvas>
     <img id="capturedImage" alt="Captured Image">
     <button id="captureBtn">Capture Image</button>
-    <button id="switchCameraBtn">Switch Camera</button>
+
 
     <script>
         const video = document.getElementById("video");
         const canvas = document.getElementById("canvas");
         const captureBtn = document.getElementById("captureBtn");
-        const switchCameraBtn = document.getElementById("switchCameraBtn");
+       
         const capturedImage = document.getElementById("capturedImage");
 
         let currentFacingMode = "environment"; // Default to back camera
@@ -62,11 +62,8 @@
             }
         }
 
-        // Switch between front and back cameras
-        switchCameraBtn.addEventListener("click", () => {
-            currentFacingMode = currentFacingMode === "user" ? "environment" : "user"; // Toggle mode
-            startCamera(); // Restart camera with new mode
-        });
+        
+    
 
         // Capture and display image
         captureBtn.addEventListener("click", () => {
