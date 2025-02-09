@@ -10,32 +10,38 @@
 <body id="frontPage"> 
     <header>
         <div class="logo" type="button" onclick="location.href='./'">
-            <h1>Welcome to Your Budget Planner!</h1>
+            <h1>Budget Planner</h1>
         </div>
     </header>
 
     <main>
-        <p>Hi, with us you can manage your spending and save money in a fun and interactive way!</p>
+        <!--<p class="homePageHeroMessage">Welcome to Your Budget Planner! Hi, with us you can manage your spending and save money in a fun and interactive way!</p>-->
 
         <div class="homePageGrid">
+            <div class="logo" style="grid-column-start: 1;grid-column-end: 3; grid-row: 2;">
+                <img src="/static/app logo.png">
+            </div>
+
             <div style="grid-column: 1; grid-row: 1;">
                 <h2>Track spending</h2>
                 <p>Track your weekly spending, asigning tags to your purchases to let you see where your money is going!</p>
             </div>
-            <div style="grid-column: 2; grid-row: 2;">
+            <div style="grid-column: 2; grid-row: 1;">
                 <h2>Easy to use</h2>
                 <p>Take a photo of your receipt to easily track your purchases.</p>
             </div>
-            <div style="grid-column: 1; grid-row: 3;">
+            <!--
+            <div style="grid-column: 3; grid-row: 1;">
                 <h2>Save with friends</h2>
                 <p>See how much your friends saved this week, together save more and have fun.</p>
             </div>
+            -->
 
-            <div style="grid-column: 1; grid-row: 4;">
+            <div class="homePageLoginSignup" style="grid-column: 1; grid-row: 5;">
                 <a href="login">Login</a>
             </div>
 
-            <div style="grid-column: 2; grid-row: 4;">
+            <div class="homePageLoginSignup" style="grid-column: 2; grid-row: 5;">
                 <a href="signup">Signup</a>
             </div>
         </div>
