@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request, jsonify, send_from_directory
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import os
-import time
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -14,13 +13,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
 # Database initialization
 db = SQLAlchemy()
 db.init_app(app)
-
-# Uploads folder setup
-UPLOAD_FOLDER = "uploads"
-ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg"}
-app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
-if not os.path.exists(UPLOAD_FOLDER):
-    os.makedirs(UPLOAD_FOLDER)
 
 # User model
 class User(db.Model, UserMixin):
@@ -33,7 +25,7 @@ class User(db.Model, UserMixin):
 
 # Group model
 class Group(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    group_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=True, nullable=False)
     code = db.Column(db.String(150), unique=True, nullable=False)
     users = db.relationship('User', backref='group', lazy=True)
@@ -42,7 +34,7 @@ class Group(db.Model):
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tag_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     purchases_tags = db.relationship('PurchasesTags', backref='tag', lazy=True)
 
 # Purchases model
@@ -57,7 +49,7 @@ class Purchases(db.Model):
 class PurchasesTags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
-    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
+    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'),nullable=False)
 
 # Create database tables
 with app.app_context():
@@ -72,54 +64,51 @@ login_manager.init_app(app)
 def load_user(id):
     return User.query.get(int(id))
 
-# Utility function for allowed file types
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user = User.query.filter_by(username=username).first()
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for("dashboard"))
+        else:
+            flash("Invalid username or password", "error")
+    return render_template("login.html")
 
-# Routes
-@app.route("/", methods=["GET"])
-def index():
-    return render_template("index.html")
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
 
-@app.route("/capture", methods=["GET", "POST"])
-def capture():
-    if request.method == "GET":
-        return render_template("capture.html")  # Ensure you have a "capture.html" template
+        # Debugging: Print form data
+        print(f"Received username: {username}, password: {password}")
 
-    if "image" not in request.files:
-        return jsonify({"error": "No image uploaded"}), 400  
-    
-    image = request.files["image"]
-    
-    if image.filename == "":
-        return jsonify({"error": "No selected file"}), 400
-    
-    if not allowed_file(image.filename):
-        return jsonify({"error": "Invalid file type"}), 400
-    
-    try:
-        ext = image.filename.rsplit(".", 1)[1].lower()
-        filename = f"captured_{int(time.time())}.{ext}"
+        if not username or not password:
+            flash("Username and password are required!", "error")
+            return redirect(url_for("signup"))
 
-        # Remove old images
-        for file in os.listdir(UPLOAD_FOLDER):
-            file_path = os.path.join(UPLOAD_FOLDER, file)
-            if os.path.isfile(file_path):
-                os.remove(file_path)
+        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Account created successfully! Please login.", "success")
+        return redirect(url_for("login"))
+    return render_template("signup.html")
 
-        # Save the new image
-        image_path = os.path.join(UPLOAD_FOLDER, filename)
-        image.save(image_path)
 
-        return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{filename}"})
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return f"Hello, {current_user.username}! Welcome to your dashboard."
 
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500  
-  
-
-@app.route("/uploads/<filename>")
-def uploaded_file(filename):
-    return send_from_directory(UPLOAD_FOLDER, filename)
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("login"))
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+    app.run(port=80, debug=True)
