@@ -17,12 +17,12 @@ main {
 }
 
 header {
-    background-color: #4CAF50;
+    background-color: #000000;
     text-align: center;
     color: white;
 }
 
-header .logo h2 {
+header .logo h1 {
     margin: 0;
     padding: 1rem;
     font-size: 1.8em;
@@ -30,7 +30,7 @@ header .logo h2 {
 
 
 #navBar {
-    background-color: #4CAF50;
+    background-color: #000000;
     padding: 0;
 }
 
@@ -62,7 +62,7 @@ header .logo h2 {
 
 #navBar > ul > li:hover,
 #navBar > ul > li:hover > a {
-    background-color: #338a35;
+    background-color: #202020;
 }
 
 footer {
@@ -145,10 +145,37 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
     }
     
     main {
-        padding: 15px;
+        padding-top: 5px;
     }
 }
 
 #frontPage {
     color: #333;
+}
+
+.homePageGrid {
+    display: grid;
+
+    padding: 0 2% 0 2%;
+
+    column-gap: 2%;
+    grid-template-columns: 49% 49%
+
+}
+
+.homePageGrid > div {
+    background-color: #202020;
+    color: #ffffff;
+    padding: 0.5cm;
+    border-radius: 1cm;
+
+    margin-bottom: 0.5cm;
+}
+
+.homePageGrid > div > h2 {
+    margin: 0;
+}
+
+.homePageGrid > div > h2 {
+    margin: 0;
 }

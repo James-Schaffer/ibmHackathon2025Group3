@@ -59,7 +59,6 @@ class PurchasesTags(db.Model):
 with app.app_context():
     db.create_all()
 
-
 login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.init_app(app)
@@ -69,11 +68,16 @@ def load_user(id):
     return User.query.get((int(id)))
 
 @app.route("/",methods=["GET","POST"])
+def index():
+    return render_template("index.html")
+
+@app.route("/capture",methods=["GET","POST"])
 def Camera():
     if request.method == 'POST': 
         image = request.files['image']
         image.save(os.path.join("media/", secure_filename(image.filename)))
-    return render_template("index.html")
+
+    return render_template("capture.html")
 
 @app.route("/login",methods=["GET","POST"])
 def login():
