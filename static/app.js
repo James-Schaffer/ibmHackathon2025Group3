@@ -1,10 +1,10 @@
 $(document).ready(function() {
     if (getLoginCookies() == null && !window.location.href.includes("login") && !window.location.href.includes("signup")) {
-        //window.location.href = "./login.html"; this forces users to login
+        window.location.href = "./login";
     }
 
     if (getLoginCookies() != null && (window.location.href.includes("login") || window.location.href.includes("signup"))) {
-        window.location.href = "./homepage";
+        //window.location.href = "./homepage";
     }
 
     console.log(getLoginCookies());
