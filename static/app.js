@@ -3,7 +3,12 @@ $(document).ready(function() {
         //window.location.href = "./login.html"; this forces users to login
     }
 
+    if (getLoginCookies() != null && (window.location.href.includes("login.html") || window.location.href.includes("signup.html"))) {
+        window.location.href = "./homepage";
+    }
+
     console.log(getLoginCookies());
+    console.log(window.location.href);
 
     $(".homePage_welcome").html("Hello " + getLoginCookies() + ", Manage your finances here, options below.");
 })
