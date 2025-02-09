@@ -81,7 +81,7 @@
                 formData.append('image', blob, 'captured_image.png');
 
                 try {
-                    const response = await fetch("/", { 
+                    const response = await fetch("/capture", { 
                         method: "POST",
                         body: formData 
                     });

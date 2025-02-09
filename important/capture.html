@@ -19,7 +19,7 @@
 
         <div class="capture-container">
             <div class="video-container">
-                <video id="video" autoplay></video>
+                <video id="video" autoplay playsinline></video>
             </div>
             <div class="image-container">
                 <img id="capturedImage" alt="Captured Image" style="display: none;">
@@ -81,9 +81,10 @@
                 formData.append('image', blob, 'captured_image.png');
 
                 try {
-                    const response = await fetch("/", { 
+                    const response = await fetch("/capture", { 
                         method: "POST",
-                        body: formData 
+                        body: formData,
+                        headers: { "Accept": "application/json" }
                     });
 
                     const data = await response.json();
@@ -104,7 +105,6 @@
                 }
             }, 'image/png');
         });
-
 
         startCamera();
     </script>
