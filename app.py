@@ -1,106 +1,136 @@
-from flask import Flask,render_template,request,jsonify
-from werkzeug.utils import secure_filename
+from flask import Flask, render_template, request, redirect, url_for, flash
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager
+from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import os
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
 
-db = SQLAlchemy()
-DB_NAME = "database.db" 
-
+# Initialize Flask app
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "3$Yh9K|@w2Z*bN-gfdtrstrdrcea666b53c"
-app.config["SQLALCHEMY_DATABASE_URI"]= f"sqlite:///{DB_NAME}"
+DB_NAME = "database.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
+
+# Database initialization
+db = SQLAlchemy()
 db.init_app(app)
 
+# User model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
-    # Many-to-One: Users -> Group
     group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
-    # One-to-Many: Users -> Tags
     tags = db.relationship('Tag', backref='user', lazy=True)
-    # One-to-Many: Users -> Purchases
     purchases = db.relationship('Purchases', backref='user', lazy=True)
 
+# Group model
 class Group(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=True, nullable=False)
     code = db.Column(db.String(150), unique=True, nullable=False)
-    # One-to-Many: Group -> Users
     users = db.relationship('User', backref='group', lazy=True)
 
+# Tag model
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=True, nullable=False)
-    # Many-to-One: Tags -> Users
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # One-to-Many: Tags -> PurchasesTags
+    tag_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     purchases_tags = db.relationship('PurchasesTags', backref='tag', lazy=True)
 
+# Purchases model
 class Purchases(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(150), unique=True, nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    # Many-to-One: Purchases -> Users
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    # One-to-Many: Purchases -> PurchasesTags
     purchases_tags = db.relationship('PurchasesTags', backref='purchase', lazy=True)
 
+# PurchasesTags model
 class PurchasesTags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    # Many-to-One: PurchasesTags -> Tags
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
-    # Many-to-One: PurchasesTags -> Purchases
-    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
+    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'),nullable=False)
 
+# Create database tables
 with app.app_context():
     db.create_all()
 
+# Login manager setup
 login_manager = LoginManager()
 login_manager.login_view = "login"
 login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(id):
-    return User.query.get((int(id)))
+    return User.query.get(int(id))
 
-@app.route("/",methods=["GET","POST"])
+@app.route("/", methods=["GET", "POST"])
 def index():
+
     return render_template("index.html")
 
-@app.route("/capture",methods=["GET","POST"])
-def Camera():
-    if request.method == 'POST': 
-        image = request.files['image']
-        image.save(os.path.join("media/", secure_filename(image.filename)))
-
-    return render_template("capture.html")
-
-@app.route("/login",methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == 'POST': 
-        username=request.form.get("username")
-        password= request.form.get("password")
-        print(username,password)
-    return render_template("login.html")
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        user = User.query.filter_by(username=username).first()
+        print("tet")
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            return redirect(url_for(f"loginredir?{username}"))
+        else:
+            return render_template("login.html")
+            flash("Invalid username or password", "error")
+    else:
+        return render_template("login.html")
 
-@app.route("/signup",methods=["GET","POST"])
+@app.route("/signup", methods=["GET", "POST"])
 def signup():
-    if request.method == 'POST': 
-        username=request.form.get("username")
-        password= request.form.get("password")
-        print(username,password)
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+
+        # Debugging: Print form data
+        print(f"Received username: {username}, password: {password}")
+
+        if not username or not password:
+            flash("Username and password are required!", "error")
+            return redirect(url_for("signup"))
+
+        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Account created successfully! Please login.", "success")
+        return redirect(url_for("login"))
     return render_template("signup.html")
 
-@app.route("/homepage",methods=["GET","POST"])
+@app.route("/homepage", methods=["GET", "POST"])
 def homepage():
 
     return render_template("homepage.html")
 
+@app.route("/loginredir", methods=["GET", "POST"])
+def loginRedir():
 
+    return render_template("loginRedir.html")
 
+@app.route("/capture", methods=["GET", "POST"])
+def capture():
 
-app.run(host="0.0.0.0",port=8080,debug=True)
+    return render_template("capture.html")
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    return f"Hello, {current_user.username}! Welcome to your dashboard."
+
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for("login"))
+
+if __name__ == "__main__":
+    app.run(port=80, debug=True)

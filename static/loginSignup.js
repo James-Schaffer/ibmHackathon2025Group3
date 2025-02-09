@@ -82,9 +82,11 @@ $(document).ready(function() {
                 //Do login stuff here
 
 
+                //if valid login continue:
+
                 //to to home + set login cookie (see app.js)
-                setLoginCookies(username);
-                //window.location.href = "./homePage.html";
+                //setLoginCookies(username);
+                //window.location.href = "./homepage";
             } else {
                 $("#username_text").text("Cannot submit invalid username or password.")
             };

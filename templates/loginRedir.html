@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script src="/static/app.js"></script>
+        <script>
+            $(document).ready(function() {
+                setLoginCookies(window.location.search.substring(1));
+                window.location.href = "/homepage";
+            });
+        </script>
+    </body>
+</html>
