@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    let loginForm = document.getElementById("loginForm");
+    let loginForm = document.getElementById("login_form");
     let signupForm = document.getElementById("signupForm");
 
     let username = $("#username").val();
