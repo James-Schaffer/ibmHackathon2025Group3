@@ -159,23 +159,63 @@ input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focu
     padding: 0 2% 0 2%;
 
     column-gap: 2%;
-    grid-template-columns: 49% 49%
+    grid-template-columns: 49% 49%;
 
+}
+
+p.homePageHeroMessage {
+    padding: 0.5cm;
+    margin: 0;
+}
+
+.homePageGrid {
+    margin-top: 0.5cm;
 }
 
 .homePageGrid > div {
     background-color: #202020;
     color: #ffffff;
     padding: 0.5cm;
-    border-radius: 1cm;
+    border-radius: 0.5cm;
 
     margin-bottom: 0.5cm;
 }
 
 .homePageGrid > div > h2 {
     margin: 0;
+    margin-bottom: 0.1cm;
+
+    font-size: 0.5cm;
 }
 
-.homePageGrid > div > h2 {
+.homePageGrid > div > p {
     margin: 0;
+
+    font-size: 0.4cm;
+}
+
+.homePageGrid > .logo {
+    padding: 4cm 0 3cm 0;
+    background-color: #ffffff;
+
+    align-content: center;
+}
+
+.homePageGrid > .logo > img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.homePageGrid > .homePageLoginSignup {
+    margin-top: 2cm;
+    text-align: center;
+}
+
+.homePageGrid > .homePageLoginSignup > * {
+    color: #ffffff;
+    text-decoration: none;
+    padding: 1cm;
+
+    font-size: 2rem;
 }
