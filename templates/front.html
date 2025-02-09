@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>💰 Today Budget</h1>
+        <div class="card">
+            <div class="budget-info">
+                <p><strong>Budget:</strong> ₹<span id="budget">5000</span></p>
+                <p><strong>Spent:</strong> ₹<span id="spent">0</span></p>
+                <p><strong>Remaining:</strong> ₹<span id="remaining">5000</span></p>
+                <p><strong>Streak:</strong> 🔥 <span id="streak">0</span> days</p>
+            </div>
+            <button id="add-expense" class="btn">➕ Add Random Expense</button>
+        </div>
+        <div class="chart-container">
+            <canvas id="budgetChart"></canvas>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
