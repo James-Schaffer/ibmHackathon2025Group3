@@ -59,32 +59,28 @@ class PurchasesTags(db.Model):
 with app.app_context():
     db.create_all()
 
-# from models import User
 
-# login_manager = LoginManager()
-# login_manager.login_view = "login"
-# login_manager.init_app(app)
+login_manager = LoginManager()
+login_manager.login_view = "login"
+login_manager.init_app(app)
 
-# @login_manager.user_loader
-# def load_user(id):
-#     return User.query.get((int(id)))
+@login_manager.user_loader
+def load_user(id):
+    return User.query.get((int(id)))
 
 @app.route("/",methods=["GET","POST"])
 def Camera():
     if request.method == 'POST': 
         image = request.files['image']
         image.save(os.path.join("media/", secure_filename(image.filename)))
-
     return render_template("index.html")
 
 @app.route("/login",methods=["GET","POST"])
 def login():
-
     if request.method == 'POST': 
         username=request.form.get("username")
         password= request.form.get("password")
         print(username,password)
-
     return render_template("login.html")
 
 @app.route("/signup",methods=["GET","POST"])
@@ -93,7 +89,6 @@ def signup():
         username=request.form.get("username")
         password= request.form.get("password")
         print(username,password)
-
     return render_template("signup.html")
 
 app.run(host="0.0.0.0",port=8080,debug=True)
