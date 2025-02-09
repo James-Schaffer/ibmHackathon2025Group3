@@ -1,0 +1,16 @@
+Budgeting app
+
+ - gamifies budgeting
+
+ - mention target audience (students)
+
+ - banking apps hard to understand how you are spending money , all in one list with little info about what the money is spent on
+
+ - use camera or manual input to track your purchases, camera takes picture and we use gemini to get the purchases and prices 
+
+ - this is saved with tags to categorise the purchases, such as entertainment travel, e.t.c. these tags will have some default or the user can make more to be more specific
+
+ - stats about how you are spending money (per tag) (shown with charts, easy to understand)
+ - set weekly budgets and track saving, use on leaderboard with friends to encourage saving
+
+ - saving goals to help motivate people to save to specific goal

@@ -219,3 +219,28 @@ p.homePageHeroMessage {
 
     font-size: 2rem;
 }
+
+.expenses {
+    width: 90%;
+    padding: 0 5% 0 5%;
+}
+
+#expenses-bar {
+    height: 1cm;
+
+    display: flex;
+}
+
+.expenses-bar-cell:hover{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #000000;
+}
+
+#expenses-hoverLabel {
+    margin: 0;
+    padding: 0.2cm 0.2cm 0.2cm 0.2cm;
+
+    background-color: #202020;
+    color: #ffffff;
+}
