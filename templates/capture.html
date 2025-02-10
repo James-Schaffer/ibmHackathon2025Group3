@@ -1,196 +1,171 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>MyBudget - Receipt Capture</title>
-        
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+<head>
+    <title>MyBudget - Receipt Capture</title>
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <!-- Custom CSS -->
-        <link href="link to custom css" rel="stylesheet"/>
+    <link href="../static/bootstrap.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
 
-        <!-- JQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    </head>
+<body>
+    <header>
+        <div class="container-fluid bg-dark text-light p-3">
+            <h1 class="text-center">MyBudget - Receipt Capture</h1>
+        </div>
+    </header>
 
-    <body>
-        <header>
-            <div class="container-fluid" style="background-color: #000000;">
-                <div class="row m-0">
-                    <div class="col">
-                        <span class="fw-bold text-light">
-                            <h1>MyBudget</h1>    
-                        </span>
-                    </div>
-                    <div class="col text-end">
-                        <span class="fw-bold">
-                            <img src="../Photos/app logo short.png" class="img-fluid" alt="Black GBP Sign">
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </header>
-            
-        <main>
-            <div class="container-xxl">
-                <div class="row justify-content-center align-items-center my-3">
-                    <div class="col text-center d-inline-block">
-                        <h1>Capture and Upload Image</h1>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center">
-                    <div class="col text-center d-inline-block">
-                        <div class="video-container">
-                            <video id="video" autoplay playsinline></video>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center my-2">
-                    <div class="col text-center d-inline-block">
-                            <div class="image-container">
-                                <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
-                                <img id="capturedImage" alt="Captured Image" style="display: none;">
-                            </div>
-                        </div>
-                        <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
-                        <canvas id="canvas" style="display: none;"></canvas>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center my-2">
-                    <div class="col text-center d-inline-block">
-                        <button id="captureBtn" class="btn btn-secondary">Capture Image</button>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center">
-                    <div class="col text-center d-inline-block">
-                        <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
-                        <button id="submitBtn" class="btn btn-secondary" style="display: none;">Submit Image</button>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <main class="container my-4">
+        <h2 class="text-center">Capture and Upload Image</h2>
 
-        <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #000000;">
-            <div class="container-fluid justify-content-center py-2" style="background-color: #000000;">
-                <div class="col btn-group m-0">
-                    <a href="/home" class="btn btn-secondary btn-outline-light btn-lg mx-0">Home</a>
-                    <a href="/savings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Savings</a>
-                    <a href="/friends" class="btn btn-secondary btn-outline-light btn-lg mx-0 me-1">Friends</a>
-                </div>
-                <div class="col-12 col-md-1 text-center">
-                    <div class="btn-group dropup">
-                        <button type="button" class="btn btn-secondary btn-outline-light btn-lg rounded-pill mx-0 my-2" data-bs-toggle="dropdown" aria-expanded="false">
-                            +
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
-                            <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col btn-group m-0">
-                    <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-lg mx-0 ms-1">Leaderboard</a>
-                    <a href="/profile" class="btn btn-secondary btn-outline-light btn-lg mx-0">Profile</a>
-                    <a href="/settings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Settings</a>
-                </div>
-            </div>
-        </nav>
+        <div class="text-center">
+            <video id="video" autoplay playsinline class="border"></video>
+            <canvas id="canvas" style="display: none;"></canvas>
+        </div>
 
-        <footer class="my-5">
-            <p>© 2025 Budget Planner. All rights reserved.</p>
-        </footer>
-        
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        ></script>
-        <script
-            src="../static/Bootstrap/bootstrap.js"
-        ></script>
+        <div class="text-center my-3">
+            <button id="captureBtn" class="btn btn-primary">Capture Image</button>
+        </div>
 
-        <!-- Custom JavaScript -->
-        <script>
-            const video = document.getElementById("video");
-            const canvas = document.getElementById("canvas");
-            const captureBtn = document.getElementById("captureBtn");
-            const submitBtn = document.getElementById("submitBtn");
-            const capturedImage = document.getElementById("capturedImage");
+        <div class="text-center">
+            <img id="capturedImage" style="display: none; width: 300px;" class="border" />
+        </div>
 
-            let currentFacingMode = "environment"; // Default to back camera
+        <div class="text-center my-3">
+            <button id="submitBtn" class="btn btn-success" style="display: none;">Submit Image</button>
+        </div>
+    </main>
 
-            async function startCamera() {
+    <div class="container">
+        <h2>Review and Confirm Purchases</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Category</th>
+                    <th>Confirm</th>
+                </tr>
+            </thead>
+            <tbody id="purchaseTable">
+                <!-- Purchases will be dynamically added here -->
+            </tbody>
+        </table>
+        <button id="confirmBtn" class="btn btn-primary" style="display: none;">Confirm Purchases</button>
+    </div>
+
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureBtn = document.getElementById("captureBtn");
+        const submitBtn = document.getElementById("submitBtn");
+        const capturedImage = document.getElementById("capturedImage");
+
+        // Start Camera
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+            } catch (error) {
+                alert(`Camera access error: ${error.message}`);
+            }
+        }
+
+        // Capture Image
+        captureBtn.addEventListener("click", () => {
+            const context = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            capturedImage.src = canvas.toDataURL("image/png");
+            capturedImage.style.display = "block";
+            submitBtn.style.display = "block";
+        });
+
+        // Submit Image to Flask Server
+        submitBtn.addEventListener("click", async () => {
+            canvas.toBlob(async (blob) => {
+                const formData = new FormData();
+                formData.append("image", blob, "captured_image.png");
+
                 try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: currentFacingMode }
+                    const response = await fetch("/capture", {
+                        method: "POST",
+                        body: formData
                     });
-                    video.srcObject = stream;
+
+                    const data = await response.json();
+                    console.log("✅ Server Response:", data); // Debugging Log
+
+                    if (response.ok) {
+                        displayExtractedData(data.data);
+                    } else {
+                        alert(`Error: ${data.error}`);
+                    }
                 } catch (error) {
-                    alert(`Camera access error: ${error.name} - ${error.message}`);
-                    console.error("Camera error:", error);
+                    alert(`Upload error: ${error.message}`);
                 }
+            }, "image/png");
+        });
+
+        function displayExtractedData(data) {
+            const tableBody = document.getElementById("purchaseTable");
+            tableBody.innerHTML = "";
+
+            if (!Array.isArray(data)) {
+                console.error("⚠️ Received invalid data format:", data);
+                alert("Error: Unexpected data format");
+                return;
             }
 
-            captureBtn.addEventListener("click", () => {
-                if (!video.srcObject) {
-                    alert("Camera not started!");
+            data.forEach((purchase, index) => {
+                if (!purchase.product || !purchase.price || !purchase.category) {
+                    console.warn("⚠️ Skipping invalid purchase entry:", purchase);
                     return;
                 }
 
-                const context = canvas.getContext("2d");
-
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-                capturedImage.src = canvas.toDataURL("image/png");
-                capturedImage.style.display = "block";
-                submitBtn.style.display = "block";
+                let row = `<tr>
+                    <td>${purchase.product}</td>
+                    <td>${purchase.price}</td>
+                    <td>${purchase.category}</td>
+                    <td><input type='checkbox' class='confirm-checkbox' data-index='${index}' checked></td>
+                </tr>`;
+                tableBody.innerHTML += row;
             });
 
-            submitBtn.addEventListener("click", async () => {
-                canvas.toBlob(async (blob) => {
-                    if (!blob) {
-                        alert("Error capturing image.");
-                        return;
-                    }
+            document.getElementById("confirmBtn").style.display = "block";
+        }
 
-                    const formData = new FormData();
-                    formData.append('image', blob, 'captured_image.png');
-
-                    try {
-                        const response = await fetch("/capture", { 
-                            method: "POST",
-                            body: formData,
-                            headers: { "Accept": "application/json" }
-                        });
-
-                        const data = await response.json();
-                        console.log("Server response:", data);
-
-                        if (!response.ok) {
-                            throw new Error(data.error || "Upload failed");
-                        }
-
-                        // Update the displayed image with the new one (force cache refresh)
-                        capturedImage.src = data.image_url + "?t=" + new Date().getTime();
-                        capturedImage.style.display = "block"; //class.remove("d-none").add("d-inline-block")
-                        alert("Image uploaded successfully!");
-
-                    } catch (error) {
-                        console.error("Upload error:", error);
-                        alert(`Error uploading image: ${error.message}`);
-                    }
-                }, 'image/png');
+        // Confirm Purchases
+        document.getElementById("confirmBtn").addEventListener("click", () => {
+            let confirmedPurchases = [];
+            document.querySelectorAll(".confirm-checkbox:checked").forEach((checkbox) => {
+                let index = checkbox.dataset.index;
+                let row = document.getElementById("purchaseTable").rows[index];
+                confirmedPurchases.push({
+                    product: row.cells[0].innerText,
+                    price: parseFloat(row.cells[1].innerText),
+                    category: row.cells[2].innerText
+                });
             });
 
-            startCamera();
-        </script>
-    </body>
+            fetch("/confirm_purchase", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ purchases: confirmedPurchases })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                window.location.href = "/home";
+            });
+        });
+
+        startCamera();
+    </script>
+</body>
 </html>
