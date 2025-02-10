@@ -109,7 +109,7 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             # flash("Login successful!", "success")
-            return redirect("/home")
+            return redirect(f"/loginredir?{username}")
         
             # flash("Invalid username or password", "error")
         return "Invalid username or password : From Server"
@@ -154,6 +154,7 @@ def update_budget():
 @app.route("/profile")
 @login_required
 def profile():
+    # this is cool
     purchases = Purchase.query.filter_by(user_id=current_user.id).order_by(Purchase.date.desc()).limit(5).all()
     return render_template("profile.html", user=current_user, purchases=purchases)
 
