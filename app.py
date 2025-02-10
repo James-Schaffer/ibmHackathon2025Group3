@@ -117,8 +117,8 @@ def login():
             # flash("Invalid username or password", "error")
         return "Invalid username or password : From Server"
             # return redirect(url_for("login"))
-
-    return render_template("login.html")
+    
+    return render_template("login.html",purchases=purchases)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -149,7 +149,8 @@ def signup():
 @app.route("/home")
 @login_required
 def home():
-    return render_template("home.html")
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    return render_template("home.html",purchases=purchases)
 
 @app.route("/profile")
 @login_required

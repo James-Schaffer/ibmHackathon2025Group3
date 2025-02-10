@@ -79,42 +79,25 @@
                         </h1>
                     </div>
                 </div>
+
+                
+                    
+                {%for purchase in purchases %}
                 <div class="row justify-content-between bg-secondary mb-1 rounded-4">
                     <div class="col">
                         <div class="p-4">
-                            Add an expense to display the name here!
+                            {{purchase.label}}
                         </div>
                     </div>
                     <div class="col">
                         <div class="p-4 text-end">
-                            £0.00
+                            {{purchase.price}}
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-between bg-secondary mb-1 rounded-4">
-                    <div class="col">
-                        <div class="p-4">
-                            Add an expense to display the name here!
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-4 text-end">
-                            £0.00
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-between bg-secondary mb-1 rounded-4">
-                    <div class="col">
-                        <div class="p-4">
-                            Add an expense to display the name here!
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="p-4 text-end">
-                            £0.00
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+              
+                <!-- </div> -->
             </div>
         </main>
 
