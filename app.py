@@ -131,6 +131,26 @@ def signup():
 def home():
     return render_template("home.html")
 
+@app.route("/profile")
+@login_required
+def profile():
+    return render_template("profile.html")
+
+@app.route("/expenses")
+@login_required
+def expenses():
+    return render_template("expenses.html")
+
+@app.route("/friends")
+@login_required
+def leaderboard():
+    return render_template("friends.html")
+
+@app.route("/savings")
+@login_required
+def savings():
+    return render_template("savings.html")
+
 @app.route("/logout")
 @login_required
 def logout():
