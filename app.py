@@ -66,8 +66,8 @@ def load_user(id):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-
     return render_template("index.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -130,9 +130,9 @@ def capture():
     return render_template("capture.html")
 
 @app.route("/dashboard")
-@login_required
+# @login_required
 def dashboard():
-    return f"Hello, {current_user.username}! Welcome to your dashboard."
+    return render_template("budget.html")
 
 @app.route("/logout")
 @login_required
