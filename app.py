@@ -80,8 +80,10 @@ def login():
             login_user(user)
             return redirect(url_for(f"loginredir?{username}"))
         else:
+            return "Invalid username or password"
+            # flash("Invalid username or password", "error")
+
             return render_template("login.html")
-            flash("Invalid username or password", "error")
     
     return render_template("login.html")
 
@@ -99,7 +101,7 @@ def signup():
             return redirect(url_for("signup"))
         elif User.query.filter_by(username=username).first():
             # Flash a message if an account with the email already exists
-            flash("Sorry, an account with that username already exists. Please log in or use a different username to register.")
+            # flash("Sorry, an account with that username already exists. Please log in or use a different username to register.")
             # return redirect(url_for("signup"))
             return "Sorry, an account with that username already exists. Please log in or use a different username to register."
         else:
@@ -107,7 +109,7 @@ def signup():
             new_user = User(username=username, password=hashed_password)
             db.session.add(new_user)
             db.session.commit()
-            flash("Account created successfully! Please login.", "success")
+            # flash("Account created successfully! Please login.", "success")
             return redirect(url_for("login"))
     return render_template("signup.html")
 
