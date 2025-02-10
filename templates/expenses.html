@@ -47,7 +47,12 @@
                     <input type="text" placeholder="Price" name="price">
                     <input type="submit">
                 </form>
-
+                <div>
+                    {%for purchase in purchases %}
+                    {{purchase.name}}
+                    {{purchase.price}}
+                    {% endfor %}
+                </div>
                 <!-- Expense entries will appear here -->
             </div>
         </main>

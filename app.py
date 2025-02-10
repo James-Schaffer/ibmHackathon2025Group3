@@ -40,9 +40,9 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
-    group_id = db.Column(db.Integer, db.ForeignKey('group.id'))
-    tags = db.relationship('Tag', backref='user', lazy=True)
-    purchases = db.relationship('Purchases', backref='user', lazy=True)
+    
+    # One-to-Many relationship
+    purchases = db.relationship('Purchase', back_populates='user', lazy=True)
 
 # # Group model
 # class Group(db.Model):
@@ -59,13 +59,15 @@ class User(db.Model, UserMixin):
 #     purchases_tags = db.relationship('PurchasesTags', backref='tag', lazy=True)
 
 # Purchases model
-class Purchases(db.Model):
+class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    label = db.Column(db.String(150), unique=False, nullable=False)
+    label = db.Column(db.String(150), nullable=False)
     price = db.Column(db.Integer, nullable=False)
-    category = db.Column(db.String(150), unique=False, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    purchases_tags = db.relationship('PurchasesTags', backref='purchase', lazy=True)
+    category = db.Column(db.String(150), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+    # Relationship back to User
+    user = db.relationship('User', back_populates='purchases')
 
 # # PurchasesTags model
 # class PurchasesTags(db.Model):
@@ -163,7 +165,7 @@ def expenses():
         response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings]. Only return the category name. Do not include any extra text.")
         print(response.text)
         print(label,price)
-        purchase= Purchases(label=label, price=price,category=response.text)
+        purchase= Purchase(label=label, price=price,category=response.text,user_id=current_user.id)
         db.session.add(purchase)
         db.session.commit()
 
