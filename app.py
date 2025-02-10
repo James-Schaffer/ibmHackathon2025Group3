@@ -44,7 +44,7 @@ class Tag(db.Model):
 # Purchases model
 class Purchases(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    label = db.Column(db.String(150), unique=True, nullable=False)
+    label = db.Column(db.String(150), unique=False, nullable=False)
     price = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     purchases_tags = db.relationship('PurchasesTags', backref='purchase', lazy=True)
