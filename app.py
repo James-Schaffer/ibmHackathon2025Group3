@@ -91,8 +91,8 @@ def login():
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            flash("Login successful!", "success")
-            return redirect(url_for("homepage"))
+            # flash("Login successful!", "success")
+            return redirect(url_for("home"))
         else:
             flash("Invalid username or password", "error")
             return redirect(url_for("login"))
@@ -129,10 +129,10 @@ def signup():
 
 
 
-@app.route("/homepage")
+@app.route("/home")
 @login_required
-def homepage():
-    return render_template("homepage.html")
+def home():
+    return render_template("home.html")
 
 @app.route("/logout")
 @login_required
