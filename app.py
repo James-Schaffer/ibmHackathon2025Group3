@@ -97,13 +97,18 @@ def signup():
         if not username or not password:
             flash("Username and password are required!", "error")
             return redirect(url_for("signup"))
-
-        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-        new_user = User(username=username, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Account created successfully! Please login.", "success")
-        return redirect(url_for("login"))
+        elif User.query.filter_by(username=username).first():
+            # Flash a message if an account with the email already exists
+            flash("Sorry, an account with that username already exists. Please log in or use a different username to register.")
+            # return redirect(url_for("signup"))
+            return "Sorry, an account with that username already exists. Please log in or use a different username to register."
+        else:
+            hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
+            new_user = User(username=username, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            flash("Account created successfully! Please login.", "success")
+            return redirect(url_for("login"))
     return render_template("signup.html")
 
 @app.route("/homepage", methods=["GET", "POST"])
