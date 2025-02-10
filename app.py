@@ -82,20 +82,21 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        print(username,password)
-        if not username or not password:
-            flash("Username and password are required!", "error")
-            return redirect(url_for("login"))
+        # print(username,password)
+        # if not username or not password:
+        #     flash("Username and password are required!", "error")
+        #     return redirect(url_for("login"))
 
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
             login_user(user)
             # flash("Login successful!", "success")
-            return redirect(url_for("home"))
-        else:
-            flash("Invalid username or password", "error")
-            return redirect(url_for("login"))
+            return redirect("/home")
+        
+            # flash("Invalid username or password", "error")
+        return "Invalid username or password : From Server"
+            # return redirect(url_for("login"))
 
     return render_template("login.html")
 
