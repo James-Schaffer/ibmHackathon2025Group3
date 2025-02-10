@@ -6,6 +6,8 @@ import os
 import google.generativeai as genai
 from PIL import Image
 import json
+import re
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -66,15 +68,9 @@ class Purchase(db.Model):
     price = db.Column(db.Integer, nullable=False)
     category = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
+    date = db.Column(db.Date)
     # Relationship back to User
     user = db.relationship('User', back_populates='purchases')
-
-# # PurchasesTags model
-# class PurchasesTags(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
-#     purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
 
 # Create database tables
 with app.app_context():
@@ -158,7 +154,8 @@ def update_budget():
 @app.route("/profile")
 @login_required
 def profile():
-    return render_template("profile.html")
+    purchases = Purchase.query.filter_by(user_id=current_user.id).order_by(Purchase.date.desc()).limit(5).all()
+    return render_template("profile.html", user=current_user, purchases=purchases)
 
 @app.route("/expenses" ,methods=["GET", "POST"])
 @login_required
@@ -180,10 +177,11 @@ def expenses():
 
     return render_template("expenses.html",purchases=purchases)
 
-@app.route("/friends")
+@app.route("/leaderboard")
 @login_required
 def leaderboard():
-    return render_template("friends.html")
+
+    return render_template("leaderboard.html")
 
 @app.route("/home", methods=["GET", "POST"])
 @login_required
@@ -208,7 +206,14 @@ def home():
 @app.route("/savings")
 @login_required
 def savings():
-    return render_template("savings.html")
+    purchases_by_category = {}
+
+    for category in spending_categories:
+        purchases = Purchase.query.filter_by(category=category).all()
+        purchases_by_category[category] = purchases
+
+    print(purchases_by_category)
+    return render_template("savings.html",purchases_by_category=purchases_by_category)
 
 @app.route("/logout")
 @login_required
@@ -236,7 +241,7 @@ def capture():
         image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
-        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.", image])
+        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.also remove all the currency symbol from it", image])
         # print(response.text)
         data = str(response.text).split(',')
         # print(data)
@@ -246,7 +251,9 @@ def capture():
         for i in range(0, len(data), 3):
             product = data[i]  # Product name
             price = float(data[i + 1].replace('£', '').strip())  # Convert price to float after removing '£'
-            category = data[i + 2]  # Category
+            category = data[i + 2]
+            category = re.sub("\n","",category)  # Category
+            category = re.sub(" ","",category)  # Category
     
             # Create a new Purchase object
             purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id)
