@@ -1,14 +1,18 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 import os
+import google.generativeai as genai
+from PIL import Image
 
 # Initialize Flask app
 app = Flask(__name__)
 app.config["SECRET_KEY"] = "3$Yh9K|@w2Z*bN-gfdtrstrdrcea666b53c"
 DB_NAME = "database.db"
 app.config["SQLALCHEMY_DATABASE_URI"] = f"sqlite:///{DB_NAME}"
+app.config["REMEMBER_COOKIE_DURATION"] = 86400  # Keep session for 1 day
+app.config["SESSION_PERMANENT"] = True
 
 # Database initialization
 db = SQLAlchemy()
@@ -34,7 +38,7 @@ class Group(db.Model):
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(150), unique=True, nullable=False)
-    tag_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     purchases_tags = db.relationship('PurchasesTags', backref='tag', lazy=True)
 
 # Purchases model
@@ -49,11 +53,15 @@ class Purchases(db.Model):
 class PurchasesTags(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
-    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'),nullable=False)
+    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
 
 # Create database tables
 with app.app_context():
     db.create_all()
+
+# Configure generative AI model
+genai.configure(api_key="AIzaSyAMnCFsSFcXpOAfQzv05gLk4NuGjymRaLM")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 # Login manager setup
 login_manager = LoginManager()
@@ -61,32 +69,38 @@ login_manager.login_view = "login"
 login_manager.init_app(app)
 
 @login_manager.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
+# Routes
 @app.route("/", methods=["GET", "POST"])
-def index():
-    return render_template("index.html")
-
+def welcome():
+    return render_template("welcome.html")
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-        user = User.query.filter_by(username=username).first()
-        print("test")
-        if user and check_password_hash(user.password, password):
-            login_user(user)
+
+        if not username or not password:
+            flash("Username and password are required!", "error")
             return redirect(url_for("login"))
 
-            # redirect to show their budget
-            return redirect(url_for(f"homepage"))
-        else:
-            return "Invalid username or password"
-            # flash("Invalid username or password", "error")
+        user = User.query.filter_by(username=username).first()
 
-            return render_template("login.html")
+        if user and check_password_hash(user.password, password):
+            login_user(user)
+            flash("Login successful!", "success")
+            return redirect(url_for("homepage"))
+        else:
+            flash("Invalid username or password", "error")
+            return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+
+            
     
     return render_template("login.html")
 
@@ -96,49 +110,71 @@ def signup():
         username = request.form.get("username")
         password = request.form.get("password")
 
-        # Debugging: Print form data
-        print(f"Received username: {username}, password: {password}")
-
         if not username or not password:
             flash("Username and password are required!", "error")
             return redirect(url_for("signup"))
-        elif User.query.filter_by(username=username).first():
-            # Flash a message if an account with the email already exists
-            # flash("Sorry, an account with that username already exists. Please log in or use a different username to register.")
-            # return redirect(url_for("signup"))
-            return "Sorry, an account with that username already exists. Please log in or use a different username to register."
-        else:
-            hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-            new_user = User(username=username, password=hashed_password)
-            db.session.add(new_user)
-            db.session.commit()
-            # flash("Account created successfully! Please login.", "success")
-            return redirect(url_for("login"))
+
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user:
+            flash("Username already exists. Please log in or choose a different username.", "error")
+            return redirect(url_for("signup"))
+
+        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
+        new_user = User(username=username, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("Account created successfully! Please login.", "success")
+        return redirect(url_for("login"))
+
     return render_template("signup.html")
 
-@app.route("/homepage", methods=["GET", "POST"])
+
+
+@app.route("/homepage")
+@login_required
 def homepage():
     return render_template("homepage.html")
-
-@app.route("/loginredir", methods=["GET", "POST"])
-def loginRedir():
-    return render_template("loginRedir.html")
-
-@app.route("/capture", methods=["GET", "POST"])
-def capture():
-
-    return render_template("capture.html")
-
-@app.route("/dashboard")
-# @login_required
-def dashboard():
-    return render_template("budget.html")
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
     return redirect(url_for("login"))
+
+@app.route("/capture", methods=["GET", "POST"])
+def capture():
+    if request.method == "GET":
+        return render_template("capture.html")
+
+    if "image" not in request.files:
+        return jsonify({"error": "No image uploaded"}), 400  
+    
+    image = request.files["image"]
+    
+    if image.filename == "":
+        return jsonify({"error": "No selected file"}), 400
+    
+    if not image.filename.lower().endswith(("png", "jpg", "jpeg")):
+        return jsonify({"error": "Invalid file type"}), 400
+    
+    try:
+        image_path = os.path.join("uploads", image.filename)
+        image.save(image_path)
+        image = Image.open(image_path)
+        response = model.generate_content(["Analyze this image for product names and prices.", image])
+        print(response.text)
+        return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500  
+
+@app.route("/uploads/<filename>")
+def uploaded_file(filename):
+    return send_from_directory("uploads", filename)
+
+@app.route("/budget")
+@login_required
+def budget():
+    return render_template("budget.html")
 
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
