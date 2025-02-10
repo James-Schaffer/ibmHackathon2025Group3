@@ -18,6 +18,23 @@ app.config["SESSION_PERMANENT"] = True
 db = SQLAlchemy()
 db.init_app(app)
 
+spending_categories = [
+    "Food & Drinks",
+    "Transportation",
+    "School Supplies",
+    "Rent & Utilities",
+    "Phone Bill",
+    "Entertainment",
+    "Clothing & Accessories",
+    "Personal Care",
+    "Fitness",
+    "Socializing",
+    "Tuition & Fees",
+    "Online Subscriptions",
+    "Emergency Fund & Savings",
+    "other"
+]
+
 # User model
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -27,33 +44,34 @@ class User(db.Model, UserMixin):
     tags = db.relationship('Tag', backref='user', lazy=True)
     purchases = db.relationship('Purchases', backref='user', lazy=True)
 
-# Group model
-class Group(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), unique=True, nullable=False)
-    code = db.Column(db.String(150), unique=True, nullable=False)
-    users = db.relationship('User', backref='group', lazy=True)
+# # Group model
+# class Group(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(150), unique=True, nullable=False)
+#     code = db.Column(db.String(150), unique=True, nullable=False)
+#     users = db.relationship('User', backref='group', lazy=True)
 
-# Tag model
-class Tag(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(150), unique=True, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    purchases_tags = db.relationship('PurchasesTags', backref='tag', lazy=True)
+# # Tag model
+# class Tag(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(150), unique=True, nullable=False)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+#     purchases_tags = db.relationship('PurchasesTags', backref='tag', lazy=True)
 
 # Purchases model
 class Purchases(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(150), unique=False, nullable=False)
     price = db.Column(db.Integer, nullable=False)
+    category = db.Column(db.String(150), unique=False, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     purchases_tags = db.relationship('PurchasesTags', backref='purchase', lazy=True)
 
-# PurchasesTags model
-class PurchasesTags(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
-    purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
+# # PurchasesTags model
+# class PurchasesTags(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
+#     purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
 
 # Create database tables
 with app.app_context():
@@ -142,8 +160,10 @@ def expenses():
     if request.method == "POST":
         label = request.form.get("label")
         price = request.form.get("price")
+        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings]. Only return the category name. Do not include any extra text.")
+        print(response.text)
         print(label,price)
-        purchase= Purchases(label=label, price=price)
+        purchase= Purchases(label=label, price=price,category=response.text)
         db.session.add(purchase)
         db.session.commit()
 
@@ -186,7 +206,7 @@ def capture():
         image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
-        response = model.generate_content(["Analyze this image for product names and prices.", image])
+        response = model.generate_content(["From this image, analyse the names of the products listed and the price of each product and output in this format json format, no other response ", image])
         print(response.text)
         return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
     except Exception as e:
