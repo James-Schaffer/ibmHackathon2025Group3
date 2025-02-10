@@ -5,6 +5,7 @@ from flask_login import LoginManager, UserMixin, login_user, logout_user, login_
 import os
 import google.generativeai as genai
 from PIL import Image
+import json
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -235,10 +236,29 @@ def capture():
         image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
-        response = model.generate_content(["From this image, analyse the names of the products listed and the price of each product and output in this format json format, no other response ", image])
-        print(response.text)
+        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.", image])
+        # print(response.text)
+        data = str(response.text).split(',')
+        # print(data)
+        two_d_list = []
+
+# Loop through the data in steps of 3 (product, price, category)
+        for i in range(0, len(data), 3):
+            product = data[i]  # Product name
+            price = float(data[i + 1].replace('£', '').strip())  # Convert price to float after removing '£'
+            category = data[i + 2]  # Category
+    
+            # Create a new Purchase object
+            purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id)
+            
+            # Add the purchase to the session and commit
+            db.session.add(purchase)
+            db.session.commit()
+            
+
         return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
     except Exception as e:
+        print(e)
         return jsonify({"error": str(e)}), 500  
 
 # @app.route("/uploads/<filename>")
