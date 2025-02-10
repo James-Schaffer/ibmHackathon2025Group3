@@ -143,6 +143,10 @@ def expenses():
         label = request.form.get("label")
         price = request.form.get("price")
         print(label,price)
+        purchase= Purchases(label=label, price=price)
+        db.session.add(purchase)
+        db.session.commit()
+
         pass
     return render_template("expenses.html")
 
