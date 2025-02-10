@@ -75,7 +75,7 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
         user = User.query.filter_by(username=username).first()
-        print("tet")
+        print("test")
         if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for(f"loginredir?{username}"))

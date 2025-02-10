@@ -1,5 +1,4 @@
 Budgeting app
-
  - gamifies budgeting
 
  - mention target audience (students)
