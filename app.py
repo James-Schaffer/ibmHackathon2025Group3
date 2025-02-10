@@ -154,6 +154,7 @@ def update_budget():
 @app.route("/profile")
 @login_required
 def profile():
+    # this is cool
     purchases = Purchase.query.filter_by(user_id=current_user.id).order_by(Purchase.date.desc()).limit(5).all()
     return render_template("profile.html", user=current_user, purchases=purchases)
 
