@@ -82,7 +82,7 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-
+        print(username,password)
         if not username or not password:
             flash("Username and password are required!", "error")
             return redirect(url_for("login"))
@@ -123,8 +123,6 @@ def signup():
         return redirect(url_for("login"))
 
     return render_template("signup.html")
-
-
 
 @app.route("/home")
 @login_required
