@@ -136,9 +136,14 @@ def home():
 def profile():
     return render_template("profile.html")
 
-@app.route("/expenses")
+@app.route("/expenses" ,methods=["GET", "POST"])
 @login_required
 def expenses():
+    if request.method == "POST":
+        label = request.form.get("label")
+        price = request.form.get("price")
+        print(label,price)
+        pass
     return render_template("expenses.html")
 
 @app.route("/friends")
