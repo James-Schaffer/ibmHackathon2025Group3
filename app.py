@@ -202,7 +202,7 @@ def home():
     
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
-    return render_template("home.html", purchases=purchases,budget=current_user.budget)
+    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username)
 
 @app.route("/savings")
 @login_required
