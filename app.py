@@ -112,7 +112,7 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             # flash("Login successful!", "success")
-            return redirect("/home")
+            return redirect(f"/loginredir?{username}")
         
             # flash("Invalid username or password", "error")
         return "Invalid username or password : From Server"

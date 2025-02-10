@@ -1,6 +1,6 @@
 $(document).ready(function() {
     if (getLoginCookies() == null && !window.location.href.includes("login") && !window.location.href.includes("signup")) {
-        window.location.href = "./login";
+        //window.location.href = "./login";
     }
 
     if (getLoginCookies() != null && (window.location.href.includes("login") || window.location.href.includes("signup"))) {
@@ -10,7 +10,7 @@ $(document).ready(function() {
     console.log(getLoginCookies());
     console.log(window.location.href);
 
-    $(".homePage_welcome").html("Hello " + getLoginCookies() + ". From here you can manage your finances.");
+    $("#homePage_welcome").html("Hello " + getLoginCookies());
 })
 
 function getCookie(name) {
