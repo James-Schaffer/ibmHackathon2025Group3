@@ -1,113 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Capture and Upload Image</title>
-    <link rel="stylesheet" href="static/index.css">
-</head>
-<body>
+    <head>
+        <title>MyBudget - Home</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
 
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="logo"></div>
-        <span class="title">MyBudget</span>
-    </nav>
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
-    <div class="container">
-        <h1>Capture and Upload Image</h1>
+        <!--JQuery-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    </head>
+    <body>
 
-        <div class="capture-container">
-            <div class="video-container">
-                <video id="video" autoplay playsinline></video>
+        <!-- Navbar -->
+        <nav class="navbar navbar-extend-md navbar-dark" style="background-color: #0F1108;">
+            <div class="container-xxl">
+                <div class="row">
+                    <div class="col">
+                        <a href="#intro" class="navbar-brand">
+                            <img src="../Photos/app logo short.png" class="img-fluid rounded-5 d-inline-block align-text-top" alt="Black GBP Sign">
+                        </a>
+                    </div>
+                    <div class="col">
+                        <a href="#intro" class="navbar-brand">
+                            <span class="fw-bold">
+                                <h1>MyBudget</h1>    
+                            </span>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="image-container">
-                <img id="capturedImage" alt="Captured Image" style="display: none;">
+        </nav>
+
+        <div class="container-xxl">
+            <div class="row justify-content-center align-items-center my-3">
+                <div class="col text-center d-inline-block">
+                    <h1>Capture and Upload Image</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-center">
+                <div class="col text-center d-inline-block">
+                    <div class="video-container">
+                        <video id="video" autoplay playsinline></video>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-center my-2">
+                <div class="col text-center d-inline-block">
+                        <div class="image-container">
+                            <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
+                            <img id="capturedImage" alt="Captured Image" style="display: none;">
+                        </div>
+                    </div>
+                    <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
+                    <canvas id="canvas" style="display: none;"></canvas>
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-center my-2">
+                <div class="col text-center d-inline-block">
+                    <button id="captureBtn" class="btn btn-secondary">Capture Image</button>
+                </div>
+            </div>
+            <div class="row justify-content-center align-items-center">
+                <div class="col text-center d-inline-block">
+                    <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
+                    <button id="submitBtn" class="btn btn-secondary" style="display: none;">Submit Image</button>
+                </div>
             </div>
         </div>
 
-        <canvas id="canvas" style="display: none;"></canvas>
+        <script>
+            const video = document.getElementById("video");
+            const canvas = document.getElementById("canvas");
+            const captureBtn = document.getElementById("captureBtn");
+            const submitBtn = document.getElementById("submitBtn");
+            const capturedImage = document.getElementById("capturedImage");
 
-        <button id="captureBtn" class="btn">Capture Image</button>
-        <button id="submitBtn" class="btn" style="display: none;">Submit Image</button>
-    </div>
+            let currentFacingMode = "environment"; // Default to back camera
 
-    <script>
-        const video = document.getElementById("video");
-        const canvas = document.getElementById("canvas");
-        const captureBtn = document.getElementById("captureBtn");
-        const submitBtn = document.getElementById("submitBtn");
-        const capturedImage = document.getElementById("capturedImage");
-
-        let currentFacingMode = "environment"; // Default to back camera
-
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({
-                    video: { facingMode: currentFacingMode }
-                });
-                video.srcObject = stream;
-            } catch (error) {
-                alert(`Camera access error: ${error.name} - ${error.message}`);
-                console.error("Camera error:", error);
-            }
-        }
-
-        captureBtn.addEventListener("click", () => {
-            if (!video.srcObject) {
-                alert("Camera not started!");
-                return;
+            async function startCamera() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({
+                        video: { facingMode: currentFacingMode }
+                    });
+                    video.srcObject = stream;
+                } catch (error) {
+                    alert(`Camera access error: ${error.name} - ${error.message}`);
+                    console.error("Camera error:", error);
+                }
             }
 
-            const context = canvas.getContext("2d");
-
-            canvas.width = video.videoWidth;
-            canvas.height = video.videoHeight;
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-            capturedImage.src = canvas.toDataURL("image/png");
-            capturedImage.style.display = "block";
-            submitBtn.style.display = "block";
-        });
-
-        submitBtn.addEventListener("click", async () => {
-            canvas.toBlob(async (blob) => {
-                if (!blob) {
-                    alert("Error capturing image.");
+            captureBtn.addEventListener("click", () => {
+                if (!video.srcObject) {
+                    alert("Camera not started!");
                     return;
                 }
 
-                const formData = new FormData();
-                formData.append('image', blob, 'captured_image.png');
+                const context = canvas.getContext("2d");
 
-                try {
-                    const response = await fetch("/capture", { 
-                        method: "POST",
-                        body: formData,
-                        headers: { "Accept": "application/json" }
-                    });
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                    const data = await response.json();
-                    console.log("Server response:", data);
+                capturedImage.src = canvas.toDataURL("image/png");
+                capturedImage.style.display = "block";
+                submitBtn.style.display = "block";
+            });
 
-                    if (!response.ok) {
-                        throw new Error(data.error || "Upload failed");
+            submitBtn.addEventListener("click", async () => {
+                canvas.toBlob(async (blob) => {
+                    if (!blob) {
+                        alert("Error capturing image.");
+                        return;
                     }
 
-                    // Update the displayed image with the new one (force cache refresh)
-                    capturedImage.src = data.image_url + "?t=" + new Date().getTime();
-                    capturedImage.style.display = "block";
-                    alert("Image uploaded successfully!");
+                    const formData = new FormData();
+                    formData.append('image', blob, 'captured_image.png');
 
-                } catch (error) {
-                    console.error("Upload error:", error);
-                    alert(`Error uploading image: ${error.message}`);
-                }
-            }, 'image/png');
-        });
+                    try {
+                        const response = await fetch("/capture", { 
+                            method: "POST",
+                            body: formData,
+                            headers: { "Accept": "application/json" }
+                        });
 
-        startCamera();
-    </script>
+                        const data = await response.json();
+                        console.log("Server response:", data);
 
-</body>
+                        if (!response.ok) {
+                            throw new Error(data.error || "Upload failed");
+                        }
+
+                        // Update the displayed image with the new one (force cache refresh)
+                        capturedImage.src = data.image_url + "?t=" + new Date().getTime();
+                        capturedImage.style.display = "block"; //class.remove("d-none").add("d-inline-block")
+                        alert("Image uploaded successfully!");
+
+                    } catch (error) {
+                        console.error("Upload error:", error);
+                        alert(`Error uploading image: ${error.message}`);
+                    }
+                }, 'image/png');
+            });
+
+            startCamera();
+        </script>
+        <footer class="my-5">
+            <p>© 2025 Budget Planner. All rights reserved.</p>
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        ></script>
+        <script
+            src="../static/Bootstrap/bootstrap.js"
+        ></script>
+    </body>
 </html>
