@@ -157,7 +157,7 @@ def capture():
         return jsonify({"error": "Invalid file type"}), 400
     
     try:
-        image_path = os.path.join("uploads", image.filename)
+        image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
         response = model.generate_content(["Analyze this image for product names and prices.", image])
@@ -166,9 +166,9 @@ def capture():
     except Exception as e:
         return jsonify({"error": str(e)}), 500  
 
-@app.route("/uploads/<filename>")
-def uploaded_file(filename):
-    return send_from_directory("uploads", filename)
+# @app.route("/uploads/<filename>")
+# def uploaded_file(filename):
+#     return send_from_directory("uploads", filename)
 
 @app.route("/budget")
 @login_required
