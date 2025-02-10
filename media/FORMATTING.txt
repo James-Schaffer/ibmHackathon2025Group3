@@ -18,7 +18,7 @@ All files should follow this structure
         <!-- Custom CSS -->
         <link href="link to custom css" rel="stylesheet"/>
 
-        <!--JQuery-->
+        <!-- JQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
