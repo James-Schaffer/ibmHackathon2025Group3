@@ -118,12 +118,10 @@ def signup():
 
 @app.route("/homepage", methods=["GET", "POST"])
 def homepage():
-
     return render_template("homepage.html")
 
 @app.route("/loginredir", methods=["GET", "POST"])
 def loginRedir():
-
     return render_template("loginRedir.html")
 
 @app.route("/capture", methods=["GET", "POST"])
