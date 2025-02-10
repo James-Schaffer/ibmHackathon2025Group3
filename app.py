@@ -184,6 +184,12 @@ def expenses():
 def leaderboard():
     return render_template("friends.html")
 
+@app.route("/home")
+@login_required
+def home():
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+
+    return render_template("home.html",purchases=purchases)
 @app.route("/savings")
 @login_required
 def savings():
