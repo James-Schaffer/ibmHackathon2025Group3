@@ -66,15 +66,9 @@ class Purchase(db.Model):
     price = db.Column(db.Integer, nullable=False)
     category = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-
+    date = db.Column(db.Date)
     # Relationship back to User
     user = db.relationship('User', back_populates='purchases')
-
-# # PurchasesTags model
-# class PurchasesTags(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'), nullable=False)
-#     purchase_id = db.Column(db.Integer, db.ForeignKey('purchases.id'), nullable=False)
 
 # Create database tables
 with app.app_context():
@@ -180,10 +174,11 @@ def expenses():
 
     return render_template("expenses.html",purchases=purchases)
 
-@app.route("/friends")
+@app.route("/leaderboard")
 @login_required
 def leaderboard():
-    return render_template("friends.html")
+
+    return render_template("leaderboard.html")
 
 @app.route("/home", methods=["GET", "POST"])
 @login_required
