@@ -82,26 +82,24 @@ def login():
     if request.method == "POST":
         username = request.form.get("username")
         password = request.form.get("password")
-
-        if not username or not password:
-            flash("Username and password are required!", "error")
-            return redirect(url_for("login"))
+        # print(username,password)
+        # if not username or not password:
+        #     flash("Username and password are required!", "error")
+        #     return redirect(url_for("login"))
 
         user = User.query.filter_by(username=username).first()
 
         if user and check_password_hash(user.password, password):
             login_user(user)
-            flash("Login successful!", "success")
-            return redirect(url_for("homepage"))
-        else:
-            flash("Invalid username or password", "error")
-            return redirect(url_for("login"))
+            # flash("Login successful!", "success")
+            return redirect("/home")
+        
+            # flash("Invalid username or password", "error")
+        return "Invalid username or password : From Server"
+            # return redirect(url_for("login"))
 
     return render_template("login.html")
 
-
-            
-    
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -127,12 +125,10 @@ def signup():
 
     return render_template("signup.html")
 
-
-
-@app.route("/homepage")
+@app.route("/home")
 @login_required
-def homepage():
-    return render_template("homepage.html")
+def home():
+    return render_template("home.html")
 
 @app.route("/logout")
 @login_required
@@ -157,7 +153,7 @@ def capture():
         return jsonify({"error": "Invalid file type"}), 400
     
     try:
-        image_path = os.path.join("uploads", image.filename)
+        image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
         response = model.generate_content(["Analyze this image for product names and prices.", image])
@@ -166,9 +162,9 @@ def capture():
     except Exception as e:
         return jsonify({"error": str(e)}), 500  
 
-@app.route("/uploads/<filename>")
-def uploaded_file(filename):
-    return send_from_directory("uploads", filename)
+# @app.route("/uploads/<filename>")
+# def uploaded_file(filename):
+#     return send_from_directory("uploads", filename)
 
 @app.route("/budget")
 @login_required
