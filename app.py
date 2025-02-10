@@ -82,8 +82,8 @@ def login():
         else:
             return render_template("login.html")
             flash("Invalid username or password", "error")
-    else:
-        return render_template("login.html")
+    
+    return render_template("login.html")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
