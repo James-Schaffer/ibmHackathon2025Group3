@@ -39,21 +39,25 @@
         </header>  
 
         <main>
-            <h2>Log Your Expenses</h2>
-            <button class="btn">➕ Add Expense</button>
-            <div class="expense-list">
-                <form method="post">
-                    <input type="text" placeholder="Label" name="label">
-                    <input type="text" placeholder="Price" name="price">
-                    <input type="submit">
-                </form>
-                <div>
-                    {%for purchase in purchases %}
-                    
-                    <h6>{{purchase.label}}{{purchase.price}}</h6><br>
-                    {% endfor %}
+            <div class="container-fluid">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-12 text-center">
+                        <h2>Log your expenses</h2>
+                    </div>
                 </div>
-                <!-- Expense entries will appear here -->
+                <div class="row justify-content-center mb-5">
+                    <form method="post">
+                        <input type="text" placeholder="Label" name="label">
+                        <input type="text" placeholder="Price" name="price">
+                        <input type="submit">
+                    </form>
+                    <div>
+                        {%for purchase in purchases %}
+                        
+                        <h6>{{purchase.label}}{{purchase.price}}</h6><br>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </main>
 
