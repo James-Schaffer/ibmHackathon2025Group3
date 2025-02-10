@@ -6,6 +6,8 @@ import os
 import google.generativeai as genai
 from PIL import Image
 import json
+import re
+
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -203,7 +205,13 @@ def home():
 @app.route("/savings")
 @login_required
 def savings():
-    return render_template("savings.html")
+    purchases_by_category = {}
+
+    for category in spending_categories:
+        purchases = Purchase.query.filter_by(category=category).all()
+        purchases_by_category[category] = purchases
+
+    return render_template("savings.html",purchases_by_category=purchases_by_category)
 
 @app.route("/logout")
 @login_required
@@ -241,7 +249,8 @@ def capture():
         for i in range(0, len(data), 3):
             product = data[i]  # Product name
             price = float(data[i + 1].replace('£', '').strip())  # Convert price to float after removing '£'
-            category = data[i + 2]  # Category
+            category = data[i + 2]
+            category = re.sub("\n","",category)  # Category
     
             # Create a new Purchase object
             purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id)
