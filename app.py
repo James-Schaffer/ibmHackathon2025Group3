@@ -210,7 +210,8 @@ def savings():
     for category in spending_categories:
         purchases = Purchase.query.filter_by(category=category).all()
         purchases_by_category[category] = purchases
-
+        
+    print(purchases_by_category)
     return render_template("savings.html",purchases_by_category=purchases_by_category)
 
 @app.route("/logout")
