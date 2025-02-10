@@ -170,7 +170,10 @@ def expenses():
         db.session.commit()
 
         pass
-    return render_template("expenses.html")
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    # print(item)
+
+    return render_template("expenses.html",purchases=purchases)
 
 @app.route("/friends")
 @login_required

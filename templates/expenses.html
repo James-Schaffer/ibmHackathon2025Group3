@@ -49,8 +49,8 @@
                 </form>
                 <div>
                     {%for purchase in purchases %}
-                    {{purchase.name}}
-                    {{purchase.price}}
+                    
+                    <h6>{{purchase.label}}{{purchase.price}}{{purchase.category}}</h6><br>
                     {% endfor %}
                 </div>
                 <!-- Expense entries will appear here -->
