@@ -1,16 +1,5 @@
 $(document).ready(function() {
-    if (getLoginCookies() == null && !window.location.href.includes("login") && !window.location.href.includes("signup")) {
-        //window.location.href = "./login";
-    }
 
-    if (getLoginCookies() != null && (window.location.href.includes("login") || window.location.href.includes("signup"))) {
-        //window.location.href = "./homepage";
-    }
-
-    console.log(getLoginCookies());
-    console.log(window.location.href);
-
-    $("#homePage_welcome").html("Hello " + getLoginCookies());
 })
 
 function getCookie(name) {
