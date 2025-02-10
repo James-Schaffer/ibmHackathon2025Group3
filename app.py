@@ -192,12 +192,15 @@ def home():
         if 'budget' not in budget or not isinstance(budget['budget'], int):
             return jsonify({'error': 'Invalid budget value'}), 400
         
-        # Assuming you're storing the budget in a global variable (you can use a database)
+        current_user.budget = budget['budget']
+        db.session.commit()
+
         print(budget["budget"])
         return jsonify({'message': 'Budget updated successfully', 'budget': budget['budget']}), 200
 
+    
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
-    return render_template("home.html", purchases=purchases)
+    return render_template("home.html", purchases=purchases,budget=current_user.budget)
 
 @app.route("/savings")
 @login_required
