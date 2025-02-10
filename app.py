@@ -40,7 +40,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
-    
+    budget=db.Column(db.Integer, nullable=True)
     # One-to-Many relationship
     purchases = db.relationship('Purchase', back_populates='user', lazy=True)
 
@@ -118,7 +118,7 @@ def login():
         return "Invalid username or password : From Server"
             # return redirect(url_for("login"))
     
-    return render_template("login.html",purchases=purchases)
+    return render_template("login.html")
 
 
 @app.route("/signup", methods=["GET", "POST"])
