@@ -134,6 +134,11 @@ def capture():
 def dashboard():
     return render_template("budget.html")
 
+@app.route("/home")
+# @login_required
+def home():
+    return render_template("home.html")
+
 @app.route("/logout")
 @login_required
 def logout():
