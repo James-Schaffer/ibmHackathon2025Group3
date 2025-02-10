@@ -113,8 +113,9 @@ def signup():
 
         existing_user = User.query.filter_by(username=username).first()
         if existing_user:
-            flash("Username already exists. Please log in or choose a different username.", "error")
-            return redirect(url_for("signup"))
+            return "Username already exists. Please log in or choose a different username."
+            # flash("Username already exists. Please log in or choose a different username.", "error")
+            # return redirect(url_for("signup"))
 
         hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
         new_user = User(username=username, password=hashed_password)
