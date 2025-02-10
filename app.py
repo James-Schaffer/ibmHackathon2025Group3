@@ -78,7 +78,10 @@ def login():
         print("test")
         if user and check_password_hash(user.password, password):
             login_user(user)
-            return redirect(url_for(f"loginredir?{username}"))
+            return redirect(url_for("login"))
+
+            # redirect to show their budget
+            return redirect(url_for(f"homepage"))
         else:
             return "Invalid username or password"
             # flash("Invalid username or password", "error")
