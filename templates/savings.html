@@ -16,13 +16,13 @@
         <!-- Custom CSS -->
         <link href="link to custom css" rel="stylesheet"/>
 
-        <!--JQuery-->
+        <!-- JQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
     <body>
         <header>
-            <div class="container-fluid" style="background-color: #0F1108;">
+            <div class="container-fluid" style="background-color: #000000;">
                 <div class="row m-0">
                     <div class="col">
                         <span class="fw-bold text-light">
@@ -39,11 +39,38 @@
         </header>
             
         <main>
-            main content of page
+            <div>
+                {% for category, purchases in purchases_by_category.items() %}
+                <div class="category" onclick="toggleCategory('{{ category }}')">
+                    <div id="{{ category }}" class="category-content">
+
+                        {% if purchases %}
+                        <h2>{{ category }}</h2>
+
+                            <table>
+                                <tr>
+                                    <th>Label</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                </tr>
+                                {% for purchase in purchases %}
+                                <tr>
+                                    <td>{{ purchase.label }}</td>
+                                    <td>${{ purchase.price }}</td>
+                                    <td>{{ purchase.date.strftime('%Y-%m-%d') if purchase.date else 'N/A' }}</td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                  
+                        {% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+            </div>
         </main>
 
-        <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #0F1108;">
-            <div class="container-fluid justify-content-center py-2" style="background-color: #0F1108;">
+        <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #000000;">
+            <div class="container-fluid justify-content-center py-2" style="background-color: #000000;">
                 <div class="col btn-group m-0">
                     <a href="/home" class="btn btn-secondary btn-outline-light btn-lg mx-0">Home</a>
                     <a href="/savings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Savings</a>

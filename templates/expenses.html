@@ -16,13 +16,13 @@
         <!-- Custom CSS -->
         <link href="link to custom css" rel="stylesheet"/>
 
-        <!--JQuery-->
+        <!-- JQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
     <body>
         <header>
-            <div class="container-fluid" style="background-color: #0F1108;">
+            <div class="container-fluid" style="background-color: #000000;">
                 <div class="row m-0">
                     <div class="col">
                         <span class="fw-bold text-light">
@@ -50,15 +50,15 @@
                 <div>
                     {%for purchase in purchases %}
                     
-                    <h6>{{purchase.label}}{{purchase.price}}{{purchase.category}}</h6><br>
+                    <h6>{{purchase.label}}{{purchase.price}}</h6><br>
                     {% endfor %}
                 </div>
                 <!-- Expense entries will appear here -->
             </div>
         </main>
 
-        <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #0F1108;">
-            <div class="container-fluid justify-content-center py-2" style="background-color: #0F1108;">
+        <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #000000;">
+            <div class="container-fluid justify-content-center py-2" style="background-color: #000000;">
                 <div class="col btn-group m-0">
                     <a href="/home" class="btn btn-secondary btn-outline-light btn-lg mx-0">Home</a>
                     <a href="/savings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Savings</a>
@@ -99,5 +99,6 @@
         <script
             src="link to custom JavaScript"
         ></script>
+
     </body>
 </html>
