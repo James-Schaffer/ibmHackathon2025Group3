@@ -173,7 +173,8 @@ def expenses():
         db.session.commit()
 
         pass
-    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
     # print(item)
 
     return render_template("expenses.html",purchases=purchases)
@@ -199,7 +200,8 @@ def home():
         return jsonify({'message': 'Budget updated successfully', 'budget': budget['budget']}), 200
 
     
-    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
     return render_template("home.html", purchases=purchases,budget=current_user.budget)
 
 @app.route("/savings")
