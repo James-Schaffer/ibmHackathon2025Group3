@@ -210,7 +210,7 @@ def savings():
     for category in spending_categories:
         purchases = Purchase.query.filter_by(category=category).all()
         purchases_by_category[category] = purchases
-        
+
     print(purchases_by_category)
     return render_template("savings.html",purchases_by_category=purchases_by_category)
 
@@ -240,7 +240,7 @@ def capture():
         image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
-        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.", image])
+        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.also remove all the currency symbol from it", image])
         # print(response.text)
         data = str(response.text).split(',')
         # print(data)
@@ -252,6 +252,7 @@ def capture():
             price = float(data[i + 1].replace('£', '').strip())  # Convert price to float after removing '£'
             category = data[i + 2]
             category = re.sub("\n","",category)  # Category
+            category = re.sub(" ","",category)  # Category
     
             # Create a new Purchase object
             purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id)
