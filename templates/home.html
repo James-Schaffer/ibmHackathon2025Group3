@@ -146,6 +146,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", () => {
             const budgetInput = document.getElementById("budget-input");
+            alert(budgetInput.value)
 
             budgetInput.addEventListener("input", async (event) => {
                 const budgetValue = parseInt(event.target.value, 10);
