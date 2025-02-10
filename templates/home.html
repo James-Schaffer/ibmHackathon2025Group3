@@ -57,7 +57,7 @@
                             <label for="budget" class="form-label">Budget</label>
                                 <div class="input-group flex-wrap">
                                     <span class="input-group-text bg-secondary" id="budgetaddon1">£</span>
-                                    <input type="number" class="form-control bg-secondary" id="budget" aria-describedby="budget input">
+                                    <input type="number" class="form-control bg-secondary" id="budget-input" aria-describedby="budget input">
                                 </div>
                         </div>
                     </div>
@@ -143,5 +143,37 @@
         <script
             src="link to custom JavaScript"
         ></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            const budgetInput = document.getElementById("budget-input");
+
+            budgetInput.addEventListener("input", async (event) => {
+                const budgetValue = parseInt(event.target.value, 10);
+
+                // Ensure valid integer input
+                if (isNaN(budgetValue)) return;
+
+                try {
+                    const response = await fetch("/update_budget", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ budget: budgetValue })
+                    });
+
+                    if (!response.ok) {
+                        throw new Error("Failed to update budget");
+                    }
+
+                    const result = await response.json();
+                    console.log("Server Response:", result);
+                } catch (error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+
+        </script>
     </body>
 </html>

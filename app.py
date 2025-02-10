@@ -146,11 +146,14 @@ def signup():
 
     return render_template("signup.html")
 
-@app.route("/home")
+@app.route("/update_budget",methods=["POST"])
 @login_required
-def home():
-    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
-    return render_template("home.html",purchases=purchases)
+def update_budget():
+    if request.method=="post":
+        budget = request.get_json()
+        print(budget)
+    
+
 
 @app.route("/profile")
 @login_required
