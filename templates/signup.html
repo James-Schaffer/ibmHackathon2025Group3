@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <title>MyBudget - Signup</title>
+        
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -12,31 +13,32 @@
         <!-- Bootstrap CSS v5.2.1 -->
         <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
+        <!-- Custom CSS -->
+        <link href="link to custom css" rel="stylesheet"/>
+
         <!--JQuery-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
 
-    <body style="background-color: #f7f7f8; color:#0F1108">
-        <nav class="navbar navbar-extend-md navbar-dark" style="background-color: #0F1108;">
-            <div class="container-xxl">
-                <div class="row">
+
+    <body>
+        <header>
+            <div class="container-fluid" style="background-color: #0F1108;">
+                <div class="row m-0">
                     <div class="col">
-                        <a href="/" class="navbar-brand">
-                            <span class="fw-bold">
-                                <img src="../Photos/app logo short.png" class="img-fluid" alt="Black GBP Sign">
-                            </span>
-                        </a>
+                        <span class="fw-bold text-light">
+                            <h1>MyBudget</h1>    
+                        </span>
                     </div>
-                    <div class="col">
-                        <a href="/" class="navbar-brand">
-                            <span class="fw-bold">
-                                <h1>MyBudget</h1>    
-                            </span>
-                        </a>
+                    <div class="col text-end">
+                        <span class="fw-bold">
+                            <img src="../Photos/app logo short.png" class="img-fluid" alt="Black GBP Sign">
+                        </span>
                     </div>
                 </div>
             </div>
-        </nav>
+        </header>
+
         <main>
             <div class="container-fluid">
                 <div class="row text-center m-5">
@@ -50,7 +52,7 @@
             <div class="container-xxl">
                 <div class="row">
                     <div class="col text-center">
-                        <p>Welcome! If you have an account with us already, please input your details below, and click register if you do not.</p>
+                        <p>Welcome! Please input the details you wish to use to login. You must not forget your password, so make it memorable.</p>
                     </div>
                 </div>
                 <div class="row">
@@ -60,7 +62,7 @@
                                 <label for="username" class="form-label">Username</label>
                                 <div class="input-group flex-wrap">
                                     <span class="input-group-text" id="useraddon1"></span>
-                                    <input type="text" class="form-control" id="username" aria-describedby="username input">
+                                    <input type="text" class="form-control" id="username" aria-describedby="username input" name="username">
                                 </div>
                                 <div id="username_text" class="form-text" style="color:#0F1108">Please input your username.</div>
                             </div>
@@ -68,7 +70,7 @@
                                 <label for="password" class="form-label">Password</label>
                                 <div class="input-group flex-wrap">
                                     <span class="input-group-text" id="passaddon1"></span>
-                                    <input type="password" class="form-control" id="password" aria-describedby="password input">
+                                    <input type="password" class="form-control" id="password" aria-describedby="password input" name="password">
                                 </div>
                                 <div id="password_text" class="form-text" style="color:#0F1108">Please input your password.</div>
                             </div>

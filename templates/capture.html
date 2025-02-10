@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
-        <title>MyBudget - Home</title>
+        <title>MyBudget - Receipt Capture</title>
+        
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -12,68 +13,69 @@
         <!-- Bootstrap CSS v5.2.1 -->
         <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
+        <!-- Custom CSS -->
+        <link href="link to custom css" rel="stylesheet"/>
+
         <!--JQuery-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     </head>
+
     <body>
-
-        <!-- Navbar -->
-        <nav class="navbar navbar-extend-md navbar-dark" style="background-color: #0F1108;">
+        <header>
+            <div class="container-fluid" style="background-color: #0F1108;">
+                <div class="row m-0">
+                    <div class="col">
+                        <span class="fw-bold text-light">
+                            <h1>MyBudget</h1>    
+                        </span>
+                    </div>
+                    <div class="col text-end">
+                        <span class="fw-bold">
+                            <img src="../Photos/app logo short.png" class="img-fluid" alt="Black GBP Sign">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+            
+        <main>
             <div class="container-xxl">
-                <div class="row">
-                    <div class="col">
-                        <a href="#intro" class="navbar-brand">
-                            <img src="../Photos/app logo short.png" class="img-fluid rounded-5 d-inline-block align-text-top" alt="Black GBP Sign">
-                        </a>
-                    </div>
-                    <div class="col">
-                        <a href="#intro" class="navbar-brand">
-                            <span class="fw-bold">
-                                <h1>MyBudget</h1>    
-                            </span>
-                        </a>
+                <div class="row justify-content-center align-items-center my-3">
+                    <div class="col text-center d-inline-block">
+                        <h1>Capture and Upload Image</h1>
                     </div>
                 </div>
-            </div>
-        </nav>
-
-        <div class="container-xxl">
-            <div class="row justify-content-center align-items-center my-3">
-                <div class="col text-center d-inline-block">
-                    <h1>Capture and Upload Image</h1>
-                </div>
-            </div>
-            <div class="row justify-content-center align-items-center">
-                <div class="col text-center d-inline-block">
-                    <div class="video-container">
-                        <video id="video" autoplay playsinline></video>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center align-items-center my-2">
-                <div class="col text-center d-inline-block">
-                        <div class="image-container">
-                            <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
-                            <img id="capturedImage" alt="Captured Image" style="display: none;">
+                <div class="row justify-content-center align-items-center">
+                    <div class="col text-center d-inline-block">
+                        <div class="video-container">
+                            <video id="video" autoplay playsinline></video>
                         </div>
                     </div>
-                    <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
-                    <canvas id="canvas" style="display: none;"></canvas>
+                </div>
+                <div class="row justify-content-center align-items-center my-2">
+                    <div class="col text-center d-inline-block">
+                            <div class="image-container">
+                                <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
+                                <img id="capturedImage" alt="Captured Image" style="display: none;">
+                            </div>
+                        </div>
+                        <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
+                        <canvas id="canvas" style="display: none;"></canvas>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center my-2">
+                    <div class="col text-center d-inline-block">
+                        <button id="captureBtn" class="btn btn-secondary">Capture Image</button>
+                    </div>
+                </div>
+                <div class="row justify-content-center align-items-center">
+                    <div class="col text-center d-inline-block">
+                        <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
+                        <button id="submitBtn" class="btn btn-secondary" style="display: none;">Submit Image</button>
+                    </div>
                 </div>
             </div>
-            <div class="row justify-content-center align-items-center my-2">
-                <div class="col text-center d-inline-block">
-                    <button id="captureBtn" class="btn btn-secondary">Capture Image</button>
-                </div>
-            </div>
-            <div class="row justify-content-center align-items-center">
-                <div class="col text-center d-inline-block">
-                    <!--style="display:none" -> class="d-none". Delete style, add d-none to class-->
-                    <button id="submitBtn" class="btn btn-secondary" style="display: none;">Submit Image</button>
-                </div>
-            </div>
-        </div>
-
+        </main>
         <script>
             const video = document.getElementById("video");
             const canvas = document.getElementById("canvas");

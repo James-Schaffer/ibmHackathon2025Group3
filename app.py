@@ -66,8 +66,8 @@ def load_user(id):
 
 @app.route("/", methods=["GET", "POST"])
 def index():
-
     return render_template("index.html")
+
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -80,10 +80,12 @@ def login():
             login_user(user)
             return redirect(url_for(f"loginredir?{username}"))
         else:
+            return "Invalid username or password"
+            # flash("Invalid username or password", "error")
+
             return render_template("login.html")
-            flash("Invalid username or password", "error")
-    else:
-        return render_template("login.html")
+    
+    return render_template("login.html")
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
@@ -97,23 +99,26 @@ def signup():
         if not username or not password:
             flash("Username and password are required!", "error")
             return redirect(url_for("signup"))
-
-        hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
-        new_user = User(username=username, password=hashed_password)
-        db.session.add(new_user)
-        db.session.commit()
-        flash("Account created successfully! Please login.", "success")
-        return redirect(url_for("login"))
+        elif User.query.filter_by(username=username).first():
+            # Flash a message if an account with the email already exists
+            # flash("Sorry, an account with that username already exists. Please log in or use a different username to register.")
+            # return redirect(url_for("signup"))
+            return "Sorry, an account with that username already exists. Please log in or use a different username to register."
+        else:
+            hashed_password = generate_password_hash(password, method="pbkdf2:sha256")
+            new_user = User(username=username, password=hashed_password)
+            db.session.add(new_user)
+            db.session.commit()
+            # flash("Account created successfully! Please login.", "success")
+            return redirect(url_for("login"))
     return render_template("signup.html")
 
 @app.route("/homepage", methods=["GET", "POST"])
 def homepage():
-
     return render_template("homepage.html")
 
 @app.route("/loginredir", methods=["GET", "POST"])
 def loginRedir():
-
     return render_template("loginRedir.html")
 
 @app.route("/capture", methods=["GET", "POST"])
@@ -122,9 +127,9 @@ def capture():
     return render_template("capture.html")
 
 @app.route("/dashboard")
-@login_required
+# @login_required
 def dashboard():
-    return f"Hello, {current_user.username}! Welcome to your dashboard."
+    return render_template("budget.html")
 
 @app.route("/logout")
 @login_required
@@ -133,4 +138,4 @@ def logout():
     return redirect(url_for("login"))
 
 if __name__ == "__main__":
-    app.run(port=80, debug=True)
+    app.run(port=8080, debug=True)
