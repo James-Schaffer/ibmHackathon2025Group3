@@ -34,7 +34,7 @@
                 </div>
             </div>
         </header>
-        
+
         <main>
             <div class="container-fluid">
                 <div class="row text-center mt-5">
@@ -121,11 +121,19 @@
             <div class="container-fluid justify-content-center py-2" style="background-color: #0F1108;">
                     <div class="btn-group m-0">
                         <a href="home.html" class="btn btn-secondary btn-outline-light btn-lg m-0">Home</a>
-                        <a href="#Savings.html" class="btn btn-secondary btn-outline-light btn-lg m-0 me-1">Placeholder</a>
+                        <a href="#Savings.html" class="btn btn-secondary btn-outline-light btn-lg m-0 me-1">Statistics</a>
                     </div>
-                        <button data-bs-toggle="popup thing" class="btn btn-secondary btn-outline-light btn-lg rounded-pill m-0">+</button>
+                    <div class="btn-group dropup">
+                        <button type="button" class="btn btn-secondary btn-outline-light btn-lg rounded-pill m-0" data-bs-toggle="dropdown" aria-expanded="false">
+                            +
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="expenses.html" class="dropdown-item">Expenses</a></li>
+                            <li><a href="capture.html" class="dropdown-item">Receipt Capture</a></li>
+                        </ul>
+                    </div>
                     <div class="btn-group m-0">
-                        <a href="#leaderboard.html" class="btn btn-secondary btn-outline-light btn-lg m-0 ms-1">Leaderboard</a>
+                        <a href="leaderboard.html" class="btn btn-secondary btn-outline-light btn-lg m-0 ms-1">Leaderboard</a>
                         <a href="profile.html" class="btn btn-secondary btn-outline-light btn-lg m-0">Profile</a>
                     </div>
                 </div>
