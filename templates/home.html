@@ -15,6 +15,39 @@
 
         <!--JQuery-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            const budgetInput = document.getElementById("budget-input");
+
+            budgetInput.addEventListener("input", async (event) => {
+                const budgetValue = parseInt(event.target.value, 10);
+
+
+                // Ensure valid integer input
+                if (isNaN(budgetValue)) return;
+
+                try {
+                    const response = await fetch("/home", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({ budget: budgetValue })
+                    });
+
+                    // if (!response.ok) {
+                    //     throw new Error("Failed to update budget");
+                    // }
+
+                    const result = await response.json();
+                    console.log("Server Response:", result);
+                } catch (error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        </script>
     </head>
 
     <body style="background-color: #f7f7f8; color:#0F1108">
@@ -143,38 +176,6 @@
         <script
             src="link to custom JavaScript"
         ></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-            const budgetInput = document.getElementById("budget-input");
-            alert(budgetInput.value)
-
-            budgetInput.addEventListener("input", async (event) => {
-                const budgetValue = parseInt(event.target.value, 10);
-
-                // Ensure valid integer input
-                if (isNaN(budgetValue)) return;
-
-                try {
-                    const response = await fetch("/update_budget", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({ budget: budgetValue })
-                    });
-
-                    if (!response.ok) {
-                        throw new Error("Failed to update budget");
-                    }
-
-                    const result = await response.json();
-                    console.log("Server Response:", result);
-                } catch (error) {
-                    console.error("Error:", error);
-                }
-            });
-        });
-
-        </script>
+      
     </body>
 </html>

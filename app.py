@@ -146,12 +146,11 @@ def signup():
 
     return render_template("signup.html")
 
-@app.route("/update_budget",methods=["POST"])
-@login_required
+@app.route("/update_budget",methods=["POST","GET"])
+# @login_required
 def update_budget():
-    if request.method=="post":
-        budget = request.get_json()
-        print(budget)
+   
+    return redirect(url_for("login"))
     
 
 
@@ -184,12 +183,22 @@ def expenses():
 def leaderboard():
     return render_template("friends.html")
 
-@app.route("/home")
+@app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
-    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    if request.method == "POST":  # Method should be in uppercase "POST"
+        budget = request.get_json()
 
-    return render_template("home.html",purchases=purchases)
+        if 'budget' not in budget or not isinstance(budget['budget'], int):
+            return jsonify({'error': 'Invalid budget value'}), 400
+        
+        # Assuming you're storing the budget in a global variable (you can use a database)
+        print(budget["budget"])
+        return jsonify({'message': 'Budget updated successfully', 'budget': budget['budget']}), 200
+
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
+    return render_template("home.html", purchases=purchases)
+
 @app.route("/savings")
 @login_required
 def savings():
