@@ -46,17 +46,21 @@
                     </div>
                 </div>
                 <div class="row justify-content-center mb-5">
-                    <form method="post">
-                        <input type="text" placeholder="Name" name="label">
-                        <input type="text" placeholder="Price" name="price">
-                        <input type="submit">
-                    </form>
+                    <div class="col text-center">
+                        <form method="post">
+                            <input type="text" placeholder="Name" name="label">
+                            <input type="text" placeholder="Price" name="price">
+                            <input type="submit">
+                        </form>
+                    </div>
+                <div class="row justify-content-center mb-5">
                     <div>
                         {%for purchase in purchases %}
                         
                         <h6>{{purchase.label}}{{purchase.price}}</h6><br>
                         {% endfor %}
                     </div>
+                </div>
                 </div>
             </div>
         </main>
