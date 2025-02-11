@@ -1,6 +1,6 @@
 ﻿# ibmHackathon2025Team3
 
-# My Budget Web App
+# MyBudget Web App
 
 # Team 3
 
