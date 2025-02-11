@@ -9,7 +9,6 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
 
         <!-- Bootstrap CSS v5.2.1 -->
         <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
@@ -238,21 +237,6 @@
         <script
             src="/static/app.js"
         ></script>
-        <script>
-            // Check if service worker is supported by the browser
-            if ('serviceWorker' in navigator) {
-                // Add event listener for when the page loads
-                window.addEventListener('load', () => {
-                    // Register the service worker
-                    navigator.serviceWorker.register('/static/service-worker.js')
-                        .then(registration => {
-                            console.log('Service Worker registered:', registration);
-                        })
-                        .catch(error => {
-                            console.log('Service Worker registration failed:', error);
-                        });
-                });
-            }
-          </script>
+
     </body>
 </html>
