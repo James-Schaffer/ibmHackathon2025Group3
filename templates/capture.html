@@ -179,7 +179,9 @@
                         // Update the displayed image with the new one (force cache refresh)
                         capturedImage.src = data.image_url + "?t=" + new Date().getTime();
                         capturedImage.style.display = "block"; //class.remove("d-none").add("d-inline-block")
-                        alert("Image uploaded successfully!");
+                        // alert("Image uploaded successfully!");
+                        window.location.href = "/home";
+
 
                     } catch (error) {
                         console.error("Upload error:", error);
