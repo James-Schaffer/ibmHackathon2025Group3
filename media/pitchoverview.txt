@@ -34,7 +34,7 @@ FINAL (WIP)
 
 - obviously manually inputting every single purchase is cumbersome and so we designed a system that allows you to take a picture of your receipt and it automatically track your purchases, you can still input things manually though so don't worry if you don't have one!
 
-- to help with budgeting you can set a weekly budget and it will calculate how much you can spend each week and how much you have saved
+- to help with budgeting you can set a weekly budget and it will calculate how much you spend each week and how much you have saved
 
 
 
