@@ -93,6 +93,7 @@ def load_user(user_id):
 
 # Routes
 @app.route("/", methods=["GET", "POST"])
+@login_required
 def welcome():
     return render_template("welcome.html")
 
@@ -145,11 +146,11 @@ def signup():
 
     return render_template("signup.html")
 
-@app.route("/update_budget",methods=["POST","GET"])
+# @app.route("/update_budget",methods=["POST","GET"])
 # @login_required
-def update_budget():
+# def update_budget():
    
-    return redirect(url_for("login"))
+#     return redirect(url_for("login"))
     
 
 
@@ -186,6 +187,8 @@ def expenses():
 #     return render_template("leaderboard.html")
 
 @app.route('/leaderboard')
+@login_required
+
 def leaderboard():
     users = User.query.all()
     leaderboard_data = []
@@ -272,6 +275,8 @@ def logout():
     return redirect(url_for("login"))
 
 @app.route("/capture", methods=["GET", "POST"])
+@login_required
+
 def capture():
     if request.method == "GET":
         return render_template("capture.html")
