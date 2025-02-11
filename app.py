@@ -21,22 +21,22 @@ app.config["SESSION_PERMANENT"] = True
 db = SQLAlchemy()
 db.init_app(app)
 
-spending_categories = [
-    "Food & Drinks",
-    "Transportation",
-    "School Supplies",
-    "Rent & Utilities",
-    "Phone Bill",
-    "Entertainment",
-    "Clothing & Accessories",
-    "Personal Care",
-    "Fitness",
-    "Socializing",
-    "Tuition & Fees",
-    "Online Subscriptions",
-    "Emergency Fund & Savings",
-    "other"
-]
+# spending_categories = [
+#     "Food & Drinks",
+#     "Transportation",
+#     "School Supplies",
+#     "Rent & Utilities",
+#     "Phone Bill",
+#     "Entertainment",
+#     "Clothing & Accessories",
+#     "Personal Care",
+#     "Fitness",
+#     "Socializing",
+#     "Tuition & Fees",
+#     "Online Subscriptions",
+#     "Emergency Fund & Savings",
+#     "other"
+# ]
 
 # User model
 class User(db.Model, UserMixin):
@@ -177,11 +177,33 @@ def expenses():
 
     return render_template("expenses.html",purchases=purchases)
 
-@app.route("/leaderboard")
-@login_required
-def leaderboard():
+# @app.route("/leaderboard")
+# @login_required
+# def leaderboard():
 
-    return render_template("leaderboard.html")
+#     return render_template("leaderboard.html")
+
+@app.route('/leaderboard')
+def leaderboard():
+    users = User.query.all()
+    leaderboard_data = []
+    
+    for user in users:
+        total_spent = sum(p.price for p in user.purchases)
+        savings = user.budget - total_spent if user.budget else 0
+        savings_percentage = (savings / user.budget * 100) if user.budget else 0
+        
+        # Round the savings percentage to 2 decimal places
+        savings_percentage = round(savings_percentage, 2)
+        
+        leaderboard_data.append({
+            'username': user.username,
+            'savings_percentage': savings_percentage
+        })
+    
+    leaderboard_data = sorted(leaderboard_data, key=lambda x: x['savings_percentage'], reverse=True)
+    
+    return render_template('leaderboard.html', leaderboard_data=leaderboard_data)
 
 @app.route("/home", methods=["GET", "POST"])
 @login_required
@@ -279,6 +301,7 @@ def capture():
             
 
         return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
+        
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500  
