@@ -14,7 +14,7 @@
         <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
         <!-- Custom CSS -->
-        <link href="/static/styles.css" rel="stylesheet"/>
+        <link href="link to custom css" rel="stylesheet"/>
 
         <!-- JQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -39,39 +39,20 @@
         </header>
             
         <main>
-            <div class="expenses">
-                <p>Expenses: </p>
-    
-                <div id="expenses-bar">
-                </div>
-                <p id="expenses-hoverLabel"></p>
-            </div>
-
             <div>
                 {% for category, purchases in purchases_by_category.items() %}
-                <div class="category" onclick="toggleCategory('{{ category }}')">
-                    <div id="{{ category }}" class="category-content">
-
-                        {% if purchases %}
-                        <h2>{{ category }}</h2>
-
-                            <table>
-                                <tr>
-                                    <th>Label</th>
-                                    <th>Price</th>
-                                    <th>Date</th>
-                                </tr>
-                                {% for purchase in purchases %}
-                                <tr>
-                                    <td>{{ purchase.label }}</td>
-                                    <td>${{ purchase.price }}</td>
-                                    <td>{{ purchase.date.strftime('%Y-%m-%d') if purchase.date else 'N/A' }}</td>
-                                </tr>
-                                {% endfor %}
-                            </table>
-                  
-                        {% endif %}
-                    </div>
+                <div class="category-container">
+                        
+                        <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
+                    <table  class="purchase-table">
+                        {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.label }}</td>
+                            <td>${{ purchase.price }}</td>
+                            <td>{{ purchase.date.strftime('%Y-%m-%d') if purchase.date else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
             {% endfor %}
             </div>
@@ -115,7 +96,7 @@
 
         <!-- Custom JavaScript -->
         <script
-            src="/static/statsApp.js"
+            src="link to custom JavaScript"
         ></script>
     </body>
 </html>

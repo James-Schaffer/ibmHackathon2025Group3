@@ -164,14 +164,13 @@ def expenses():
     if request.method == "POST":
         label = request.form.get("label")
         price = request.form.get("price")
-        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.")
+        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.and no spaces between words")
         print(response.text)
         print(label,price)
         purchase= Purchase(label=label, price=price,category=response.text,user_id=current_user.id)
         db.session.add(purchase)
         db.session.commit()
 
-        pass
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
     # print(item)
@@ -209,11 +208,14 @@ def home():
 def savings():
     purchases_by_category = {}
 
-    for category in spending_categories:
-        purchases = Purchase.query.filter_by(category=category).all()
-        purchases_by_category[category] = purchases
+    categories = db.session.query(Purchase.category).distinct()
+    
+    for category in categories:
+        category_name = category[0]  # Extract category name from query result
+        purchases = Purchase.query.filter_by(category=category_name).order_by(Purchase.price.asc()).all()
+        purchases_by_category[category_name] = purchases
 
-    print(purchases_by_category)
+    # print(purchases_by_category)/
     return render_template("savings.html",purchases_by_category=purchases_by_category)
 
 @app.route("/logout")
@@ -242,7 +244,7 @@ def capture():
         image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
-        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.also remove all the currency symbol from it", image])
+        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.also remove all the currency symbol from it, no spaces between words", image])
         # print(response.text)
         data = str(response.text).split(',')
         # print(data)
