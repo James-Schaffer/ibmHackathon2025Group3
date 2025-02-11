@@ -6,9 +6,9 @@
 
 ## Team Members:
 - **James** (1st Year, Computer Science) jts25@student.le.ac.uk
-- **Ty** (1st Year, Computer Science)
-- **Ravi** (4th Year, Data Science)
-- **Simon** (1st Year, Computer Science)
+- **Ty** (1st Year, Computer Science) tju2@student.le.ac.uk
+- **Ravi** (4th Year, Data Science) 
+- **Simon** (1st Year, Computer Science) si208@student.le.ac.uk
 - **Yahya** (1st Year, Computer Science) ys403@student.le.ac.uk
 
 ### Frontend:
