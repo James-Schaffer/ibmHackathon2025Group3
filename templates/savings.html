@@ -14,7 +14,7 @@
         <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
         <!-- Custom CSS -->
-        <link href="/static/styles.css" rel="stylesheet"/>
+        <link href="link to custom css" rel="stylesheet"/>
 
         <!-- JQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -39,14 +39,6 @@
         </header>
             
         <main>
-            <div class="expenses">
-                <p>Expenses: </p>
-    
-                <div id="expenses-bar">
-                </div>
-                <p id="expenses-hoverLabel"></p>
-            </div>
-
             <div>
                 {% for category, purchases in purchases_by_category.items() %}
                 <div class="category" onclick="toggleCategory('{{ category }}')">
@@ -58,7 +50,7 @@
                             <table>
                                 <tr>
                                     <th>Label</th>
-                                    < th>Price</th>
+                                    <th>Price</th>
                                     <th>Date</th>
                                 </tr>
                                 {% for purchase in purchases %}
@@ -115,7 +107,7 @@
 
         <!-- Custom JavaScript -->
         <script
-            src="/static/statsApp.js"
+            src="link to custom JavaScript"
         ></script>
     </body>
 </html>
