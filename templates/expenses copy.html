@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>MyBudget - Expenses</title>
+        
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="https://fonts.googleapis.com"rel="preconnect">
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+
+        <!-- JQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    </head>
+
+    <body style="padding-bottom: 120px;">
+        <header>
+            <div class="container-fluid" style="background-color: #000000;">
+                <div class="row m-0">
+                    <div class="col">
+                        <span class="fw-bold text-light">
+                            <h1>MyBudget</h1>    
+                        </span>
+                    </div>
+                    <div class="col text-end">
+                        <span class="fw-bold">
+                            <img src="/static/app logo short.png" class="img-fluid" alt="Black GBP Sign">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>  
+
+        <main>
+            <div class="container-fluid">
+                <div id="carouselIndicator" class="carousel slide">
+                    <div class="carousel-indicators">
+                        <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="0" class="active bg-cust1" aria-current="true" aria-label="Slide 1"></button>
+                        <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="1" class="bg-cust1" aria-label="Slide 2"></button>
+                    </div>
+                    <div class="carousel-inner">
+                        <!-- Despite data-bs-ride not being carousel, it auto plays, so massive interval stops that -->
+                        <div class="carousel-item active" data-bs-interval="10000000000">
+                            <div class="row justify-content-center my-5">
+                                <div class="col-12 text-center">
+                                    <h2>Log your expenses</h2>
+                                </div>
+                            </div>
+                            <div class="row justify-content-center mb-5">
+                                <form method="post">
+                                    <div class="col text-center">
+                                        <input type="text" placeholder="Name" name="purchase">
+                                        <input type="text" placeholder="Price" name="price">
+                                        <input type="text" placeholder="Label (Optional)" name="category">
+                                        <input type="submit">
+                                    </div>
+                                </form>    
+                            </div>
+                            {%for purchase in purchases %}
+                            <div class="row justify-content-center mb-5">
+                                <div class="col-10 border border-dark rounded-4">
+                                    <div class="p-4">
+                                        <b>Name</b></br>
+                                        <u>{{purchase.label}}</u></br>
+                                        <b>Category</b></br>
+                                        <u>{{purchase.category}}</u></br>
+                                        <b>Price</b></br>
+                                        <u>£{{purchase.price}}</u></br>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000000000">
+                            <div class="row justify-content-center my-5">
+                                <div class="col-12 text-center">
+                                    <h1>Track your expenses</h1>
+                                </div>
+                            </div>
+                            {% for category, purchases in purchases_by_category.items() %}
+                            <div class="row justify-content-center mb-5">
+                                <div class="col-11 bg-cust1 rounded-3">
+                                    {%if purchases%}
+                                        <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
+                                    <table class="purchase-table">
+                                        {% for purchase in purchases %}
+                                        <tr>
+                                            <td>{{ purchase.label }}</td>
+                                            <td>£{{ purchase.price }}</td>
+                                            <td>{{ purchase.date.strftime('%d-%m-%Y') if purchase.date else 'N/A' }}</td>
+                                        </tr>
+                                        {% endfor %}
+                                    {%endif%}
+                                    </table>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <nav class="container-fluid fixed-bottom" style="background-color: #000000;">
+            <div class="row justify-content-center p-3">
+                <div class="col-5 text-end d-grid">
+                    <div class="btn-group">
+                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3">Home</a>
+                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3">Savings</a>
+                    </div>
+                </div>
+                <div class="col-2 text-center d-grid">
+                    <div class="btn-group dropup">
+                        <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3 p-3" data-bs-toggle="dropdown" aria-expanded="false">
+                            +
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
+                            <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-5 d-grid">
+                    <div class="btn-group">
+                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3">Leaderboard</a>
+                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3">Profile</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        ></script>
+        <script
+            src="../static/Bootstrap/bootstrap.js"
+        ></script>
+
+        <!-- Custom JavaScript -->
+        <script
+            src="/static/app.js"
+        ></script>
+    </body>
+</html>

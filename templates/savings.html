@@ -54,9 +54,9 @@
                         <table class="purchase-table">
                             {% for purchase in purchases %}
                             <tr>
-                                <td class="text-light">{{ purchase.label }}</td>
-                                <td class="text-light">£{{ purchase.price }}</td>
-                                <td class="text-light">{{ purchase.date.strftime('%d-%m-%Y') if purchase.date else 'N/A' }}</td>
+                                <td>{{ purchase.label }}</td>
+                                <td>£{{ purchase.price }}</td>
+                                <td>{{ purchase.date.strftime('%d-%m-%Y') if purchase.date else 'N/A' }}</td>
                             </tr>
                             {% endfor %}
                         {%endif%}
