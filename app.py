@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(150), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Numeric(10, 2),nullable=False)
     category = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.Date)
@@ -202,8 +202,14 @@ def home():
     expenses=0
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
-    expenses += sum(purchase.price for purchase in purchases)
-    savings = current_user.budget-expenses
+    if purchases:
+        expenses += sum(purchase.price for purchase in purchases)
+    else:
+        expenses=0
+    if current_user.budget!=None:
+        savings = current_user.budget-expenses
+    else:
+        savings=0
 
     return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username,expenses=expenses,savings=savings)
 
