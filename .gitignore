@@ -1,4 +1,5 @@
 env/
+test/
 instance/
 *.db
 database.db
