@@ -65,12 +65,13 @@
             </div>
         </main>
 
+
         <nav class="container-fluid fixed-bottom" style="background-color: #000000;">
             <div class="row justify-content-center p-3">
                 <div class="col-5 text-end d-grid">
                     <div class="btn-group">
-                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3">Home</a>
-                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3">Savings</a>
+                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('home') %}active{% endif %}">Home</a>
+                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('savings') %}active{% endif %}">Savings</a>
                     </div>
                 </div>
                 <div class="col-2 text-center d-grid">
@@ -79,15 +80,15 @@
                             +
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
+                            <li><a href="/expenses" class="dropdown-item ">Expenses</a></li>
                             <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-5 d-grid">
                     <div class="btn-group">
-                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3">Leaderboard</a>
-                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3">Profile</a>
+                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('leaderboard') %}active{% endif %}">Leaderboard</a>
+                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('profile') %}active{% endif %}">Profile</a>
                     </div>
                 </div>
             </div>
