@@ -39,7 +39,18 @@
         </header>
             
         <main>
-            main content of page
+            <div>
+                {% for user in leaderboard_data %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.savings_percentage }}%</td><br>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="2">No users found.</td>
+                </tr>
+            {% endfor %}
+            </div>
         </main>
 
         <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #000000;">
