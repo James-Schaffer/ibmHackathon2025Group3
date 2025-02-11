@@ -41,7 +41,7 @@
         <main>
             <div>
                 {% for category, purchases in purchases_by_category.items() %}
-                <div class="category-container bg-secondary" style="padding: 0.3cm; margin: 0.5cm; border-radius: 0.3cm;">
+                <div class="category-container bg-cust1" style="padding: 0.3cm; margin: 0.5cm; border-radius: 0.3cm;">
                     {%if purchases%}
                         <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
                     <table  class="purchase-table">

@@ -35,7 +35,7 @@
     <main class="container my-4">
         <section style="margin-bottom: 0.5cm;">
             <h2>Your Profile</h2>
-            <div class="container bg-secondary" style="border-radius: 0.5cm; padding: 0.5cm; margin: 0;">
+            <div class="container bg-cust1" style="border-radius: 0.5cm; padding: 0.5cm; margin: 0;">
                 <p><strong>Username:</strong> {{ user.username }}</p>
                 <p style="margin: 0;"><strong>Budget:</strong> £{{ user.budget if user.budget else "Not Set" }}</p>
             </div>
@@ -44,13 +44,13 @@
         <section>
             <h3>Recent Purchases</h3>
             {% if purchases %}
-                <ul class="bg-secondary" style="padding: 0.5cm; padding-left: calc(0.5cm + 16px); border-radius: .5cm;">
+                <ul class="bg-cust1" style="padding: 0.5cm; padding-left: calc(0.5cm + 16px); border-radius: .5cm;">
                     {% for purchase in purchases %}
                         <li>{{ purchase.label }} - £{{ purchase.price }} ({{ purchase.category }})</li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p class="bg-secondary" style="padding: 0.5cm; border-radius: 0.5cm;">No purchases recorded yet.</p>
+                <p class="bg-cust1" style="padding: 0.5cm; border-radius: 0.5cm;">No purchases recorded yet.</p>
             {% endif %}
             <a type="button"
                 style="padding: 0.2cm; border-radius: 0.2cm; background-color: #6c757d; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none; display: inline-block; text-align: center;" 
