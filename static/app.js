@@ -1,18 +1,15 @@
 $(document).ready(function() {
-
+    document.documentElement.setAttribute("data-bs-theme", getCookie("theme"));
 })
 
-function getCookie(name) {
-    let nameEQ = name + "=";
-    let cookiesArray = document.cookie.split(';');
-    for (let i = 0; i < cookiesArray.length; i++) {
-        let cookie = cookiesArray[i].trim();
-        if (cookie.indexOf(nameEQ) === 0) {
-            return decodeURIComponent(cookie.substring(nameEQ.length));
-        }
-    }
-    return null;
+function toggleTheme() {
+    let currentTheme = document.documentElement.getAttribute("data-bs-theme");
+    let newTheme = currentTheme === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-bs-theme", newTheme);
+
+    setCookie("theme", newTheme, 365);
 }
+  
 
 function setCookie(name, value, days) {
     let expires = "";
@@ -24,14 +21,13 @@ function setCookie(name, value, days) {
     document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
 }
 
-function setLoginCookies(username) {
-    setCookie("username", username, 30);
-}
-
-function getLoginCookies() {
-    return getCookie("username");
-}
-
-function deleteCookie(name) {
-    document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+function getCookie(name) {
+    let cookies = document.cookie.split("; ");
+    for (let cookie of cookies) {
+        let [cookieName, cookieValue] = cookie.split("=");
+        if (cookieName === name) {
+            return decodeURIComponent(cookieValue);
+        }
+    }
+    return null;
 }
