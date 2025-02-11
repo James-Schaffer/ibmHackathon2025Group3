@@ -40,28 +40,34 @@
 
         <main>
             <div class="container-fluid">
-                <div class="row justify-content-center mb-5">
+                <div class="row justify-content-center my-5">
                     <div class="col-12 text-center">
                         <h2>Log your expenses</h2>
                     </div>
                 </div>
                 <div class="row justify-content-center mb-5">
-                    <div class="col text-center">
-                        <form method="post">
+                    <form method="post">
+                        <div class="col text-center">
                             <input type="text" placeholder="Name" name="label">
                             <input type="text" placeholder="Price" name="price">
                             <input type="submit">
-                        </form>
-                    </div>
-                <div class="row justify-content-center mt-5">
-                    <div class="col-2 text-center bg-secondary rounded-5">
-                        {%for purchase in purchases %}
-                        
-                        <h6>{{purchase.label}}{{purchase.price}}</h6><br>
-                        {% endfor %}
+                        </div>
+                    </form>    
+                </div>
+                {%for purchase in purchases %}
+                <div class="row justify-content-center mb-1">
+                    <div class="col-2 border border-dark rounded-4">
+                        <div class="p-4">
+                            <b>Name</b></br>
+                            <u>{{purchase.label}}</u></br>
+                            <b>Category</b></br>
+                            <u>{{purchase.category}}</u></br>
+                            <b>Price</b></br>
+                            <u>£{{purchase.price}}</u></br>
+                        </div>
                     </div>
                 </div>
-                </div>
+                {% endfor %}
             </div>
         </main>
 
