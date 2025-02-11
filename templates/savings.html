@@ -47,24 +47,25 @@
                     </div>
                 </div>
                 {% for category, purchases in purchases_by_category.items() %}
-                <div class="category-container bg-cust1" style="padding: 0.3cm; margin: 0.5cm; border-radius: 0.3cm;">
-                    {%if purchases%}
-                        <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
-                    <table  class="purchase-table">
-                        {% for purchase in purchases %}
-                        <tr>
-                            <td>{{ purchase.label }}</td>
-                            <td>£{{ purchase.price }}</td>
-                            <td>{{ purchase.date.strftime('%Y-%m-%d') if purchase.date else 'N/A' }}</td>
-                        </tr>
-                        {% endfor %}
-                    {%endif%}
-                    </table>
+                <div class="row justify-content-center">
+                    <div class="col-11 bg-cust1 rounded-3">
+                        {%if purchases%}
+                            <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
+                        <table class="purchase-table">
+                            {% for purchase in purchases %}
+                            <tr>
+                                <td class="text-light">{{ purchase.label }}</td>
+                                <td class="text-light">£{{ purchase.price }}</td>
+                                <td class="text-light">{{ purchase.date.strftime('%d-%m-%Y') if purchase.date else 'N/A' }}</td>
+                            </tr>
+                            {% endfor %}
+                        {%endif%}
+                        </table>
+                    </div>
                 </div>
-            {% endfor %}
+                {% endfor %}
             </div>
         </main>
-
 
         <nav class="container-fluid fixed-bottom" style="background-color: #000000;">
             <div class="row justify-content-center p-3">
@@ -76,12 +77,12 @@
                 </div>
                 <div class="col-2 text-center d-grid">
                     <div class="btn-group dropup">
-                        <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3 p-3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3 p-3 fs-3" data-bs-toggle="dropdown" aria-expanded="false">
                             +
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="/expenses" class="dropdown-item ">Expenses</a></li>
-                            <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
+                            <li><a href="/expenses" class="dropdown-item"><p class="h3">Expenses</p></a></li>
+                            <li><a href="/capture" class="dropdown-item"><p class="h3">Receipt Capture</p></a></li>
                         </ul>
                     </div>
                 </div>
