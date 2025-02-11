@@ -5,11 +5,11 @@
 # Team 3
 
 ## Team Members:
-- **James** (1st Year, Computer Science)
+- **James** (1st Year, Computer Science) jts25@student.le.ac.uk
 - **Ty** (1st Year, Computer Science)
 - **Ravi** (4th Year, Data Science)
 - **Simon** (1st Year, Computer Science)
-- **Yahya** (1st Year, Computer Science)
+- **Yahya** (1st Year, Computer Science) ys403@student.le.ac.uk
 
 ### Frontend:
 - **HTML**: Markup for structuring content on the web.
