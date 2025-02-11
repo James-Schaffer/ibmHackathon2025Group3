@@ -45,6 +45,7 @@
             <div class="bg-secondary" style="margin: 0.5cm; padding: 0.3cm 0.3cm 0.3cm 0.5cm; border-radius: 0.3cm;">
                 {% for user in leaderboard_data %}
                 <tr>
+                    <td>{{ user.rank }}</td>
                     <td>{{ user.username }}</td>
                     <td>{{ user.savings_percentage }}%</td><br>
                 </tr>

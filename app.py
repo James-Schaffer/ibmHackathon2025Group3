@@ -203,9 +203,20 @@ def leaderboard():
             'savings_percentage': savings_percentage
         })
     
+    # Sort by savings percentage in descending order
     leaderboard_data = sorted(leaderboard_data, key=lambda x: x['savings_percentage'], reverse=True)
-    
+
+    # Assign ranks
+    rank = 1
+    for i, user in enumerate(leaderboard_data):
+        if i > 0 and user['savings_percentage'] == leaderboard_data[i - 1]['savings_percentage']:
+            user['rank'] = leaderboard_data[i - 1]['rank']  # Same rank for tied scores
+        else:
+            user['rank'] = rank  # Assign new rank
+        rank += 1
+
     return render_template('leaderboard.html', leaderboard_data=leaderboard_data)
+
 
 @app.route("/home", methods=["GET", "POST"])
 @login_required
