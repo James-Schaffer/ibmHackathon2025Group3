@@ -165,12 +165,15 @@ def profile():
 @login_required
 def expenses():
     if request.method == "POST":
-        label = request.form.get("label")
+        purchase = request.form.get("purchase")
         price = request.form.get("price")
-        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.and no spaces between words")
-        # print(response.text)
-        # print(label,price)
-        purchase= Purchase(label=label, price=price,category=response.text.replace("\n",""),user_id=current_user.id,date = datetime.datetime.now().date())
+        category = request.form.get("category")
+
+        if not category or len(category)<=0 :
+            response = model.generate_content(f"Classify the following purchase =>({purchase}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.and no spaces between words")
+            category=response.text.replace("\n","")
+
+        purchase= Purchase(label=purchase, price=price,category=category,user_id=current_user.id,date = datetime.datetime.now().date())
         db.session.add(purchase)
         db.session.commit()
 
