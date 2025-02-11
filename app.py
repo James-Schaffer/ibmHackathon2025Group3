@@ -186,6 +186,7 @@ def leaderboard():
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
+    global budget
     if request.method == "POST":  # Method should be in uppercase "POST"
         budget = request.get_json()
 
@@ -198,10 +199,13 @@ def home():
         print(budget["budget"])
         return jsonify({'message': 'Budget updated successfully', 'budget': budget['budget']}), 200
 
-    
+    expenses=0
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
-    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username)
+    expenses += sum(purchase.price for purchase in purchases)
+    savings = current_user.budget-expenses
+
+    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username,expenses=expenses,savings=savings)
 
 @app.route("/savings")
 @login_required
