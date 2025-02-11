@@ -155,7 +155,7 @@ def update_budget():
 @login_required
 def profile():
     # this is cool
-    purchases = Purchase.query.filter_by(user_id=current_user.id).order_by(Purchase.date.desc()).limit(5).all()
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).limit(5).all()
     return render_template("profile.html", user=current_user, purchases=purchases)
 
 @app.route("/expenses" ,methods=["GET", "POST"])
