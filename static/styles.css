@@ -1,3 +1,4 @@
+/*
 html,
 body {
     height: 100%;
@@ -28,7 +29,7 @@ header .logo h1 {
     font-size: 1.8em;
 }
 
-
+/*
 #navBar {
     background-color: #000000;
     padding: 0;
@@ -77,12 +78,13 @@ footer > p{
     padding: 0.5cm;
 }
 
+
 h1, h2 {
     font-size: 2em;
     margin-bottom: 20px;
 }
 
-/* Button Styles */
+/* Button Styles
 .btn {
     background-color: #4CAF50;
     color: white;
@@ -96,6 +98,7 @@ h1, h2 {
 .btn:hover {
     background-color: #45a049;
 }
+    */
 
 /* Profile Page Styles */
 form {

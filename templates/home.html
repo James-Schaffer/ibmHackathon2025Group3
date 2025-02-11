@@ -55,7 +55,7 @@
         </script>
     </head>
 
-    <body style="background-color: #f7f7f8; color:#000000">
+    <body>
         <header>
             <div class="container-fluid" style="background-color: #000000;">
                 <div class="row m-0">
@@ -112,7 +112,7 @@
                                         <label for="Expenses" class="form-label">Expenses</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-secondary" id="expensesaddon1">£</span>
-                                                <input type="number" class="form-control bg-secondary" id="Expenses" aria-describedby="expenses input">
+                                                <input type="number" class="form-control bg-secondary" id="Expenses" aria-describedby="expenses input" value="{{expenses}}">
                                             </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <label for="budget" class="form-label">Savings</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-secondary" id="budgetaddon1">£</span>
-                                                <input type="number" class="form-control bg-secondary" id="budget-input" aria-describedby="budget input" value="{{budget}}">
+                                                <input type="number" class="form-control bg-secondary" id="budget-input" aria-describedby="budget input" value="{{savings}}">
                                             </div>
                                     </div>
                                 </div>
@@ -235,8 +235,8 @@
 
         <!-- Custom JavaScript -->
         <script
-            src="link to custom JavaScript"
+            src="/static/app.js"
         ></script>
-      
+
     </body>
 </html>

@@ -39,21 +39,25 @@
         </header>  
 
         <main>
-            <h2>Log Your Expenses</h2>
-            <button class="btn">➕ Add Expense</button>
-            <div class="expense-list">
-                <form method="post">
-                    <input type="text" placeholder="Label" name="label">
-                    <input type="text" placeholder="Price" name="price">
-                    <input type="submit">
-                </form>
-                <div>
-                    {%for purchase in purchases %}
-                    
-                    <h6>{{purchase.label}}{{purchase.price}}</h6><br>
-                    {% endfor %}
+            <div class="container-fluid">
+                <div class="row justify-content-center mb-5">
+                    <div class="col-12 text-center">
+                        <h2>Log your expenses</h2>
+                    </div>
                 </div>
-                <!-- Expense entries will appear here -->
+                <div class="row justify-content-center mb-5">
+                    <form method="post">
+                        <input type="text" placeholder="Name" name="label">
+                        <input type="text" placeholder="Price" name="price">
+                        <input type="submit">
+                    </form>
+                    <div>
+                        {%for purchase in purchases %}
+                        
+                        <h6>{{purchase.label}}{{purchase.price}}</h6><br>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
         </main>
 
@@ -62,7 +66,6 @@
                 <div class="col btn-group m-0">
                     <a href="/home" class="btn btn-secondary btn-outline-light btn-lg mx-0">Home</a>
                     <a href="/savings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Savings</a>
-                    <a href="/friends" class="btn btn-secondary btn-outline-light btn-lg mx-0 me-1">Friends</a>
                 </div>
                 <div class="col-12 col-md-1 text-center">
                     <div class="btn-group dropup">
@@ -78,7 +81,6 @@
                 <div class="col btn-group m-0">
                     <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-lg mx-0 ms-1">Leaderboard</a>
                     <a href="/profile" class="btn btn-secondary btn-outline-light btn-lg mx-0">Profile</a>
-                    <a href="/settings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Settings</a>
                 </div>
             </div>
         </nav>
@@ -97,8 +99,7 @@
 
         <!-- Custom JavaScript -->
         <script
-            src="link to custom JavaScript"
+            src="/static/app.js"
         ></script>
-
     </body>
 </html>

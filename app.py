@@ -7,6 +7,8 @@ import google.generativeai as genai
 from PIL import Image
 import json
 import re
+import datetime
+
 
 
 # Initialize Flask app
@@ -21,22 +23,22 @@ app.config["SESSION_PERMANENT"] = True
 db = SQLAlchemy()
 db.init_app(app)
 
-spending_categories = [
-    "Food & Drinks",
-    "Transportation",
-    "School Supplies",
-    "Rent & Utilities",
-    "Phone Bill",
-    "Entertainment",
-    "Clothing & Accessories",
-    "Personal Care",
-    "Fitness",
-    "Socializing",
-    "Tuition & Fees",
-    "Online Subscriptions",
-    "Emergency Fund & Savings",
-    "other"
-]
+# spending_categories = [
+#     "Food & Drinks",
+#     "Transportation",
+#     "School Supplies",
+#     "Rent & Utilities",
+#     "Phone Bill",
+#     "Entertainment",
+#     "Clothing & Accessories",
+#     "Personal Care",
+#     "Fitness",
+#     "Socializing",
+#     "Tuition & Fees",
+#     "Online Subscriptions",
+#     "Emergency Fund & Savings",
+#     "other"
+# ]
 
 # User model
 class User(db.Model, UserMixin):
@@ -65,7 +67,7 @@ class User(db.Model, UserMixin):
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(150), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Numeric(10, 2),nullable=False)
     category = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.Date)
@@ -109,7 +111,7 @@ def login():
         if user and check_password_hash(user.password, password):
             login_user(user)
             # flash("Login successful!", "success")
-            return redirect("/home")
+            return redirect(f"/home")
         
             # flash("Invalid username or password", "error")
         return "Invalid username or password : From Server"
@@ -154,7 +156,8 @@ def update_budget():
 @app.route("/profile")
 @login_required
 def profile():
-    purchases = Purchase.query.filter_by(user_id=current_user.id).order_by(Purchase.date.desc()).limit(5).all()
+    # this is cool
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).limit(5).all()
     return render_template("profile.html", user=current_user, purchases=purchases)
 
 @app.route("/expenses" ,methods=["GET", "POST"])
@@ -163,29 +166,62 @@ def expenses():
     if request.method == "POST":
         label = request.form.get("label")
         price = request.form.get("price")
-        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.")
-        print(response.text)
-        print(label,price)
-        purchase= Purchase(label=label, price=price,category=response.text,user_id=current_user.id)
+        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.and no spaces between words")
+        # print(response.text)
+        # print(label,price)
+        purchase= Purchase(label=label, price=price,category=response.text.replace("\n",""),user_id=current_user.id,date = datetime.datetime.now().date())
         db.session.add(purchase)
         db.session.commit()
 
-        pass
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
     # print(item)
 
     return render_template("expenses.html",purchases=purchases)
 
-@app.route("/leaderboard")
-@login_required
-def leaderboard():
+# @app.route("/leaderboard")
+# @login_required
+# def leaderboard():
 
-    return render_template("leaderboard.html")
+#     return render_template("leaderboard.html")
+
+@app.route('/leaderboard')
+def leaderboard():
+    users = User.query.all()
+    leaderboard_data = []
+    
+    for user in users:
+        total_spent = sum(p.price for p in user.purchases)
+        savings = user.budget - total_spent if user.budget else 0
+        savings_percentage = (savings / user.budget * 100) if user.budget else 0
+        
+        # Round the savings percentage to 2 decimal places
+        savings_percentage = round(savings_percentage, 2)
+        
+        leaderboard_data.append({
+            'username': user.username,
+            'savings_percentage': savings_percentage
+        })
+    
+    # Sort by savings percentage in descending order
+    leaderboard_data = sorted(leaderboard_data, key=lambda x: x['savings_percentage'], reverse=True)
+
+    # Assign ranks
+    rank = 1
+    for i, user in enumerate(leaderboard_data):
+        if i > 0 and user['savings_percentage'] == leaderboard_data[i - 1]['savings_percentage']:
+            user['rank'] = leaderboard_data[i - 1]['rank']  # Same rank for tied scores
+        else:
+            user['rank'] = rank  # Assign new rank
+        rank += 1
+
+    return render_template('leaderboard.html', leaderboard_data=leaderboard_data)
+
 
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
+    global budget
     if request.method == "POST":  # Method should be in uppercase "POST"
         budget = request.get_json()
 
@@ -198,21 +234,35 @@ def home():
         print(budget["budget"])
         return jsonify({'message': 'Budget updated successfully', 'budget': budget['budget']}), 200
 
-    
+    expenses=0
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
-    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username)
+    if purchases:
+        expenses += sum(purchase.price for purchase in purchases)
+    else:
+        expenses=0
+    if current_user.budget!=None:
+        savings = current_user.budget-expenses
+    else:
+        savings=0
+
+    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username,expenses=expenses,savings=savings)
 
 @app.route("/savings")
 @login_required
 def savings():
     purchases_by_category = {}
 
-    for category in spending_categories:
-        purchases = Purchase.query.filter_by(category=category).all()
-        purchases_by_category[category] = purchases
+    categories = db.session.query(Purchase.category).distinct()
+    
+    for category in categories:
+        category_name = category[0]  # Extract category name from query result
+        # purchases = Purchase.query.filter_by(category=category_name).order_by(Purchase.price.asc()).all()
+        purchases = Purchase.query.filter_by(user_id=current_user.id, category=category_name).order_by(Purchase.price.asc()).all()
 
-    print(purchases_by_category)
+        purchases_by_category[category_name] = purchases
+
+    # print(purchases_by_category)/
     return render_template("savings.html",purchases_by_category=purchases_by_category)
 
 @app.route("/logout")
@@ -256,7 +306,7 @@ def capture():
             category = re.sub(" ","",category)  # Category
     
             # Create a new Purchase object
-            purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id)
+            purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id,date = datetime.datetime.now().date())
             
             # Add the purchase to the session and commit
             db.session.add(purchase)
@@ -264,13 +314,12 @@ def capture():
             
 
         return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
+        
     except Exception as e:
         print(e)
         return jsonify({"error": str(e)}), 500  
 
-# @app.route("/uploads/<filename>")
-# def uploaded_file(filename):
-#     return send_from_directory("uploads", filename)
+
 
 @app.route("/budget")
 @login_required
@@ -278,4 +327,4 @@ def budget():
     return render_template("budget.html")
 
 if __name__ == "__main__":
-    app.run(port=8080, debug=True)
+    app.run(host="0.0.0.0",port=8080, debug=True)
