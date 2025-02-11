@@ -171,7 +171,6 @@ def expenses():
         db.session.add(purchase)
         db.session.commit()
 
-        pass
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
     # print(item)
@@ -209,9 +208,11 @@ def home():
 def savings():
     purchases_by_category = {}
 
-    for category in spending_categories:
-        purchases = Purchase.query.filter_by(category=category).all()
-        purchases_by_category[category] = purchases
+    # for category in spending_categories:
+    #     purchases = Purchase.query.filter_by(category="Fitness\n").all()
+    #     purchases_by_category[category] = purchases
+    purchases = Purchase.query.filter_by(category="Fitness").all()
+    purchases_by_category=purchases
 
     print(purchases_by_category)
     return render_template("savings.html",purchases_by_category=purchases_by_category)
