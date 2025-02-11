@@ -2,15 +2,12 @@
 <html lang="en">
 <head>
     <title>MyBudget - Receipt Capture</title>
-
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-
     <link href="../static/bootstrap.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
-
 <body>
     <header>
         <div class="container-fluid bg-dark text-light p-3">
@@ -20,41 +17,38 @@
 
     <main class="container my-4">
         <h2 class="text-center">Capture and Upload Image</h2>
-
         <div class="text-center">
             <video id="video" autoplay playsinline class="border"></video>
             <canvas id="canvas" style="display: none;"></canvas>
         </div>
-
         <div class="text-center my-3">
             <button id="captureBtn" class="btn btn-primary">Capture Image</button>
         </div>
-
         <div class="text-center">
             <img id="capturedImage" style="display: none; width: 300px;" class="border" />
         </div>
-
         <div class="text-center my-3">
             <button id="submitBtn" class="btn btn-success" style="display: none;">Submit Image</button>
         </div>
     </main>
 
     <div class="container">
-        <h2>Review and Confirm Purchases</h2>
+        <h2>Review Purchases</h2>
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>Product</th>
                     <th>Price</th>
-                    <th>Category</th>
-                    <th>Confirm</th>
                 </tr>
             </thead>
             <tbody id="purchaseTable">
                 <!-- Purchases will be dynamically added here -->
             </tbody>
         </table>
-        <button id="confirmBtn" class="btn btn-primary" style="display: none;">Confirm Purchases</button>
+        <!-- New Confirm Purchases button -->
+        <div class="text-center my-3">
+            <button id="confirmBtn" class="btn btn-primary">Confirm Purchases</button>
+        </div>
     </div>
 
     <script>
@@ -64,7 +58,10 @@
         const submitBtn = document.getElementById("submitBtn");
         const capturedImage = document.getElementById("capturedImage");
 
-        // Start Camera
+        // Global variable to store extracted purchases
+        let extractedPurchases = [];
+
+        // Start the camera
         async function startCamera() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true });
@@ -80,27 +77,23 @@
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
-
             capturedImage.src = canvas.toDataURL("image/png");
             capturedImage.style.display = "block";
             submitBtn.style.display = "block";
         });
 
-        // Submit Image to Flask Server
+        // Submit image to the Flask server
         submitBtn.addEventListener("click", async () => {
             canvas.toBlob(async (blob) => {
                 const formData = new FormData();
                 formData.append("image", blob, "captured_image.png");
-
                 try {
                     const response = await fetch("/capture", {
                         method: "POST",
                         body: formData
                     });
-
                     const data = await response.json();
-                    console.log("✅ Server Response:", data); // Debugging Log
-
+                    console.log("✅ Server Response:", data);
                     if (response.ok) {
                         displayExtractedData(data.data);
                     } else {
@@ -112,57 +105,49 @@
             }, "image/png");
         });
 
+        // Display only product and price in the table and store data globally
         function displayExtractedData(data) {
             const tableBody = document.getElementById("purchaseTable");
             tableBody.innerHTML = "";
-
             if (!Array.isArray(data)) {
                 console.error("⚠️ Received invalid data format:", data);
                 alert("Error: Unexpected data format");
                 return;
             }
-
-            data.forEach((purchase, index) => {
-                if (!purchase.product || !purchase.price || !purchase.category) {
+            extractedPurchases = data;  // Store globally for confirmation
+            data.forEach((purchase) => {
+                if (!purchase.product || !purchase.price) {
                     console.warn("⚠️ Skipping invalid purchase entry:", purchase);
                     return;
                 }
-
                 let row = `<tr>
                     <td>${purchase.product}</td>
                     <td>${purchase.price}</td>
-                    <td>${purchase.category}</td>
-                    <td><input type='checkbox' class='confirm-checkbox' data-index='${index}' checked></td>
                 </tr>`;
                 tableBody.innerHTML += row;
             });
-
-            document.getElementById("confirmBtn").style.display = "block";
         }
 
-        // Confirm Purchases
-        document.getElementById("confirmBtn").addEventListener("click", () => {
-            let confirmedPurchases = [];
-            document.querySelectorAll(".confirm-checkbox:checked").forEach((checkbox) => {
-                let index = checkbox.dataset.index;
-                let row = document.getElementById("purchaseTable").rows[index];
-                confirmedPurchases.push({
-                    product: row.cells[0].innerText,
-                    price: parseFloat(row.cells[1].innerText),
-                    category: row.cells[2].innerText
+        // Confirm Purchases: Send the stored purchases to the server for insertion into the DB.
+        document.getElementById("confirmBtn").addEventListener("click", async () => {
+            if (!extractedPurchases.length) {
+                alert("No purchases to confirm.");
+                return;
+            }
+            try {
+                const response = await fetch("/confirm_purchase", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ purchases: extractedPurchases })
                 });
-            });
-
-            fetch("/confirm_purchase", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ purchases: confirmedPurchases })
-            })
-            .then(response => response.json())
-            .then(data => {
+                const data = await response.json();
                 alert(data.message);
-                window.location.href = "/home";
-            });
+                // Optionally clear the table after confirmation
+                document.getElementById("purchaseTable").innerHTML = "";
+                extractedPurchases = [];
+            } catch (error) {
+                alert(`Error confirming purchases: ${error.message}`);
+            }
         });
 
         startCamera();
