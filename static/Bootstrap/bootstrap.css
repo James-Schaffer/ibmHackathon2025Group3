@@ -14048,3 +14048,10 @@ fieldset:disabled .btn {
     background-color: #DBB1BC !important
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
+body{
+
+    font-family: "Inria Sans", serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 30px;
+ }
