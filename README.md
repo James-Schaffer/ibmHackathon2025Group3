@@ -1,21 +1,21 @@
 ﻿# ibmHackathon2025Group3
 
 
-Team 3
+# Team 3
 
-Team Members:
-James (1st Year Compsci) 
-Ty (1st Year Compsci)
-Ravi ((4th Year Datasci))
-Simon (1st Year Compsci)
-Yahya (1st Year Compsci)
+## Team Members:
+- **James** (1st Year, Computer Science)
+- **Ty** (1st Year, Computer Science)
+- **Ravi** (4th Year, Data Science)
+- **Simon** (1st Year, Computer Science)
+- **Yahya** (1st Year, Computer Science)
 
+## Project Setup
 
+### 1. Install Dependencies
+In your terminal, navigate to the project directory and run the following command to install the necessary dependencies:
 
+```bash
+pip install -r requirements.txt
 
-run terminal under the directory
-
-pip install requirements.txt
-python app.py
-visit 127.0.0.1:8080/
 
