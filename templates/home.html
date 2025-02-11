@@ -97,9 +97,9 @@
                     <div class="carousel-inner">
                         <!-- Despite data-bs-ride not being carousel, it auto plays, so massive interval stops that -->
                         <div class="carousel-item active" data-bs-interval="10000000000">
-                            <div class="row justify-content-evenly mb-5">
-                                <div class="col-lg-5 col-sm-4">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4">
+                            <div class="row justify-content-evenly">
+                                <div class="col-lg-5 col-sm-4 mb-1">
+                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
                                         <label for="budget" class="form-label">Budget</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-secondary" id="budgetaddon1">£</span>
@@ -107,8 +107,8 @@
                                             </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-sm-4">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4">
+                                <div class="col-lg-5 col-sm-4 mb-1">
+                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
                                         <label for="Expenses" class="form-label">Expenses</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-secondary" id="expensesaddon1">£</span>
@@ -117,9 +117,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row justify-content-evenly mb-5">
-                                <div class="col-lg-5 col-sm-4 mb-4">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4">
+                            <div class="row justify-content-evenly">
+                                <div class="col-lg-5 col-sm-4 mb-5">
+                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
                                         <label for="budget" class="form-label">Savings</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-secondary" id="budgetaddon1">£</span>
@@ -130,17 +130,17 @@
                             </div>
                         </div>
                         <div class="carousel-item" data-bs-interval="10000000000">
-                            <div class="row justify-content-evenly mb-5">
-                                <div class="col-lg-5 col-sm-4">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4">
+                            <div class="row justify-content-evenly">
+                                <div class="col-lg-5 col-sm-4 mb-1">
+                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
                                         <label for="budget" class="form-label">Total spent</label>
                                             <div class="input-group flex-wrap">
                                                 Insert bar chart of total amount spent per category
                                             </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-sm-4">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4">
+                                <div class="col-lg-5 col-sm-4 mb-1">
+                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
                                         <label for="Expenses" class="form-label">Spending habits</label>
                                             <div class="input-group flex-wrap">
                                                 Insert pie chart of percentages spent per category
@@ -148,9 +148,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row justify-content-evenly mb-5">
-                                <div class="col-lg-5 col-sm-4">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4">
+                            <div class="row justify-content-evenly">
+                                <div class="col-lg-5 col-sm-4 mb-5">
+                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
                                         <label for="budget" class="form-label">Savings</label>
                                             <div class="input-group flex-wrap">
                                                 <p class="h1">Streak: [[streak]]</p>
@@ -189,15 +189,17 @@
             </div>
         </main>
 
-        <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #000000;">
-            <div class="container-fluid justify-content-center py-2" style="background-color: #000000;">
-                <div class="col btn-group m-0">
-                    <a href="/home" class="btn btn-secondary btn-outline-light btn-lg mx-0">Home</a>
-                    <a href="/savings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Savings</a>
+        <div class="container-fluid fixed-bottom" style="background-color: #000000;">
+            <div class="row justify-content-center p-2">
+                <div class="col-5 text-end d-grid">
+                    <div class="btn-group">
+                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm">Home</a>
+                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm">Savings</a>
+                    </div>
                 </div>
-                <div class="col-12 col-md-1 text-center m-0">
+                <div class="col-2 text-center d-grid">
                     <div class="btn-group dropup">
-                        <button type="button" class="btn btn-secondary btn-outline-light btn-lg rounded-3 mx-0 my-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3" data-bs-toggle="dropdown" aria-expanded="false">
                             +
                         </button>
                         <ul class="dropdown-menu">
@@ -206,12 +208,14 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col btn-group m-0">
-                    <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-lg mx-0 ms-1">Leaderboard</a>
-                    <a href="/profile" class="btn btn-secondary btn-outline-light btn-lg mx-0">Profile</a>
+                <div class="col-5 d-grid">
+                    <div class="btn-group">
+                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm">Leaderboard</a>
+                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm">Profile</a>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
 
         <footer class="my-5">
             <p>© 2025 Budget Planner. All rights reserved.</p>
