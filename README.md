@@ -18,7 +18,6 @@ In your terminal, navigate to the project directory and run the following comman
 ```bash
 pip install -r requirements.txt
 
-```bash
 python app.py
 
 
