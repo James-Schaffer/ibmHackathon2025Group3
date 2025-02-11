@@ -41,29 +41,18 @@
         <main>
             <div>
                 {% for category, purchases in purchases_by_category.items() %}
-                <div class="category" onclick="toggleCategory('{{ category }}')">
-                    <div id="{{ category }}" class="category-content">
-
-                        {% if purchases %}
-                        <h2>{{ category }}</h2>
-
-                            <table>
-                                <tr>
-                                    <th>Label</th>
-                                    <th>Price</th>
-                                    <th>Date</th>
-                                </tr>
-                                {% for purchase in purchases %}
-                                <tr>
-                                    <td>{{ purchase.label }}</td>
-                                    <td>${{ purchase.price }}</td>
-                                    <td>{{ purchase.date.strftime('%Y-%m-%d') if purchase.date else 'N/A' }}</td>
-                                </tr>
-                                {% endfor %}
-                            </table>
-                  
-                        {% endif %}
-                    </div>
+                <div class="category-container">
+                        
+                        <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
+                    <table  class="purchase-table">
+                        {% for purchase in purchases %}
+                        <tr>
+                            <td>{{ purchase.label }}</td>
+                            <td>${{ purchase.price }}</td>
+                            <td>{{ purchase.date.strftime('%Y-%m-%d') if purchase.date else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
                 </div>
             {% endfor %}
             </div>
