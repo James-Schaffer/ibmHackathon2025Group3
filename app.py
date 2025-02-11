@@ -166,9 +166,9 @@ def expenses():
     if request.method == "POST":
         label = request.form.get("label")
         price = request.form.get("price")
-        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text. ")
-        print(response.text)
-        print(label,price)
+        response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.and no spaces between words")
+        # print(response.text)
+        # print(label,price)
         purchase= Purchase(label=label, price=price,category=response.text.replace("\n",""),user_id=current_user.id,date = datetime.datetime.now().date())
         db.session.add(purchase)
         db.session.commit()
