@@ -33,24 +33,34 @@
     </header>
     
     <main class="container my-4">
-        <section>
+        <section style="margin-bottom: 0.5cm;">
             <h2>Your Profile</h2>
-            <p><strong>Username:</strong> {{ user.username }}</p>
-            <p><strong>Budget:</strong> £{{ user.budget if user.budget else "Not Set" }}</p>
+            <div class="container bg-secondary" style="border-radius: 0.5cm; padding: 0.5cm; margin: 0;">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p style="margin: 0;"><strong>Budget:</strong> £{{ user.budget if user.budget else "Not Set" }}</p>
+            </div>
         </section>
 
         <section>
             <h3>Recent Purchases</h3>
             {% if purchases %}
-                <ul>
+                <ul class="bg-secondary" style="padding: 0.5cm; padding-left: calc(0.5cm + 16px); border-radius: .5cm;">
                     {% for purchase in purchases %}
                         <li>{{ purchase.label }} - £{{ purchase.price }} ({{ purchase.category }})</li>
                     {% endfor %}
                 </ul>
             {% else %}
-                <p>No purchases recorded yet.</p>
+                <p class="bg-secondary" style="padding: 0.5cm; border-radius: 0.5cm;">No purchases recorded yet.</p>
             {% endif %}
-            <a href="/logout">logout</a>
+            <!--<a type="button" style="padding: 0.2cm; border-radius: 0.2cm; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none;" onmouseover="this.style.backgroundColor='#000000';this.style.color='#ff0000';this.style.boarderColor='#ff0000'" href="/logout">logout</a>-->
+            <a type="button"
+                style="padding: 0.2cm; border-radius: 0.2cm; background-color: #6c757d; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none; display: inline-block; text-align: center;" 
+                onmouseover="this.style.backgroundColor='#ff0000'; this.style.color='#000000'; this.style.borderColor='#ff0000';" 
+                onmouseout="this.style.backgroundColor='#6c757d'; this.style.color='#000000'; this.style.borderColor='#000000';" 
+                href="/logout">
+                Logout
+            </a>
+
         </section>
     </main>
     
