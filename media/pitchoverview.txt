@@ -1,4 +1,7 @@
-Budgeting app
+PITCH SCRIPT
+
+
+INITAL (SATURDAY)
  - gamifies budgeting
 
  - mention target audience (students)
@@ -14,3 +17,25 @@ Budgeting app
  - set weekly budgets and track saving, use on leaderboard with friends to encourage saving
 
  - saving goals to help motivate people to save to specific goal
+
+
+#################################################################################################
+
+FINAL (WIP)
+
+- most people, especially students have to manage money and save.
+
+- most banking apps only tell you where you spend your money, how much you spent and when, but this doesn't help you figure out what you are spending your money on
+
+- if you want to cut down on the amount of something specific such as confectionary you buy, these systems wont help you
+
+
+- so we created MyBudget, with out budgeting app you can track every single purchase and categories it using tags, these can be created by the user or auto generated and will allow you to see more accurately what you are spending your money on
+
+- obviously manually inputting every single purchase is cumbersome and so we designed a system that allows you to take a picture of your receipt and it automatically track your purchases, you can still input things manually though so don't worry if you don't have one!
+
+- to help with budgeting you can set a weekly budget and it will calculate how much you can spend each week and how much you have saved
+
+
+
+- tech stack

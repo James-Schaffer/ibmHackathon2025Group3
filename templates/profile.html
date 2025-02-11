@@ -8,57 +8,62 @@
         <!-- Bootstrap CSS v5.2.1 -->
         <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
-        <!-- Custom CSS -->
-        <link href="link to custom css" rel="stylesheet"/>
+    <!-- Custom CSS -->
+    <link href="link to custom css" rel="stylesheet"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
 
-        <!-- JQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    </head>
-    <body>
-        <header>
-            <div class="container-fluid" style="background-color: #000000;">
-                <div class="row m-0">
-                    <div class="col">
-                        <span class="fw-bold text-light">
-                            <h1>MyBudget</h1>    
-                        </span>
-                    </div>
-                    <div class="col text-end">
-                        <span class="fw-bold">
-                            <img src="../Photos/app logo short.png" class="img-fluid" alt="Black GBP Sign">
-                        </span>
-                    </div>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+    <header>
+        <div class="container-fluid" style="background-color: #000000;">
+            <div class="row m-0">
+                <div class="col">
+                    <span class="fw-bold text-light">
+                        <h1>MyBudget</h1>    
+                    </span>
+                </div>
+                <div class="col text-end">
+                    <span class="fw-bold">
+                        <img src="/static/app logo short.png" class="img-fluid" alt="Black GBP Sign">
+                    </span>
                 </div>
             </div>
-        </header>
-        
-        <main class="container my-4">
-            <section style="margin-bottom: 0.5cm;">
-                <h2>Your Profile</h2>
-                <div class="container bg-secondary" style="border-radius: 0.5cm; padding: 0.5cm; margin: 0;">
-                    <p><strong>Username:</strong> {{ user.username }}</p>
-                    <p style="margin: 0;"><strong>Budget:</strong> £{{ user.budget if user.budget else "Not Set" }}</p>
-                </div>
-            </section>
+        </div>
+    </header>
+    
+    <main class="container my-4">
+        <section style="margin-bottom: 0.5cm;">
+            <h2>Your Profile</h2>
+            <div class="container bg-cust1" style="border-radius: 0.5cm; padding: 0.5cm; margin: 0;">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p style="margin: 0;"><strong>Budget:</strong> £{{ user.budget if user.budget else "Not Set" }}</p>
+            </div>
+        </section>
 
-            <section>
-                <h3>Recent Purchases</h3>
-                {% if purchases %}
-                    <ul class="bg-secondary" style="padding: 0.5cm; padding-left: calc(0.5cm + 16px); border-radius: .5cm;">
-                        {% for purchase in purchases %}
-                            <li>{{ purchase.label }} - £{{ purchase.price }} ({{ purchase.category }})</li>
-                        {% endfor %}
-                    </ul>
-                {% else %}
-                    <p class="bg-secondary" style="padding: 0.5cm; border-radius: 0.5cm;">No purchases recorded yet.</p>
-                {% endif %}
-                <a type="button"
-                    style="padding: 0.2cm; border-radius: 0.2cm; background-color: #6c757d; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none; display: inline-block; text-align: center;" 
-                    onmouseover="this.style.backgroundColor='#ff0000'; this.style.color='#000000'; this.style.borderColor='#ff0000';" 
-                    onmouseout="this.style.backgroundColor='#274C77'; this.style.color='#000000'; this.style.borderColor='#000000';" 
-                    href="/logout">
-                    Logout
-                </a>
+        <section>
+            <h3>Recent Purchases</h3>
+            {% if purchases %}
+                <ul class="bg-cust1" style="padding: 0.5cm; padding-left: calc(0.5cm + 16px); border-radius: .5cm;">
+                    {% for purchase in purchases %}
+                        <li>{{ purchase.label }} - £{{ purchase.price }} ({{ purchase.category }})</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="bg-cust1" style="padding: 0.5cm; border-radius: 0.5cm;">No purchases recorded yet.</p>
+            {% endif %}
+        </section>
+
+        <a type="button" class="bg-cust1"
+            style="padding: 0.2cm; border-radius: 0.2cm; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none; display: inline-block; text-align: center; margin-right: 0.1cm;" 
+            onmouseover="this.style.backgroundColor='#ff0000'; this.style.color='#000000'; this.style.borderColor='#ff0000';" 
+            onmouseout="this.style.backgroundColor='#6c757d'; this.style.color='#000000'; this.style.borderColor='#000000';" 
+            href="/logout">
+            Logout
+        </a>
 
                 <a type="button" onclick="toggleTheme()"
                     style="padding: 0.2cm; border-radius: 0.2cm; background-color: #6c757d; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none; display: inline-block; text-align: center;">
@@ -103,6 +108,43 @@
         <script
             src="../static/Bootstrap/bootstrap.js"
         ></script>
+        <a type="button" class="bg-cust1" onclick="toggleTheme()"
+            style="padding: 0.2cm; border-radius: 0.2cm; border-color: #000000; border-width: 2px; color: #000000; text-decoration: none; display: inline-block; text-align: center;">
+            Toggle Darkmode
+        </a>
+    </main>
+    
+    <nav class="navbar navbar-extend-md navbar-dark m-0 fixed-bottom" style="background-color: #000000;">
+        <div class="container-fluid justify-content-center py-2" style="background-color: #000000;">
+            <div class="col btn-group m-0">
+                <a href="/home" class="btn btn-secondary btn-outline-light btn-lg mx-0">Home</a>
+                <a href="/savings" class="btn btn-secondary btn-outline-light btn-lg mx-0">Savings</a>
+            </div>
+            <div class="col-12 col-md-1 text-center m-0">
+                <div class="btn-group dropup">
+                    <button type="button" class="btn btn-secondary btn-outline-light btn-lg rounded-3 mx-0 my-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        +
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
+                        <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col btn-group m-0">
+                <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-lg mx-0 ms-1">Leaderboard</a>
+                <a href="/profile" class="btn btn-secondary btn-outline-light btn-lg mx-0">Profile</a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+    ></script>
+    <script
+        src="../static/Bootstrap/bootstrap.js"
+    ></script>
 
         <script
             src="/static/app.js"
