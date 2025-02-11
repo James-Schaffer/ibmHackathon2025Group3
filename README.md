@@ -11,6 +11,19 @@
 - **Simon** (1st Year, Computer Science)
 - **Yahya** (1st Year, Computer Science)
 
+### Frontend:
+- **HTML**: Markup for structuring content on the web.
+- **CSS**: Styling the web page with a focus on responsiveness and aesthetics.
+- **Vanilla JavaScript**: For interactivity and dynamic content on the web.
+- **Bootstrap**: A CSS framework for creating responsive and modern web designs.
+
+### Backend:
+- **Flask**: A lightweight web framework for building the backend of the application in Python.
+- **SQLite3**: A serverless, self-contained SQL database used for storing application data locally.
+
+### AI:
+- **Gemini AI**: For advanced AI-driven capabilities (assuming this refers to the integration with Gemini, Google's next-gen AI platform).
+
 ## Project Setup
 
 ### 1. Install Dependencies
