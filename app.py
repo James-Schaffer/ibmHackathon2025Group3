@@ -222,7 +222,9 @@ def savings():
     
     for category in categories:
         category_name = category[0]  # Extract category name from query result
-        purchases = Purchase.query.filter_by(category=category_name).order_by(Purchase.price.asc()).all()
+        # purchases = Purchase.query.filter_by(category=category_name).order_by(Purchase.price.asc()).all()
+        purchases = Purchase.query.filter_by(user_id=current_user.id, category=category_name).order_by(Purchase.price.asc()).all()
+
         purchases_by_category[category_name] = purchases
 
     # print(purchases_by_category)/
