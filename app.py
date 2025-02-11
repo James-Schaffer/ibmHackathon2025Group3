@@ -65,7 +65,7 @@ class User(db.Model, UserMixin):
 class Purchase(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     label = db.Column(db.String(150), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Numeric(10, 2),nullable=False)
     category = db.Column(db.String(150), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     date = db.Column(db.Date)
@@ -186,6 +186,7 @@ def leaderboard():
 @app.route("/home", methods=["GET", "POST"])
 @login_required
 def home():
+    global budget
     if request.method == "POST":  # Method should be in uppercase "POST"
         budget = request.get_json()
 
@@ -198,10 +199,19 @@ def home():
         print(budget["budget"])
         return jsonify({'message': 'Budget updated successfully', 'budget': budget['budget']}), 200
 
-    
+    expenses=0
     # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
-    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username)
+    if purchases:
+        expenses += sum(purchase.price for purchase in purchases)
+    else:
+        expenses=0
+    if current_user.budget!=None:
+        savings = current_user.budget-expenses
+    else:
+        savings=0
+
+    return render_template("home.html", purchases=purchases,budget=current_user.budget,user=current_user.username,expenses=expenses,savings=savings)
 
 @app.route("/savings")
 @login_required
