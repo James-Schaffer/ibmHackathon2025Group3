@@ -7,6 +7,8 @@ import google.generativeai as genai
 from PIL import Image
 import json
 import re
+import datetime
+
 
 
 # Initialize Flask app
@@ -167,7 +169,7 @@ def expenses():
         response = model.generate_content(f"Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text. ")
         print(response.text)
         print(label,price)
-        purchase= Purchase(label=label, price=price,category=response.text.replace("\n",""),user_id=current_user.id)
+        purchase= Purchase(label=label, price=price,category=response.text.replace("\n",""),user_id=current_user.id,date = datetime.datetime.now().date())
         db.session.add(purchase)
         db.session.commit()
 
@@ -293,7 +295,7 @@ def capture():
             category = re.sub(" ","",category)  # Category
     
             # Create a new Purchase object
-            purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id)
+            purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id,date = datetime.datetime.now().date())
             
             # Add the purchase to the session and commit
             db.session.add(purchase)
