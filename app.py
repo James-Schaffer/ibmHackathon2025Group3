@@ -151,13 +151,9 @@ def signup():
 # def update_budget():
    
 #     return redirect(url_for("login"))
-    
-
-
 @app.route("/profile")
 @login_required
 def profile():
-    # this is cool
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).limit(5).all()
     return render_template("profile.html", user=current_user, purchases=purchases)
 
