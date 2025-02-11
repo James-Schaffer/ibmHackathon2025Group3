@@ -1,5 +1,51 @@
 PITCH SCRIPT
 
+Marking Criteria
+Solution Viability – Does it work in theory? (15%)
+Given the Hackathon prompt (TBA), the judges will need to determine how well the 
+solution responds to the problem. This section measures both the idea that each team 
+has come up with, as well as how well the final product represents this idea. The 
+solution shouldn’t solve the prompt through the re-creation of an already established 
+product and should be able to exist in the current marketplace.
+
+Solution Execution – Is it convincing and comprehensive? (10%)
+Ideas of reasonable size may not be fully polished in the time limit provided. This
+category focuses on how close the team’s product is to doing what it intends to do.
+Judges assess whether the project seems complete and if it encompasses the natural 
+user requirements that the proposed solution should attempt to solve. This also 
+includes “extras” that add to functionality but are not necessarily required for the 
+Minimum Viable Product (MVP). 
+
+Technical Sophistication of Solution (35%)
+Given that this section is so large we will break it down into further sections:
+• Architecture of Solution (10%): Evaluate the tech stack, component integration, 
+and whether the architecture is suitable for the solution.
+• Feature Development (10%): Assess the complexity and value of the features 
+developed, whether small and numerous or large and impactful
+• UI/UX Design, Code Quality, and Testing (10%): Judge user appeal, usability, and 
+code integrity. 
+• Deployment and Code Base Management (5%): Assess Git usage and scalability. 
+Bonus marks can be awarded for project deployment.
+
+Note: Technical subsections provide a guide for scoring but are not as rigid as the main 
+categories
+
+Group Cohesion and Overall Teamwork (25%)
+When submitting their 5-minute presentations, teams must present a workload 
+breakdown and timeline, cross-referenced with their Git tree. Judges should assess 
+collaboration, integration of components, and how challenges were resolved. Negative 
+workflows (e.g. unresolved issues) will impact scores. Input from mentors on team 
+dynamics, attitudes, and efforts will also be considered.
+
+Presentation Quality – (15%)
+Judges should evaluate presentation structure, pacing, and clarity. Students must 
+communicate ideas effectively. 
+
+Note: There is also a separate prize category for best presentation/pitch of their product.
+
+
+#################################################################################################
+
 
 INITAL (SATURDAY)
  - gamifies budgeting
@@ -21,6 +67,7 @@ INITAL (SATURDAY)
 
 #################################################################################################
 
+
 FINAL (WIP)
 
 - most people, especially students have to manage money and save.
@@ -36,6 +83,10 @@ FINAL (WIP)
 
 - to help with budgeting you can set a weekly budget and it will calculate how much you spend each week and how much you have saved
 
+- leaderboard 
 
 
-- tech stack
+- tech stack : html, css, javascript, bootstrap, python, flask, sqlalchemy, gemini
+
+
+- 
