@@ -11,3 +11,11 @@ Simon (1st Year Compsci)
 Yahya (1st Year Compsci)
 
 
+
+
+run terminal under the directory
+
+pip install requirements.txt
+python app.py
+visit 127.0.0.1:8080/
+
