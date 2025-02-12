@@ -8,6 +8,8 @@ from PIL import Image
 import json
 import re
 import datetime
+from google.api_core.exceptions import ResourceExhausted
+
 
 
 
@@ -274,7 +276,6 @@ def logout():
 
 @app.route("/capture", methods=["GET", "POST"])
 @login_required
-
 def capture():
     if request.method == "GET":
         return render_template("capture.html")
@@ -294,33 +295,46 @@ def capture():
         image_path = os.path.join("media", image.filename)
         image.save(image_path)
         image = Image.open(image_path)
-        response = model.generate_content(["Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.also remove all the currency symbol from it", image])
+        response = model.generate_content([
+            "Classify the following purchase =>({label}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name.Output the purchase data in the format: name,price,category,name,price,category. Only include the purchase name and its corresponding price, no additional information.also remove all the currency symbol from it",
+            image
+        ])
         # print(response.text)
         data = str(response.text).split(',')
         # print(data)
         two_d_list = []
 
-# Loop through the data in steps of 3 (product, price, category)
+        # Loop through the data in steps of 3 (product, price, category)
         for i in range(0, len(data), 3):
             product = data[i]  # Product name
             price = float(data[i + 1].replace('£', '').strip())  # Convert price to float after removing '£'
             category = data[i + 2]
-            category = re.sub("\n","",category)  # Category
-            category = re.sub(" ","",category)  # Category
+            category = re.sub("\n", "", category)  # Remove newline characters
+            category = re.sub(" ", "", category)  # Remove spaces
     
             # Create a new Purchase object
-            purchase = Purchase(label=product, price=price, category=category, user_id=current_user.id,date = datetime.datetime.now().date())
+            purchase = Purchase(
+                label=product,
+                price=price,
+                category=category,
+                user_id=current_user.id,
+                date=datetime.datetime.now().date()
+            )
             
             # Add the purchase to the session and commit
             db.session.add(purchase)
             db.session.commit()
-            
 
         return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
         
+    except ResourceExhausted as e:
+        print("ResourceExhausted error:", e)
+        return redirect(request.url)  # Refreshes the page by redirecting to the same URL
     except Exception as e:
         print(e)
-        return jsonify({"error": str(e)}), 500  
+        return jsonify({"error": str(e)}), 500
+
+ 
 
 
 
