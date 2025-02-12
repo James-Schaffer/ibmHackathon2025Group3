@@ -93,7 +93,6 @@ def load_user(user_id):
 
 # Routes
 @app.route("/", methods=["GET", "POST"])
-@login_required
 def welcome():
     return render_template("welcome.html")
 
