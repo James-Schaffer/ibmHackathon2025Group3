@@ -41,7 +41,10 @@
                             "Content-Type": "application/json"
                         },
                         body: JSON.stringify({ budget: budgetValue })
+
                     });
+                    window.location.href = "/home";
+
 
                     // if (!response.ok) {
                     //     throw new Error("Failed to update budget");
