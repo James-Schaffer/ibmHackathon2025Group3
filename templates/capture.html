@@ -49,19 +49,18 @@
                     </div>
                 </div>
                 <div class="row justify-content-center align-items-center">
-                    <div class="col text-center d-inline-block">
+                    <div class="col text-center">
                         <div class="video-container">
                             <video id="video" autoplay playsinline></video>
                         </div>
                     </div>
                 </div>
-                <div class="row justify-content-center align-items-center my-2">
-                    <div class="col text-center d-inline-block">
-                            <div class="image-container">
-                                <img class="d-none" id="capturedImage" alt="Captured Image">
-                            </div>
-                        </div>
-                        <canvas class="d-none" id="canvas" ></canvas>
+                <div class="row justify-content-center my-2">
+                    <div class="col text-center">
+                        <!--<div class="image-container">
+                            <img class="d-block" id="capturedImage" alt="Captured Image">
+                        </div>-->
+                        <canvas class="d-none m-auto" id="canvas" ></canvas></div>
                     </div>
                 </div>
                 <div class="row justify-content-center align-items-center my-2">
@@ -119,7 +118,7 @@
             const canvas = document.getElementById("canvas");
             const captureBtn = document.getElementById("captureBtn");
             const submitBtn = document.getElementById("submitBtn");
-            const capturedImage = document.getElementById("capturedImage");
+            //const capturedImage = document.getElementById("capturedImage");
 
             let currentFacingMode = "environment"; // Default to back camera
 
@@ -149,9 +148,11 @@
                 canvas.height = video.videoHeight;
                 context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                capturedImage.src = canvas.toDataURL("image/png");
-                capturedImage.style.display = "block";
-                submitBtn.style.display = "block";
+                //capturedImage.src = canvas.toDataURL("image/png");
+                canvas.classList.remove("d-none");
+                canvas.classList.add("d-block");
+                submitBtn.classList.add("d-block");
+                capturedImage.classList.remove("d-none");
             });
 
             submitBtn.addEventListener("click", async () => {
@@ -179,9 +180,11 @@
                         }
 
                         // Update the displayed image with the new one (force cache refresh)
-                        capturedImage.src = data.image_url + "?t=" + new Date().getTime();
-                        //capturedImage.style.display = "block"; //
-                        capturedImage.remove("d-none").add("d-inline-block");
+                        //capturedImage.src = data.image_url + "?t=" + new Date().getTime();
+                        canvas.classList.remove("d-none");
+                        canvas.classList.add("d-block");
+                        submitBtn.classList.add("d-block");
+                        submitBtn.classList.remove("d-none");
                         // alert("Image uploaded successfully!");
                         window.location.href = "/home";
 
