@@ -1,126 +1,117 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>MyBudget - Expenses</title>
-        
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+  <head>
+    <title>MyBudget - Expenses</title>
+    
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
 
-        <!-- Custom CSS -->
-        <link href="https://fonts.googleapis.com"rel="preconnect">
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
 
-        <!-- JQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    </head>
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
 
-    <body style="padding-bottom: 120px;">
-        <header>
-            <div class="container-fluid" style="background-color: #000000;">
-                <div class="row m-0">
-                    <div class="col">
-                        <span class="fw-bold text-light">
-                            <h1>MyBudget</h1>    
-                        </span>
-                    </div>
-                    <div class="col text-end">
-                        <span class="fw-bold">
-                            <img src="/static/app_logo_short.png" class="img-fluid" alt="Black GBP Sign">
-                        </span>
-                    </div>
-                </div>
+  <body style="padding-bottom: 120px;">
+    <header>
+      <div class="container-fluid" style="background-color: #000000;">
+        <div class="row m-0">
+          <div class="col">
+            <span class="fw-bold text-light">
+              <h1>MyBudget</h1>
+            </span>
+          </div>
+          <div class="col text-end">
+            <span class="fw-bold">
+              <img src="/static/app_logo_short.png" class="img-fluid" alt="Black GBP Sign">
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div class="container-fluid">
+        <div class="row justify-content-center my-5">
+          <div class="col-12 text-center">
+            <h2>Log your expenses</h2>
+          </div>
+        </div>
+        <div class="row justify-content-center mb-5">
+          <form method="post">
+            <div class="col text-center">
+              <!-- The purchase input is required so that a value is sent to the backend -->
+              <input type="text" placeholder="Name" name="purchase" required>
+              <!-- Using type="number" for price allows numeric input -->
+              <input type="number" step="0.01" placeholder="Price" name="price" required>
+              <!-- Category is optional -->
+              <input type="text" placeholder="Label (Optional)" name="category">
+              <input type="submit" value="Submit">
             </div>
-        </header>  
-
-        <main>
-            <div class="container-fluid">
-                <div class="row justify-content-center my-5">
-                    <div class="col-12 text-center">
-                        <h2>Log your expenses</h2>
-                    </div>
-                </div>
-                <div class="row justify-content-center mb-5">
-                    <form method="post">
-                        <div class="col text-center">
-                            <input type="text" placeholder="Name" name="purchase">
-                            <input type="text" placeholder="Price" name="price">
-                            <input type="text" placeholder="Label (Optional)" name="category">
-                            <input type="submit">
-                        </div>
-                    </form>    
-                </div>
-                {%for purchase in purchases %}
-                <div class="row justify-content-center mb-1">
-                    <div class="col-10 border border-dark rounded-4">
-                        <div class="p-4">
-                            <b>Name</b></br>
-                            <u>{{purchase.label}}</u></br>
-                            <b>Category</b></br>
-                            <u>{{purchase.category}}</u></br>
-                            <b>Price</b></br>
-                            <u>£{{purchase.price}}</u></br>
-                        </div>
-                    </div>
-                </div>
-                {% endfor %}
+          </form>
+        </div>
+        {% for purchase in purchases %}
+        <div class="row justify-content-center mb-1">
+          <div class="col-10 border border-dark rounded-4">
+            <div class="p-4">
+              <b>Name</b></br>
+              <u>{{ purchase.label }}</u></br>
+              <b>Category</b></br>
+              <u>{{ purchase.category }}</u></br>
+              <b>Price</b></br>
+              <u>£{{ purchase.price }}</u></br>
             </div>
-        </main>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </main>
 
-        <nav class="navbar fixed-bottom bg-black">
-            <div class="container-fluid">
-              <div class="row w-100 text-center align-items-center">
-                <!-- Left Column: Home and Savings -->
-                <div class="col-4 p-0">
-                  <div class="btn-group w-100">
-                    <a href="/home" class="btn btn-secondary btn-outline-light btn-sm w-100">Home</a>
-                    <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm w-100">Savings</a>
-                  </div>
-                </div>
-                <!-- Center Column: Dropup with a Smaller Plus Button -->
-                <div class="col-4 p-0 d-flex justify-content-center">
-                  <div class="btn-group dropup">
-                    <button type="button" 
-                            class="btn btn-secondary btn-outline-light btn-sm rounded-3" 
-                            data-bs-toggle="dropdown"
-                            style="width: 40px; height: 40px; padding: 0.2rem;">
-                      +
-                    </button>
-                    <ul class="dropdown-menu">
-                      <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
-                      <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
-                    </ul>
-                  </div>
-                </div>
-                <!-- Right Column: Leaderboard and Profile -->
-                <div class="col-4 p-0">
-                  <div class="btn-group w-100">
-                    <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm w-100">Leaderboard</a>
-                    <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm w-100">Profile</a>
-                  </div>
-                </div>
-              </div>
+    <nav class="navbar fixed-bottom bg-black">
+      <div class="container-fluid">
+        <div class="row w-100 text-center align-items-center">
+          <!-- Left Column: Home and Savings -->
+          <div class="col-4 p-0">
+            <div class="btn-group w-100">
+              <a href="/home" class="btn btn-secondary btn-outline-light btn-sm w-100">Home</a>
+              <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm w-100">Savings</a>
             </div>
-          </nav>
+          </div>
+          <!-- Center Column: Dropup with a Smaller Plus Button -->
+          <div class="col-4 p-0 d-flex justify-content-center">
+            <div class="btn-group dropup">
+              <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3" data-bs-toggle="dropdown" style="width: 40px; height: 40px; padding: 0.2rem;">
+                +
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
+                <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- Right Column: Leaderboard and Profile -->
+          <div class="col-4 p-0">
+            <div class="btn-group w-100">
+              <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm w-100">Leaderboard</a>
+              <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm w-100">Profile</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
 
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        ></script>
-        <script
-            src="../static/Bootstrap/bootstrap.js"
-        ></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="../static/Bootstrap/bootstrap.js"></script>
 
-        <!-- Custom JavaScript -->
-        <script
-            src="/static/app.js"
-        ></script>
-    </body>
+    <!-- Custom JavaScript -->
+    <script src="/static/app.js"></script>
+  </body>
 </html>

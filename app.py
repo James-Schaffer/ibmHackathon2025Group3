@@ -158,27 +158,67 @@ def profile():
     purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).limit(5).all()
     return render_template("profile.html", user=current_user, purchases=purchases)
 
-@app.route("/expenses" ,methods=["GET", "POST"])
+@app.route("/expenses", methods=["GET", "POST"])
 @login_required
 def expenses():
     if request.method == "POST":
-        purchase = request.form.get("purchase")
-        price = request.form.get("price")
-        category = request.form.get("category")
+        # Determine whether the request is sending JSON or form-encoded data
+        if request.is_json:
+            data = request.get_json()
+            purchase_text = data.get("purchase", "")
+            price = data.get("price")
+            category = data.get("category", "")
+        else:
+            purchase_text = request.form.get("purchase", "")
+            price = request.form.get("price")
+            category = request.form.get("category", "")
 
-        if not category or len(category)<=0 :
-            response = model.generate_content(f"Classify the following purchase =>({purchase}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text.and no spaces between words")
-            category=response.text.replace("\n","")
+        # Ensure that the purchase label is not empty; default to "Unknown" if it is
+        if not purchase_text or purchase_text.strip() == "":
+            purchase_text = "Unknown"
+        else:
+            purchase_text = purchase_text.strip()
 
-        purchase= Purchase(label=purchase, price=price,category=category,user_id=current_user.id,date = datetime.datetime.now().date())
-        db.session.add(purchase)
+        # Convert the price to a float (flash error if conversion fails)
+        try:
+            price = float(price)
+        except (TypeError, ValueError):
+            flash("Invalid price", "error")
+            return redirect(url_for("expenses"))
+
+        # If no category is provided, generate one using your AI model
+        if not category or category.strip() == "":
+            response = model.generate_content(
+                f"Classify the following purchase =>({purchase_text}) into one of the predefined spending categories: [Food & Drinks, Transportation, School Supplies, Rent & Utilities, Phone Bill, Entertainment, Clothing & Accessories, Personal Care, Fitness, Socializing, Tuition & Fees, Online Subscriptions, Emergency Fund & Savings,others]. Only return the category name. Do not include any extra text and no spaces between words"
+            )
+            category = response.text.replace("\n", "").strip()
+        else:
+            category = category.strip()
+
+        # Always set the date to today's date
+        purchase_date = datetime.date.today()
+
+        # Create a new Purchase object with all required fields provided
+        new_purchase = Purchase(
+            label=purchase_text,
+            price=price,
+            category=category,
+            user_id=current_user.id,
+            date=purchase_date
+        )
+        db.session.add(new_purchase)
         db.session.commit()
 
-    # purchases = Purchase.query.filter(Purchase.user_id == current_user.id).all()
-    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
-    # print(item)
+        # If the request was JSON, return a JSON response; otherwise, redirect.
+        if request.is_json:
+            return jsonify({"message": "Purchase added successfully"}), 200
+        else:
+            return redirect(url_for("expenses"))
 
-    return render_template("expenses.html",purchases=purchases)
+    # GET request: retrieve and display all purchases for the current user
+    purchases = Purchase.query.filter(Purchase.user_id == current_user.id).order_by(Purchase.id.desc()).all()
+    return render_template("expenses.html", purchases=purchases)
+
 
 # @app.route("/leaderboard")
 # @login_required
@@ -305,25 +345,34 @@ def capture():
         two_d_list = []
 
         # Loop through the data in steps of 3 (product, price, category)
+        # Loop through the data in steps of 3 (product, price, category)
         for i in range(0, len(data), 3):
-            product = data[i]  # Product name
-            price = float(data[i + 1].replace('£', '').strip())  # Convert price to float after removing '£'
+            # Safely extract and strip the product name
+            product = data[i].strip() if data[i] else ""
+            if not product:
+                product = "Unknown"  # Default value if product name is empty
+
+            # Convert price after cleaning the string
+            price = float(data[i + 1].replace('£', '').strip())
+            
+            # Clean up the category value
             category = data[i + 2]
-            category = re.sub("\n", "", category)  # Remove newline characters
-            category = re.sub(" ", "", category)  # Remove spaces
-    
-            # Create a new Purchase object
+            category = re.sub("\n", "", category)
+            category = re.sub(" ", "", category)
+            
+            # Create a new Purchase object with a valid label and date
             purchase = Purchase(
                 label=product,
                 price=price,
                 category=category,
                 user_id=current_user.id,
-                date=datetime.datetime.now().date()
+                date=datetime.datetime.now().date()  # Ensures date is set
             )
             
             # Add the purchase to the session and commit
             db.session.add(purchase)
             db.session.commit()
+
 
         return jsonify({"message": "Image uploaded successfully", "image_url": f"/uploads/{image.filename}"})
         
