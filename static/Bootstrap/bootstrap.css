@@ -13908,14 +13908,14 @@ fieldset:disabled .btn {
 
 .btn-cust1 {
     color: #fff;
-    background-color: #274C77;
-    border-color: #274C77
+    background-color: #1b6dcc;
+    border-color: #1b6dcc
 }
 
 .btn-cust1 {
     color: #fff;
-    background-color: #274C77;
-    border-color: #274C77
+    background-color: #1b6dcc;
+    border-color: #1b6dcc
 }
 
 
@@ -13956,19 +13956,19 @@ fieldset:disabled .btn {
 .btn-cust1.disabled,
 .btn-cust1:disabled {
     color: #fff;
-    background-color: #274C77;
-    border-color: #274C77
+    background-color: #1b6dcc;
+    border-color: #1b6dcc
 }
 
 .btn-outline-cust1 {
-    color: #274C77;
-    border-color: #274C77
+    color: #1b6dcc;
+    border-color: #1b6dcc
 }
 
 .btn-outline-cust1:hover {
     color: #fff;
-    background-color: #274C77;
-    border-color: #274C77
+    background-color: #1b6dcc;
+    border-color: #1b6dcc
 }
 
 .btn-check:focus+.btn-outline-cust1,
@@ -13982,8 +13982,8 @@ fieldset:disabled .btn {
 .btn-outline-cust1.dropdown-toggle.show,
 .btn-outline-cust1:active {
     color: #fff;
-    background-color: #274C77;
-    border-color: #274C77
+    background-color: #1b6dcc;
+    border-color: #1b6dcc
 }
 
 .btn-check:active+.btn-outline-cust1:focus,
@@ -13996,7 +13996,7 @@ fieldset:disabled .btn {
 
 .btn-outline-cust1.disabled,
 .btn-outline-cust1:disabled {
-    color: #274C77;
+    color: #1b6dcc;
     background-color: transparent
 }
 
@@ -14028,7 +14028,7 @@ fieldset:disabled .btn {
 }
 
 .link-cust1 {
-    color: #274C77
+    color: #1b6dcc
 }
 
 .link-cust1:focus,
@@ -14037,15 +14037,15 @@ fieldset:disabled .btn {
 }
 
 .border-cust1 {
-    border-color: #274C77 !important
+    border-color: #1b6dcc !important
 }
 
 .text-cust1 {
-    color: #274C77 !important
+    color: #1b6dcc !important
 }
 
 .bg-cust1 {
-    background-color: #274C77 !important
+    background-color: #1b6dcc !important
 }
 /*# sourceMappingURL=bootstrap.min.css.map */
 body{
