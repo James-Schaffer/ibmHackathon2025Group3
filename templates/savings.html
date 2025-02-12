@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 {% for category, purchases in purchases_by_category.items() %}
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" style="margin-bottom: 0.3cm;">
                     <div class="col-11 bg-cust1 rounded-3">
                         {%if purchases%}
                             <h1>{{ category }} ({{ purchases|length }} purchases)</h1>
