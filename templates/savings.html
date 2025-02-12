@@ -67,34 +67,41 @@
             </div>
         </main>
 
-        <nav class="container-fluid fixed-bottom" style="background-color: #000000;">
-            <div class="row justify-content-center p-3">
-                <div class="col-5 text-end d-grid">
-                    <div class="btn-group">
-                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('home') %}active{% endif %}">Home</a>
-                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('savings') %}active{% endif %}">Savings</a>
-                    </div>
+        <nav class="navbar fixed-bottom bg-black">
+            <div class="container-fluid">
+              <div class="row w-100 text-center align-items-center">
+                <!-- Left Column: Home and Savings -->
+                <div class="col-4 p-0">
+                  <div class="btn-group w-100">
+                    <a href="/home" class="btn btn-secondary btn-outline-light btn-sm w-100">Home</a>
+                    <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm w-100">Savings</a>
+                  </div>
                 </div>
-                <div class="col-2 text-center d-grid">
-                    <div class="btn-group dropup">
-                        <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3 p-3 fs-3" data-bs-toggle="dropdown" aria-expanded="false">
-                            +
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/expenses" class="dropdown-item"><p class="h3">Expenses</p></a></li>
-                            <li><a href="/capture" class="dropdown-item"><p class="h3">Receipt Capture</p></a></li>
-                        </ul>
-                    </div>
+                <!-- Center Column: Dropup with a Smaller Plus Button -->
+                <div class="col-4 p-0 d-flex justify-content-center">
+                  <div class="btn-group dropup">
+                    <button type="button" 
+                            class="btn btn-secondary btn-outline-light btn-sm rounded-3" 
+                            data-bs-toggle="dropdown"
+                            style="width: 40px; height: 40px; padding: 0.2rem;">
+                      +
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
+                      <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
+                    </ul>
+                  </div>
                 </div>
-                <div class="col-5 d-grid">
-                    <div class="btn-group">
-                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('leaderboard') %}active{% endif %}">Leaderboard</a>
-                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('profile') %}active{% endif %}">Profile</a>
-                    </div>
+                <!-- Right Column: Leaderboard and Profile -->
+                <div class="col-4 p-0">
+                  <div class="btn-group w-100">
+                    <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm w-100">Leaderboard</a>
+                    <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm w-100">Profile</a>
+                  </div>
                 </div>
+              </div>
             </div>
-        </nav>
-
+          </nav>
 
         <!-- Bootstrap JavaScript Libraries -->
         <script

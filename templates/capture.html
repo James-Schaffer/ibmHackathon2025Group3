@@ -1,206 +1,177 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>MyBudget - Receipt Capture</title>
+<head>
+    <title>MyBudget - Receipt Capture</title>
+    
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
+
+    <!-- Custom CSS -->
+    <link href="link to custom css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:wght@300;400;700&family=Noto+Sans+KR:wght@100..900&family=Roboto:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body style="padding-bottom: 120px;">
+    <header>
+        <div class="container-fluid bg-black">
+            <div class="row m-0">
+                <div class="col">
+                    <h1 class="fw-bold text-light">MyBudget</h1>    
+                </div>
+                <div class="col text-end">
+                    <img src="/static/app_logo_short.png" class="img-fluid" alt="Black GBP Sign">
+                </div>
+            </div>
+        </div>
+    </header>
         
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
-
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link href="../static/Bootstrap/bootstrap.css" rel="stylesheet"/>
-
-        <!-- Custom CSS -->
-        <link href="link to custom css" rel="stylesheet"/>
-        <link href="https://fonts.googleapis.com"rel="preconnect">
-        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inria+Sans:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&family=Noto+Sans+KR:wght@100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sofia+Sans+Condensed:ital,wght@0,1..1000;1,1..1000&family=Sofia+Sans:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
-
-        <!-- JQuery -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    </head>
-
-    <body style="padding-bottom: 120px;">
-        <header>
-            <div class="container-fluid" style="background-color: #000000;">
-                <div class="row m-0">
-                    <div class="col">
-                        <span class="fw-bold text-light">
-                            <h1>MyBudget</h1>    
-                        </span>
-                    </div>
-                    <div class="col text-end">
-                        <span class="fw-bold">
-                            <img src="/static/app_logo_short.png" class="img-fluid" alt="Black GBP Sign">
-                        </span>
+    <main>
+        <div class="container-xxl">
+            <div class="row justify-content-center my-3">
+                <div class="col text-center">
+                    <h1>Capture and Upload Image</h1>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col text-center">
+                    <div class="video-container">
+                        <video id="video" autoplay playsinline></video>
                     </div>
                 </div>
             </div>
-        </header>
-            
-        <main>
-            <div class="container-xxl">
-                <div class="row justify-content-center align-items-center my-3">
-                    <div class="col text-center d-inline-block">
-                        <h1>Capture and Upload Image</h1>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center">
-                    <div class="col text-center">
-                        <div class="video-container">
-                            <video id="video" autoplay playsinline></video>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center my-2">
-                    <div class="col text-center">
-                        <!--<div class="image-container">
-                            <img class="d-block" id="capturedImage" alt="Captured Image">
-                        </div>-->
-                        <canvas class="d-none m-auto" id="canvas" ></canvas></div>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center my-2">
-                    <div class="col text-center d-inline-block">
-                        <button id="captureBtn" class="btn btn-secondary">Capture Image</button>
-                    </div>
-                </div>
-                <div class="row justify-content-center align-items-center">
-                    <div class="col text-center d-inline-block">
-                        <button id="submitBtn" class="btn btn-secondary d-none">Submit Image</button>
-                    </div>
+            <div class="row justify-content-center my-2">
+                <div class="col text-center">
+                    <canvas id="canvas" class="d-none m-auto"></canvas>
                 </div>
             </div>
-        </main>
-
-        <nav class="container-fluid fixed-bottom" style="background-color: #000000;">
-            <div class="row justify-content-center p-3">
-                <div class="col-5 text-end d-grid">
-                    <div class="btn-group">
-                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3">Home</a>
-                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3">Savings</a>
-                    </div>
-                </div>
-                <div class="col-2 text-center d-grid">
-                    <div class="btn-group dropup">
-                        <button type="button" class="btn btn-secondary btn-outline-light btn-sm rounded-3 p-3" data-bs-toggle="dropdown" aria-expanded="false">
-                            +
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
-                            <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-5 d-grid">
-                    <div class="btn-group">
-                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3">Leaderboard</a>
-                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3">Profile</a>
-                    </div>
+            <div class="row justify-content-center my-2">
+                <div class="col text-center">
+                    <button id="captureBtn" class="btn btn-secondary">Capture Image</button>
                 </div>
             </div>
-        </nav>
-        
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        ></script>
-        <script
-            src="../static/Bootstrap/bootstrap.js"
-        ></script>
+            <div class="row justify-content-center">
+                <div class="col text-center">
+                    <button id="submitBtn" class="btn btn-secondary d-none">Submit Image</button>
+                </div>
+            </div>
+        </div>
+    </main>
 
-        <!-- Custom JavaScript -->
-        <script>
-            const video = document.getElementById("video");
-            const canvas = document.getElementById("canvas");
-            const captureBtn = document.getElementById("captureBtn");
-            const submitBtn = document.getElementById("submitBtn");
-            //const capturedImage = document.getElementById("capturedImage");
+    <nav class="navbar fixed-bottom bg-black">
+        <div class="container-fluid">
+          <div class="row w-100 text-center align-items-center">
+            <!-- Left Column: Home and Savings -->
+            <div class="col-4 p-0">
+              <div class="btn-group w-100">
+                <a href="/home" class="btn btn-secondary btn-outline-light btn-sm w-100">Home</a>
+                <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm w-100">Savings</a>
+              </div>
+            </div>
+            <!-- Center Column: Dropup with a Smaller Plus Button -->
+            <div class="col-4 p-0 d-flex justify-content-center">
+              <div class="btn-group dropup">
+                <button type="button" 
+                        class="btn btn-secondary btn-outline-light btn-sm rounded-3" 
+                        data-bs-toggle="dropdown"
+                        style="width: 40px; height: 40px; padding: 0.2rem;">
+                  +
+                </button>
+                <ul class="dropdown-menu">
+                  <li><a href="/expenses" class="dropdown-item">Expenses</a></li>
+                  <li><a href="/capture" class="dropdown-item">Receipt Capture</a></li>
+                </ul>
+              </div>
+            </div>
+            <!-- Right Column: Leaderboard and Profile -->
+            <div class="col-4 p-0">
+              <div class="btn-group w-100">
+                <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm w-100">Leaderboard</a>
+                <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm w-100">Profile</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+      
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="../static/Bootstrap/bootstrap.js"></script>
 
-            let currentFacingMode = "environment"; // Default to back camera
+    <!-- Custom JavaScript -->
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const captureBtn = document.getElementById("captureBtn");
+        const submitBtn = document.getElementById("submitBtn");
 
-            async function startCamera() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({
-                        video: { facingMode: currentFacingMode }
-                    });
-                    video.srcObject = stream;
-                } catch (error) {
-                    alert(`Camera access error: ${error.name} - ${error.message}`);
-                    console.error("Camera error:", error);
-                }
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+                video.srcObject = stream;
+            } catch (error) {
+                alert(`Camera access error: ${error.name} - ${error.message}`);
+                console.error("Camera error:", error);
+            }
+        }
+
+        captureBtn.addEventListener("click", () => {
+            if (!video.srcObject) {
+                alert("Camera not started!");
+                return;
             }
 
-            captureBtn.addEventListener("click", () => {
-                if (!video.srcObject) {
-                    alert("Camera not started!");
+            const context = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            canvas.classList.remove("d-none");
+            submitBtn.classList.remove("d-none");
+        });
+
+        submitBtn.addEventListener("click", async () => {
+            canvas.toBlob(async (blob) => {
+                if (!blob) {
+                    alert("Error capturing image.");
                     return;
                 }
 
-                console.log("test");
+                const formData = new FormData();
+                formData.append('image', blob, 'captured_image.png');
 
-                const context = canvas.getContext("2d");
+                try {
+                    const response = await fetch("/capture", { 
+                        method: "POST",
+                        body: formData,
+                        headers: { "Accept": "application/json" }
+                    });
 
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    const data = await response.json();
+                    console.log("Server response:", data);
 
-                //capturedImage.src = canvas.toDataURL("image/png");
-                canvas.classList.remove("d-none");
-                canvas.classList.add("d-block");
-                submitBtn.classList.add("d-block");
-                capturedImage.classList.remove("d-none");
-            });
-
-            submitBtn.addEventListener("click", async () => {
-                canvas.toBlob(async (blob) => {
-                    if (!blob) {
-                        alert("Error capturing image.");
-                        return;
+                    if (!response.ok) {
+                        throw new Error(data.error || "Upload failed");
                     }
 
-                    const formData = new FormData();
-                    formData.append('image', blob, 'captured_image.png');
+                    window.location.href = "/home";
+                } catch (error) {
+                    console.error("Upload error:", error);
+                    alert(`Error uploading image: ${error.message}`);
+                }
+            }, 'image/png');
+        });
 
-                    try {
-                        const response = await fetch("/capture", { 
-                            method: "POST",
-                            body: formData,
-                            headers: { "Accept": "application/json" }
-                        });
-
-                        const data = await response.json();
-                        console.log("Server response:", data);
-
-                        if (!response.ok) {
-                            throw new Error(data.error || "Upload failed");
-                        }
-
-                        // Update the displayed image with the new one (force cache refresh)
-                        //capturedImage.src = data.image_url + "?t=" + new Date().getTime();
-                        canvas.classList.remove("d-none");
-                        canvas.classList.add("d-block");
-                        submitBtn.classList.add("d-block");
-                        submitBtn.classList.remove("d-none");
-                        // alert("Image uploaded successfully!");
-                        window.location.href = "/home";
-
-
-                    } catch (error) {
-                        console.error("Upload error:", error);
-                        alert(`Error uploading image: ${error.message}`);
-                    }
-                }, 'image/png');
-            });
-
-            startCamera();
-        </script>
-
-        <script
-            src="/static/app.js"
-        ></script>
-    </body>
+        startCamera();
+    </script>
+</body>
 </html>
