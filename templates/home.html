@@ -97,13 +97,14 @@
                     <div class="carousel-indicators">
                         <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="0" class="active bg-cust1" aria-current="true" aria-label="Slide 1"></button>
                         <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="1" class="bg-cust1" aria-label="Slide 2"></button>
+                        <button type="button" data-bs-target="#carouselIndicator" data-bs-slide-to="2" class="bg-cust1" aria-label="Slide 3"></button>
                     </div>
                     <div class="carousel-inner">
                         <!-- Despite data-bs-ride not being carousel, it auto plays, so massive interval stops that -->
                         <div class="carousel-item active" data-bs-interval="10000000000">
                             <div class="row justify-content-evenly">
                                 <div class="col-lg-5 col-sm-4 mb-1">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
+                                    <div class="px-4 pt-3 pb-4 rounded-4 border border-dark">
                                         <label for="budget" class="form-label">Budget</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-cust1" id="budgetaddon1">£</span>
@@ -112,7 +113,7 @@
                                     </div>
                                 </div>
                                 <div class="col-lg-5 col-sm-4 mb-1">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
+                                    <div class="px-4 pt-3 pb-4 rounded-4 border border-dark">
                                         <label for="Expenses" class="form-label">Expenses</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-cust1" id="expensesaddon1">£</span>
@@ -123,7 +124,7 @@
                             </div>
                             <div class="row justify-content-evenly">
                                 <div class="col-lg-5 col-sm-4 mb-5">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
+                                    <div class="px-4 pt-3 pb-4 rounded-4 border border-dark">
                                         <label for="budget" class="form-label">Savings</label>
                                             <div class="input-group flex-wrap">
                                                 <span class="input-group-text bg-cust1" id="budgetaddon1">£</span>
@@ -134,32 +135,30 @@
                             </div>
                         </div>
                         <div class="carousel-item" data-bs-interval="10000000000">
-                            <div class="row justify-content-evenly">
-                                <div class="col-lg-5 col-sm-4 mb-1">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
-                                        <label for="budget" class="form-label">Total spent</label>
-                                            <div class="input-group flex-wrap">
-                                                Insert bar chart of total amount spent per category
-                                            </div>
+                            <div class="row justify-content-evenly mb-5 align-items-center">
+                                <div class="col-lg-5 col-sm-4 mb-1 p-5">
+                                    <div class="px-4 pt-3 pb-4 rounded-4 border border-dark">
+                                        <label for="MoneyChart" class="form-label">Total spent</label>
+                                        <div>
+                                            <canvas id="MoneyChart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-5 col-sm-4 mb-1">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
-                                        <label for="Expenses" class="form-label">Spending habits</label>
-                                            <div class="input-group flex-wrap">
-                                                Insert pie chart of percentages spent per category
-                                            </div>
+                                <div class="col-lg-5 col-sm-4 mb-5 p-5">
+                                    <div class="px-4 pt-3 pb-4 rounded-4 border border-dark">
+                                        <label for="PercentChart" class="form-label">Spending habits</label>
+                                        <div>
+                                            <canvas id="PercentChart"></canvas>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row justify-content-evenly">
-                                <div class="col-lg-5 col-sm-4 mb-5">
-                                    <div class="px-4 pt-3 pb-4 bg-secondary rounded-4 border border-dark">
-                                        <label for="budget" class="form-label">Streak</label>
-                                            <div class="input-group flex-wrap">
-                                                <p class="h1">Streak: [[streak]]</p>
-                                                Insert image of fire instead of heading
-                                            </div>
+                        </div>
+                        <div class="carousel-item" data-bs-interval="10000000000">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-5 col-sm-4 mb-5 p-3">
+                                    <div class="px-4 pt-3 pb-4 rounded-4">
+                                        <img src="/static/fire_short.png" alt="Streak fire">
                                     </div>
                                 </div>
                             </div>
@@ -234,6 +233,50 @@
         <script
             src="/static/app.js"
         ></script>
+        <script
+            src="/static/graphs.js"
+        ></script>
+          
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          
+          <script>
+            const chart1 = document.getElementById('MoneyChart');
+          
+            new Chart(chart1, {
+              type: 'bar',
+              data: {
+                labels: ["Food & Drink", "Utilities", "Entertainment", "Subscriptions", "Fitness", "Sweets"],
+                datasets: [{
+                  label: 'Total spent in £',
+                  data: [12, 19, 3, 5, 2, 3],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+                scales: {
+                  y: {
+                    beginAtZero: true,
+                    interval:1
+                  }
+                }
+              }
+            });
 
+            const chart2 = document.getElementById('PercentChart');
+          
+            new Chart(chart2, {
+              type: 'pie',
+              data: {
+                labels: ["Food & Drink", "Utilities", "Entertainment", "Subscriptions", "Fitness", "Sweets"],
+                datasets: [{
+                  label: 'Total spent in £',
+                  data: [12, 19, 3, 5, 2, 3],
+                  borderWidth: 1
+                }]
+              },
+              options: {
+              }
+            });
+          </script>
     </body>
 </html>
