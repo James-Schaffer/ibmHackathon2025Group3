@@ -197,8 +197,8 @@
             <div class="row justify-content-center p-3">
                 <div class="col-5 text-end d-grid">
                     <div class="btn-group">
-                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3 fs-5 nav-button {% if request.path == url_for('home') %}active{% endif %}">Home</a>
-                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3 fs-5 nav-button {% if request.path == url_for('savings') %}active{% endif %}">Savings</a>
+                        <a href="/home" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('home') %}active{% endif %}">Home</a>
+                        <a href="/savings" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('savings') %}active{% endif %}">Savings</a>
                     </div>
                 </div>
                 <div class="col-2 text-center d-grid">
@@ -214,8 +214,8 @@
                 </div>
                 <div class="col-5 d-grid">
                     <div class="btn-group">
-                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3 fs-5 nav-button {% if request.path == url_for('leaderboard') %}active{% endif %}">Leaderboard</a>
-                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3 fs-5 nav-button {% if request.path == url_for('profile') %}active{% endif %}">Profile</a>
+                        <a href="/leaderboard" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('leaderboard') %}active{% endif %}">Leaderboard</a>
+                        <a href="/profile" class="btn btn-secondary btn-outline-light btn-sm p-3 nav-button {% if request.path == url_for('profile') %}active{% endif %}">Profile</a>
                     </div>
                 </div>
             </div>
@@ -233,50 +233,47 @@
         <script
             src="/static/app.js"
         ></script>
-        <script
-            src="/static/graphs.js"
-        ></script>
           
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          
-          <script>
-            const chart1 = document.getElementById('MoneyChart');
-          
-            new Chart(chart1, {
-              type: 'bar',
-              data: {
-                labels: ["Food & Drink", "Utilities", "Entertainment", "Subscriptions", "Fitness", "Sweets"],
-                datasets: [{
-                  label: 'Total spent in £',
-                  data: [12, 19, 3, 5, 2, 3],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-                scales: {
-                  y: {
-                    beginAtZero: true,
-                    interval:1
-                  }
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        
+        <script>
+        const chart1 = document.getElementById('MoneyChart');
+        
+        new Chart(chart1, {
+            type: 'bar',
+            data: {
+            labels: ["Food & Drink", "Utilities", "Entertainment", "Subscriptions", "Fitness", "Sweets"],
+            datasets: [{
+                label: 'Total spent in £',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+            },
+            options: {
+            scales: {
+                y: {
+                beginAtZero: true,
                 }
-              }
-            });
+            }
+            }
+        });
 
-            const chart2 = document.getElementById('PercentChart');
-          
-            new Chart(chart2, {
-              type: 'pie',
-              data: {
-                labels: ["Food & Drink", "Utilities", "Entertainment", "Subscriptions", "Fitness", "Sweets"],
-                datasets: [{
-                  label: 'Total spent in £',
-                  data: [12, 19, 3, 5, 2, 3],
-                  borderWidth: 1
-                }]
-              },
-              options: {
-              }
-            });
-          </script>
+        const chart2 = document.getElementById('PercentChart');
+        
+        new Chart(chart2, {
+            type: 'pie',
+            data: {
+            labels: ["Food & Drink", "Utilities", "Entertainment", "Subscriptions", "Fitness", "Sweets"],
+            datasets: [{
+                label: 'Total spent in £',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+            },
+            options: {
+            }
+        });
+        </script>
     </body>
 </html>
