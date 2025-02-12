@@ -41,22 +41,28 @@
         </header>
             
         <main>
-
-            <h3 style="margin: 0.5cm;">Leaderboard</h3>
-
-            <div class="bg-cust1" style="margin: 0.5cm; padding: 0.3cm 0.3cm 0.3cm 0.5cm; border-radius: 0.3cm;">
-                {% for user in leaderboard_data %}
-                <tr>
-                    <td>{{ user.rank }}</td>
-                    <td>{{ user.username }}</td>
-                    <td>{{ user.savings_percentage }}%</td><br>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="2">No users found.</td>
-                </tr>
-            {% endfor %}
+            <div class="row justify-content-center my-5">
+                <div class="col-12 text-center">
+                    <h2>Log your expenses</h2>
+                </div>
             </div>
+            {% for user in leaderboard_data %}
+            <div class="row justify-content-center">
+                <div class="col bg-cust1">
+                    {{ user.rank }}
+                </div>
+                <div class="col bg-cust1">
+                    {{ user.username }}
+                </div>
+                <div class="col bg-cust1">
+                    {{ user.savings_percentage }}%
+                </div>
+                {% else %}
+                <div class="col bg-cust1">
+                    No users found.
+                </div>
+            </div>
+            {% endfor %}
         </main>
 
 
