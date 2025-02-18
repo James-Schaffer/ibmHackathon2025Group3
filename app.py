@@ -41,7 +41,7 @@ with app.app_context():
     db.create_all()
 
 
-genai.configure(api_key="AIzaSyAMnCFsSFcXpOAfQzv05gLk4NuGjymRaLM")
+genai.configure(api_key="api_key")
 model = genai.GenerativeModel("gemini-1.5-flash")
 
 login_manager = LoginManager()
