@@ -22,7 +22,7 @@
 - **SQLite3**: A serverless, self-contained SQL database used for storing application data locally.
 
 ### AI:
-- **Gemini AI**: For advanced AI-driven capabilities (assuming this refers to the integration with Gemini, Google's next-gen AI platform).
+- **Gemini AI**.
 
 ## Project Setup
 
